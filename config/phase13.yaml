@@ -1,0 +1,74 @@
+# Phase 13: Ingredient Interaction Discovery (v3)
+# Paths are relative to repo root unless absolute.
+
+# Input selection
+use_v2: false   # if true, use v2 signatures (55 categories); else v3 (13 categories)
+signature_paths_v3:
+  - data/processed/phase17_reaggregation/recipe_functional_signatures_v3.parquet
+  - data/processed/canonical/recipes_biological_effects_v3.parquet
+signature_path_v2: data/processed/exports_v2/recipes_biological_effects_v2_FINAL.parquet
+recipe_ingredients_path: data/processed/canonical/recipe_ingredients_expanded_v2.parquet
+
+# Optional confounder table (recipe_id + cuisine, etc.); if missing, use cuisine_unknown
+confounders_path: data/processed/phase13_interactions_gpu/recipes_with_confounders.parquet
+# Optional extra confounder columns from signatures (e.g. prep_time); not required
+optional_confounder_cols: []
+
+# Output directory (do not overwrite phase13_interactions_gpu)
+output_dir: data/processed/phase13_interactions_v3
+
+# Pair selection (deterministic with seed)
+min_ingredient_freq: 500      # keep ingredients in at least this many recipes
+top_k_ingredients: 500       # use top-K by frequency for candidate pairs (or all if smaller)
+# Eligibility (permissive defaults; auto-relax if eligible_pairs < min_pairs_after_filter)
+min_joint: 50                # require nBoth >= this
+min_a_only: 200              # require nA_only >= this (recipes with A but not B)
+min_b_only: 200               # require nB_only >= this
+min_none: 200                 # require nNone >= this (recipes with neither)
+max_overlap_ratio: 0.9       # skip if nBoth/min(nA,nB) > this (avoid near-complete overlap)
+min_pairs_after_filter: 2000 # if eligible < this, relax to relaxed_* below
+relaxed_min_joint: 20
+relaxed_min_a_only: 100
+relaxed_min_b_only: 100
+relaxed_min_none: 100
+seed: 42
+# Regression: minimum samples in each group for valid test (optional)
+min_n_both_regression: 10
+min_n_a_only_regression: 10
+min_n_b_only_regression: 10
+
+# Sharding (resumable)
+shard_size: 5000              # pairs per shard
+shards_dir: shards            # under output_dir
+
+# Regression
+regression_engine: statsmodels   # statsmodels | pytorch (future)
+n_jobs: 4                       # parallel over shards or pairs
+
+# Null test
+null_n_pairs: 200               # subset of pairs for permutation null
+null_n_permutations: 100        # permutations per pair (optional, for distribution)
+
+# Bootstrap stability
+bootstrap_top_n: 200            # top interactions by q-value
+bootstrap_n_samples: 200       # bootstrap recipe samples per interaction
+
+# Multiple testing
+fdr_method: benjamini_hochberg  # per functional category
+
+# Stratification (quality-first DiD)
+bins_num_ingredients: 8
+bins_num_compounds: 8
+weighting: size                 # size | inv_var
+min_group_per_stratum: 10
+
+# Holdouts & audit
+holdout_ingredient_frac: 0.1
+holdout_cuisine_frac: 0.2
+audit_top_k: 300
+sensitivity_bins: [[6,6], [8,8], [10,10]]
+sensitivity_n_pairs: 10000
+
+# Logging
+log_level: INFO
+progress_every: 1000            # log progress every N pairs

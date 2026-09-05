@@ -1,0 +1,16 @@
+FooDB Non-Commercial License Acknowledged
+Date: 2026-02-01
+User confirmed understanding of CC BY-NC 4.0 restrictions
+
+FooDB License: CC BY-NC 4.0 (Attribution-NonCommercial)
+
+This data is being used for RESEARCH purposes only.
+
+Restrictions acknowledged:
+- ❌ CANNOT use in commercial products
+- ❌ CANNOT use in for-profit startups
+- ✅ CAN use for academic research
+- ✅ CAN use for PhD thesis work
+
+Citation:
+FooDB Version 1.0, https://foodb.ca, The Metabolomics Innovation Centre

@@ -1,0 +1,31 @@
+Dataset License Compliance Report
+Generated: 2026-02-01 11:37:44
+============================================================
+
+Total datasets: 16
+
+🚨 CRITICAL ISSUES (Must fix before proceeding):
+  - FlavorDB: License unclear or missing
+
+⚠️  WARNINGS (Review carefully):
+  - FooDB: NON-COMMERCIAL license - cannot use in commercial products
+  - FlavorDB: Commercial use status unclear - VERIFY MANUALLY
+  - Recipe1M+: NON-COMMERCIAL license - cannot use in commercial products
+  - BindingDB: Commercial use status unclear - VERIFY MANUALLY
+
+✅ COMMERCIAL-SAFE DATASETS (11):
+  - USDA FoodData Central
+  - Wikidata
+  - PubChem
+  - ChEMBL
+  - RecipeNLG
+  - LINCS L1000
+  - Reactome
+  - Gene Ontology
+  - Copernicus Sentinel
+  - SoilGrids
+  - MetaboLights
+
+❌ NON-COMMERCIAL DATASETS (2):
+  - FooDB
+  - Recipe1M+

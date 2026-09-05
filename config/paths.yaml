@@ -1,0 +1,59 @@
+# All paths relative to project root
+# Usage: with open("config/paths.yaml") as f: paths = yaml.safe_load(f)
+
+# Top-level data directories
+raw_data: data/raw
+interim_data: data/interim
+processed_data: data/processed
+
+# Output directories
+models: data/processed/models
+figures: reports/figures
+logs: logs
+
+# Phase-specific outputs
+canonical: data/processed/canonical
+features: data/processed/features
+graph: data/processed/graph
+
+# Raw data sources (organized by dataset)
+raw_usda: data/raw/usda
+raw_wikidata: data/raw/wikidata
+raw_pubchem: data/raw/pubchem
+raw_foodb: data/raw/foodb
+raw_flavordb: data/raw/flavordb
+raw_chembl: data/raw/chembl
+raw_bindingdb: data/raw/bindingdb
+raw_recipenlg: data/raw/recipenlg
+raw_recipe1m: data/raw/recipe1m
+raw_lincs: data/raw/lincs
+raw_reactome: data/raw/reactome
+raw_go: data/raw/go
+raw_sentinel: data/raw/eo/sentinel
+raw_era5: data/raw/eo/era5
+raw_soilgrids: data/raw/eo/soilgrids
+raw_metabolights: data/raw/metabolights
+
+# Processed canonical tables
+ingredient_master: data/processed/canonical/ingredient_master.parquet
+compound_master: data/processed/canonical/compound_master.parquet
+target_master: data/processed/canonical/target_master.parquet
+pathway_master: data/processed/canonical/pathway_master.parquet
+recipe_master: data/processed/canonical/recipe_master.parquet
+signature_library: data/processed/canonical/signature_library.parquet
+
+# Mapping tables
+ingredient_compound_map: data/processed/canonical/ingredient_compound_map.parquet
+compound_target_map: data/processed/canonical/compound_target_map.parquet
+target_pathway_map: data/processed/canonical/target_pathway_map.parquet
+recipe_ingredient_map: data/processed/canonical/recipe_ingredient_map.parquet
+
+# Feature tables
+compound_fingerprints: data/processed/features/compound_fingerprints.parquet
+compound_embeddings: data/processed/features/compound_embeddings.parquet
+origin_features: data/processed/features/origin_features.parquet
+ingredient_origins: data/processed/features/ingredient_origins.parquet
+
+# Graph outputs
+cooccurrence_network: data/processed/graph/cooccurrence_edgelist.parquet
+molecular_synergy: data/processed/graph/molecular_synergy_scores.parquet

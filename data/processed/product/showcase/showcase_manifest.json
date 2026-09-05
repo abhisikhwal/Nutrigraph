@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-09-04T20:44:23.138810+00:00",
+  "files": {
+    "neo4j_load_plan.json": {
+      "bytes": 5728,
+      "kb": 5.6
+    },
+    "showcase_findings.json": {
+      "bytes": 3874,
+      "kb": 3.8
+    },
+    "showcase_ingredients.json": {
+      "bytes": 176398,
+      "kb": 172.3
+    },
+    "showcase_manifest.json": {
+      "bytes": 713,
+      "kb": 0.7
+    },
+    "showcase_methodology.json": {
+      "bytes": 2235,
+      "kb": 2.2
+    },
+    "showcase_recipe_demos.json": {
+      "bytes": 31136,
+      "kb": 30.4
+    },
+    "showcase_search_index.json": {
+      "bytes": 129864,
+      "kb": 126.8
+    }
+  },
+  "n_hero_ingredients": 50,
+  "n_search_nodes": 695
+}

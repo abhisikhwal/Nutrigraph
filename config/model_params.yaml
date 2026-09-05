@@ -1,0 +1,110 @@
+# Hyperparameters for each modeling phase
+# Modify these for experimentation; version control tracks changes
+
+# Phase 1: Ingredient Ontology
+ingredient_matching:
+  similarity_threshold: 0.85
+  fuzzy_match_method: "levenshtein"
+  use_phonetic: true
+  synonym_expansion: true
+
+# Phase 2: Food Chemistry
+compound_matching:
+  structure_similarity_metric: "tanimoto"
+  fingerprint_type: "morgan"
+  morgan_radius: 2
+  morgan_bits: 2048
+  min_tanimoto_threshold: 0.7
+
+# Phase 3: Culinary Matrix
+recipe_parsing:
+  ingredient_extraction_model: "en_core_web_sm"  # spaCy model
+  min_ingredient_confidence: 0.6
+  normalize_quantities: true
+
+cooccurrence:
+  min_recipe_frequency: 5
+  min_pair_frequency: 3
+  apply_pmi_weighting: true
+
+molecular_synergy:
+  compound_overlap_method: "jaccard"
+  min_compounds_per_ingredient: 3
+  synergy_score_metric: "weighted_overlap"
+
+# Phase 4: Bioactivity
+target_prediction:
+  activity_threshold_nm: 10000  # 10 μM
+  confidence_score_min: 0.5
+  aggregate_multi_assays: "median"
+
+# Phase 5: Pathways
+pathway_mapping:
+  enrichment_method: "fisher_exact"
+  fdr_correction: "benjamini_hochberg"
+  significance_threshold: 0.05
+  min_pathway_size: 5
+  max_pathway_size: 500
+
+# Phase 6: Transcriptomics
+signature_processing:
+  normalization_method: "quantile"
+  num_landmark_genes: 978
+  differential_expression_threshold: 1.5  # log2 fold-change
+  fdr_threshold: 0.05
+
+# Phase 7: Earth Observation
+eo_features:
+  sentinel_bands: ["B02", "B03", "B04", "B08", "B11", "B12"]
+  indices: ["NDVI", "EVI", "NDWI", "SAVI"]
+  temporal_aggregation: "mean"  # or "median", "percentile_90"
+  cloud_cover_max: 20  # percent
+  buffer_radius_km: 10
+
+climate_features:
+  variables: ["temperature_2m", "precipitation", "soil_moisture"]
+  temporal_window_days: 90  # prior to harvest
+  aggregation: ["mean", "std", "min", "max"]
+
+soil_features:
+  layers: ["phh2o", "soc", "nitrogen", "clay", "sand"]
+  depths: ["0-5cm", "5-15cm"]
+
+# Phase 8: Origin → Chemistry Shift
+compound_shift_model:
+  model_type: "gradient_boosting"  # or "neural_network"
+  train_test_split: 0.8
+  cross_validation_folds: 5
+  
+  # For gradient boosting
+  n_estimators: 500
+  max_depth: 6
+  learning_rate: 0.01
+  subsample: 0.8
+  
+  # For neural network (alternative)
+  hidden_layers: [256, 128, 64]
+  dropout: 0.3
+  activation: "relu"
+  optimizer: "adam"
+  learning_rate_nn: 0.001
+  batch_size: 32
+  epochs: 100
+  early_stopping_patience: 10
+
+# Phase 9: Full Pipeline
+inference:
+  top_k_compounds: 50
+  top_k_targets: 100
+  top_k_pathways: 20
+  aggregation_method: "weighted_sum"
+  compound_weight: 0.4
+  target_weight: 0.3
+  pathway_weight: 0.3
+
+# Phase 10: Personalization
+genotype_integration:
+  variant_impact_predictor: "sift"  # or "polyphen2"
+  pharmacogenomic_databases: ["pharmgkb", "clinvar"]
+  allele_frequency_threshold: 0.01
+  effect_size_threshold: 0.1

@@ -1,0 +1,696 @@
+ingredient_id,name,latin,node_type,data_status,measured_fraction
+SP_000001,Savoy cabbage,Brassica oleracea var. sabauda,species,full,0.2272
+SP_000002,Kiwi,Actinidia chinensis,species,full,0.2266
+SP_000003,Garden onion,Allium cepa,species,full,0.2243
+SP_000004,Leek,Allium porrum,species,full,0.2272
+SP_000005,Garlic,Allium sativum,species,full,0.2269
+SP_000006,Chives,Allium schoenoprasum,species,full,0.2246
+SP_000007,Lemon verbena,Aloysia triphylla,species,full,0.2272
+SP_000008,Cashew nut,Anacardium occidentale,species,full,0.2268
+SP_000009,Pineapple,Ananas comosus,species,full,0.2225
+SP_000010,Dill,Anethum graveolens,species,full,0.2324
+SP_000011,Custard apple,Annona reticulata,species,full,0.2266
+SP_000012,Peanut,Arachis hypogaea,species,full,0.2259
+SP_000013,Burdock,Arctium lappa,species,full,0.23
+SP_000014,Horseradish,Armoracia rusticana,species,full,0.2258
+SP_000015,Tarragon,Artemisia dracunculus,species,full,0.2286
+SP_000016,Mugwort,Artemisia vulgaris,species,full,0.2285
+SP_000017,Asparagus,Asparagus officinalis,species,full,0.2261
+SP_000018,Oat,Avena sativa,species,full,0.2256
+SP_000019,Brazil nut,Bertholletia excelsa,species,full,0.2246
+SP_000020,Borage,Borago officinalis,species,full,0.2286
+SP_000021,Chinese mustard,Brassica juncea,species,full,0.2276
+SP_000022,Swede,Brassica napus,species,full,0.2254
+SP_000023,Cauliflower,Brassica oleracea var. botrytis,species,full,0.2238
+SP_000024,Brussel sprouts,Brassica oleracea var. gemmifera,species,full,0.2272
+SP_000025,Kohlrabi,Brassica oleracea var. gongylodes,species,full,0.2257
+SP_000026,Broccoli,Brassica oleracea var. italica,species,full,0.229
+SP_000027,Chinese cabbage,Brassica rapa,species,full,0.2248
+SP_000028,Turnip,Brassica rapa var. rapa,species,full,0.2305
+SP_000029,Pigeon pea,Cajanus cajan,species,full,0.2276
+SP_000030,Tea,Camellia sinensis,species,full,0.2165
+SP_000031,Capers,Capparis spinosa,species,full,0.2286
+SP_000032,Pepper,Capsicum annuum,species,full,0.2259
+SP_000033,Papaya,Carica papaya,species,full,0.2264
+SP_000034,Safflower,Carthamus tinctorius,species,full,0.2226
+SP_000035,Caraway,Carum carvi,species,full,0.2255
+SP_000036,Pecan nut,Carya illinoinensis,species,full,0.225
+SP_000037,Chestnut,Castanea,species,full,0.2269
+SP_000038,Chickpea,Cicer arietinum,species,full,0.2254
+SP_000039,Endive,Cichorium endivia,species,full,0.2257
+SP_000040,Chicory,Cichorium intybus,species,full,0.2255
+SP_000041,Ceylon cinnamon,Cinnamomum verum,species,full,0.2269
+SP_000042,Watermelon,Citrullus lanatus,species,full,0.2273
+SP_000043,Lime,Citrus aurantiifolia,species,full,0.2262
+SP_000044,Lemon,Citrus limon,species,full,0.2251
+SP_000045,Pummelo,Citrus maxima,species,full,0.2267
+SP_000046,Sweet orange,Citrus sinensis,species,full,0.2321
+SP_000047,Coffee,Coffea,species,full,0.2222
+SP_000048,Coriander,Coriandrum sativum,species,full,0.2261
+SP_000049,Saffron,Crocus sativus,species,full,0.2288
+SP_000050,Cucumber,Cucumis sativus,species,full,0.2277
+SP_000051,Cumin,Cuminum cyminum,species,full,0.2239
+SP_000052,Turmeric,Curcuma longa,species,full,0.2264
+SP_000053,Quince,Cydonia oblonga,species,full,0.2292
+SP_000054,Lemon grass,Cymbopogon citratus,species,full,0.2306
+SP_000055,Cardamom,Elettaria cardamomum,species,full,0.2314
+SP_000056,Loquat,Eriobotrya japonica,species,full,0.2285
+SP_000057,Fig,Ficus carica,species,full,0.2287
+SP_000058,Fennel,Foeniculum vulgare,species,full,0.2285
+SP_000059,Strawberry,Fragaria X ananassa,species,full,0.2235
+SP_000060,Soy bean,Glycine max,species,full,0.226
+SP_000061,Sunflower,Helianthus annuus,species,full,0.2306
+SP_000062,Barley,Hordeum vulgare,species,full,0.2238
+SP_000063,Star anise,Illicium verum,species,full,0.2291
+SP_000064,Sweet potato,Ipomoea batatas,species,full,0.2283
+SP_000065,Black walnut,Juglans nigra,species,full,0.2332
+SP_000066,Lettuce,Lactuca sativa,species,full,0.2254
+SP_000067,Sweet bay,Laurus nobilis,species,full,0.2281
+SP_000068,Lentils,Lens culinaris,species,full,0.2271
+SP_000069,Garden cress,Lepidium sativum,species,full,0.2254
+SP_000070,Flaxseed,Linum usitatissimum,species,full,0.2195
+SP_000071,Mexican oregano,Lippia graveolens,species,full,0.2299
+SP_000072,Apple,Malus pumila,species,full,0.2242
+SP_000073,Mango,Mangifera indica,species,full,0.2236
+SP_000074,Lemon balm,Melissa officinalis,species,full,0.2266
+SP_000075,Spearmint,Mentha spicata,species,full,0.2296
+SP_000076,Peppermint,Mentha X piperita,species,full,0.2246
+SP_000077,Mulberry,Morus,species,full,0.227
+SP_000078,Nutmeg,Myristica fragrans,species,full,0.2249
+SP_000079,Sweet basil,Ocimum basilicum,species,full,0.2263
+SP_000080,Olive,Olea europaea,species,full,0.2249
+SP_000081,Sweet marjoram,Origanum majorana,species,full,0.2291
+SP_000082,Common oregano,Origanum vulgare,species,full,0.2267
+SP_000083,Rice,Oryza sativa,species,full,0.2233
+SP_000084,Millet,Panicum miliaceum,species,full,0.2229
+SP_000085,Passion fruit,Passiflora edulis,species,full,0.2254
+SP_000086,Parsnip,Pastinaca sativa,species,full,0.2295
+SP_000087,Avocado,Persea americana,species,full,0.2233
+SP_000088,Parsley,Petroselinum crispum,species,full,0.2269
+SP_000089,Lima bean,Phaseolus lunatus,species,full,0.2281
+SP_000090,Common bean,Phaseolus vulgaris,species,full,0.2265
+SP_000091,Date,Phoenix dactylifera,species,full,0.2297
+SP_000092,Anise,Pimpinella anisum,species,full,0.2281
+SP_000093,Pine nut,Pinus,species,full,0.2252
+SP_000094,Pepper (Spice),Piper nigrum,species,full,0.225
+SP_000095,Pistachio,Pistacia vera,species,full,0.2268
+SP_000096,Common pea,Pisum sativum,species,full,0.2202
+SP_000097,Purslane,Portulaca oleracea,species,full,0.2282
+SP_000098,Apricot,Prunus armeniaca,species,full,0.2267
+SP_000099,Sweet cherry,Prunus avium,species,full,0.2251
+SP_000100,Sour cherry,Prunus cerasus,species,full,0.2336
+SP_000101,Almond,Prunus dulcis,species,full,0.2259
+SP_000102,Peach,Prunus persica,species,full,0.224
+SP_000103,Guava,Psidium guajava,species,full,0.2238
+SP_000104,Pomegranate,Punica granatum,species,full,0.2254
+SP_000105,Pear,Pyrus communis,species,full,0.2266
+SP_000106,Radish,Raphanus sativus,species,full,0.2237
+SP_000107,Blackcurrant,Ribes nigrum,species,full,0.232
+SP_000108,Redcurrant,Ribes rubrum,species,full,0.2295
+SP_000109,Gooseberry,Ribes uva-crispa,species,full,0.2256
+SP_000110,Watercress,Rorippa nasturtium-aquaticum,species,full,0.2291
+SP_000111,Rosemary,Rosmarinus officinalis,species,full,0.23
+SP_000112,Red raspberry,Rubus idaeus,species,full,0.2255
+SP_000113,Black raspberry,Rubus occidentalis,species,full,0.2305
+SP_000114,Sorrel,Rumex acetosa,species,full,0.2268
+SP_000115,Common sage,Salvia officinalis,species,full,0.2263
+SP_000116,Black elderberry,Sambucus nigra,species,full,0.2329
+SP_000117,Summer savory,Satureja hortensis,species,full,0.2288
+SP_000118,Rye,Secale cereale,species,full,0.2249
+SP_000119,Sesame,Sesamum orientale,species,full,0.2232
+SP_000120,Garden tomato,Solanum lycopersicum,species,full,0.2244
+SP_000121,Cherry tomato,Solanum lycopersicum var. cerasiforme,species,full,0.2295
+SP_000122,Eggplant,Solanum melongena,species,full,0.2307
+SP_000123,Potato,Solanum tuberosum,species,full,0.2275
+SP_000124,Sorghum,Sorghum bicolor,species,full,0.2254
+SP_000125,Spinach,Spinacia oleracea,species,full,0.2275
+SP_000126,Cloves,Syzygium aromaticum,species,full,0.2272
+SP_000127,Tamarind,Tamarindus indica,species,full,0.2243
+SP_000128,Dandelion,Taraxacum officinale,species,full,0.2229
+SP_000129,Common thyme,Thymus vulgaris,species,full,0.2292
+SP_000130,Fenugreek,Trigonella foenum-graecum,species,full,0.2319
+SP_000131,Highbush blueberry,Vaccinium corymbosum,species,full,0.2362
+SP_000132,American cranberry,Vaccinium macrocarpon,species,full,0.2298
+SP_000133,Lingonberry,Vaccinium vitis-idaea,species,full,0.2326
+SP_000134,Vanilla,Vanilla,species,full,0.2272
+SP_000135,Broad bean,Vicia faba,species,full,0.2257
+SP_000136,Adzuki bean,Vigna angularis,species,full,0.2264
+SP_000137,Mung bean,Vigna radiata,species,full,0.2245
+SP_000138,Corn,Zea mays,species,full,0.2202
+SP_000139,Ginger,Zingiber officinale,species,full,0.2237
+SP_000140,Banana,Musa acuminata,species,full,0.2288
+SP_000141,Celeriac,Apium graveolens var. rapaceum,species,full,0.2262
+SP_000142,Celery stalks,Apium graveolens var. dulce,species,full,0.2238
+SP_000143,Chinese chives,Allium tuberosum,species,full,0.2272
+SP_000144,Longan,Dimocarpus longan,species,full,0.2285
+SP_000145,Nectarine,Prunus persica var. nucipersica,species,full,0.2276
+SP_000146,Red rice,Oryza rufipogon,species,full,0.2234
+SP_000147,Swiss chard,Beta vulgaris ssp. cicla,species,full,0.228
+SP_000148,Lemon thyme,Thymus pulegioides,species,full,0.2272
+SP_000149,Shallot,Allium ascalonicum,species,full,0.2276
+SP_000150,Rocket salad,Eruca vesicaria,species,full,0.2251
+SP_000151,Carrot,Daucus carota ssp. sativus,species,full,0.2249
+SP_000152,Black cabbage,Brassica oleracea var. viridis,species,full,0.2276
+SP_000153,Chicory leaves,Cichorium intybus var. foliosum,species,full,0.2278
+SP_000154,Komatsuna,Brassica rapa var. perviridis,species,full,0.2272
+SP_000155,Grapefruit,Citrus X paradisi,species,full,0.2279
+SP_000156,Italian oregano,Origanum X majoricum,species,full,0.2305
+SP_000157,Daikon radish,Raphanus sativus var. longipinnatus,species,full,0.2256
+SP_000158,Black radish,Raphanus sativus var. niger,species,full,0.2272
+SP_000159,Beer,,species,full,0.1783
+SP_000160,Other bread,,species,full,0.2236
+SP_000161,Pasta,,species,full,0.2252
+SP_000162,Biscuit,,species,full,0.2236
+SP_000163,Sourdough,,species,full,0.2272
+SP_000164,Spirit,,species,full,0.0973
+SP_000165,Abalone,Haliotis,species,full,0.2256
+SP_000166,Acorn,Quercus,species,full,0.2283
+SP_000167,Winter squash,Cucurbita maxima,species,full,0.2276
+SP_000168,Agar,Eucheuma,species,full,0.2256
+SP_000169,Alfalfa,Medicago sativa,species,full,0.224
+SP_000170,Allspice,Pimenta dioica,species,full,0.2259
+SP_000171,Amaranth,Amaranthus,species,full,0.2254
+SP_000172,Arrowroot,Maranta arundinacea,species,full,0.2286
+SP_000173,Asian pear,Pyrus pyrifolia,species,full,0.228
+SP_000174,Bamboo shoots,Phyllostachys edulis,species,full,0.2256
+SP_000175,Bison,Bison bison,species,full,0.0615
+SP_000176,Bluefish,Pomatomus saltatrix,species,full,0.1011
+SP_000177,Wild boar,Sus scrofa,species,full,0.0615
+SP_000178,Breadfruit,Artocarpus altilis,species,full,0.2279
+SP_000179,Rapini,Brassica ruvo,species,full,0.2282
+SP_000180,Buffalo,Bubalus bubalis,species,full,0.0615
+SP_000181,Butternut,Juglans cinerea,species,full,0.231
+SP_000182,Butternut squash,Cucurbita moschata,species,full,0.2276
+SP_000183,Cardoon,Cynara cardunculus,species,full,0.2303
+SP_000184,Cassava,Manihot esculenta,species,full,0.2252
+SP_000185,Chayote,Sechium edule,species,full,0.2256
+SP_000186,Cherimoya,Annona cherimola,species,full,0.2256
+SP_000187,Chervil,Anthriscus cerefolium,species,full,0.2254
+SP_000188,Chia,Salvia hispanica,species,full,0.2285
+SP_000189,Chicken,Gallus gallus,species,full,0.0791
+SP_000190,Chinese broccoli,Brassica alboglabra,species,full,0.2276
+SP_000191,Chinese water chestnut,Eleocharis dulcis,species,full,0.2276
+SP_000192,Coconut,Cocos nucifera,species,full,0.224
+SP_000193,Pacific cod,Gadus macrocephalus,species,full,0.1111
+SP_000194,Cuttlefish,Sepiidae,species,full,0.0837
+SP_000195,Durian,Durio zibethinus,species,full,0.2283
+SP_000196,Elderberry,Sambucus,species,full,0.227
+SP_000197,Elk,Cervus canadensis,species,full,0.0615
+SP_000198,Turbot,Scophthalmus maximus,species,full,0.0771
+SP_000199,Grape,Vitis,species,full,0.2227
+SP_000200,Grouper,Epinephelus,species,full,0.1011
+SP_000201,Guinea hen,Numida meleagris,species,full,0.0615
+SP_000202,Haddock,Melanogrammus aeglefinus,species,full,0.0881
+SP_000203,Hazelnut,Corylus,species,full,0.225
+SP_000204,Hickory nut,Carya,species,full,0.2292
+SP_000205,Irish moss,Chondrus crispus,species,full,0.2254
+SP_000206,Jackfruit,Artocarpus heterophyllus,species,full,0.2269
+SP_000207,Jerusalem artichoke,Helianthus tuberosus,species,full,0.2256
+SP_000208,Kale,Brassica napus var. pabularia,species,full,0.2252
+SP_000209,Kelp,Laminaria,species,full,0.2256
+SP_000210,King mackerel,Scomberomorus cavalla,species,full,0.0837
+SP_000211,Kumquat,Fortunella,species,full,0.2256
+SP_000212,Wild leek,Allium ampeloprasum,species,full,0.2264
+SP_000213,Lingcod,Ophiodon elongatus,species,full,0.1011
+SP_000214,Monkfish,Lophius piscatorius,species,full,0.0936
+SP_000215,White mustard,Sinapis alba,species,full,0.2272
+SP_000216,Nopal,Opuntia cochenillifera,species,full,0.2276
+SP_000217,Okra,Abelmoschus esculentus,species,full,0.2294
+SP_000218,Pacific oyster,Crassostrea gigas,species,full,0.1155
+SP_000219,Pheasant,Phasianus colchicus,species,full,0.0615
+SP_000220,Quinoa,Chenopodium quinoa,species,full,0.2252
+SP_000221,Rose hip,Rosa,species,full,0.2287
+SP_000222,Orange roughy,Hoplostethus atlanticus,species,full,0.1133
+SP_000223,Sablefish,Anoplopoma fimbria,species,full,0.1011
+SP_000224,Pink salmon,Oncorhynchus gorbuscha,species,full,0.1184
+SP_000225,Sockeye salmon,Oncorhynchus nerka,species,full,0.1138
+SP_000226,Atlantic salmon,Salmo salar,species,full,0.0836
+SP_000227,Spanish mackerel,Scomberomorus maculatus,species,full,0.1194
+SP_000228,Scallop,Pectinidae,species,full,0.1111
+SP_000229,Snapper,Lutjanidae,species,full,0.1194
+SP_000230,Spelt,Triticum spelta,species,full,0.2245
+SP_000231,Spirulina,Spirulina,species,full,0.2256
+SP_000232,Squab,Columba,species,full,0.0615
+SP_000233,Swordfish,Xiphias gladius,species,full,0.1171
+SP_000234,Taro,Colocasia esculenta,species,full,0.2268
+SP_000235,"Salmonidae (Salmon, Trout)",Salmonidae,species,full,0.0881
+SP_000236,Turkey,Meleagris gallopavo,species,full,0.1012
+SP_000237,"Cattle (Beef, Veal)",Bos taurus,species,full,0.0948
+SP_000238,Walleye,Sander vitreus,species,full,0.1011
+SP_000239,Wasabi,Wasabia japonica,species,full,0.2292
+SP_000240,Whelk,Buccinidae,species,full,0.1194
+SP_000241,Whitefish,Coregonus,species,full,0.0894
+SP_000242,Whiting,Merlangius merlangus,species,full,0.0881
+SP_000243,Wild rice,Zizania,species,full,0.2246
+SP_000244,Winged bean,Psophocarpus tetragonolobus,species,full,0.228
+SP_000245,Yam,Dioscorea,species,full,0.2254
+SP_000246,Jicama,Pachyrhizus erosus,species,full,0.2276
+SP_000247,Yellowfin tuna,Thunnus albacares,species,full,0.1171
+SP_000248,Pollock,Pollachius,species,full,0.0738
+SP_000249,Smelt,Osmeridae,species,full,0.1094
+SP_000250,Spiny lobster,Palinuridae,species,full,0.1011
+SP_000251,Snow crab,Chionoecetes opilio,species,full,0.0837
+SP_000252,Black-eyed pea,Vigna unguiculata ssp. unguiculata,species,full,0.2273
+SP_000253,Deer,Cervidae,species,full,0.1024
+SP_000254,Macadamia nut,Macadamia,species,full,0.2268
+SP_000255,Rabbit,Leporidae,species,full,0.0956
+SP_000256,Squid,Teuthida,species,full,0.1194
+SP_000257,Shrimp,Caridea,species,full,0.0873
+SP_000258,Crayfish,Astacidea,species,full,0.0881
+SP_000259,Domestic pig,Sus scrofa domestica,species,full,0.0952
+SP_000260,Quail,Phasianidae,species,full,0.1024
+SP_000261,Boysenberry,Rubus ursinus X idaeus,species,full,0.2276
+SP_000262,Common mushroom,Agaricus bisporus,species,full,0.223
+SP_000263,Shiitake,Lentinus edodes,species,full,0.2276
+SP_000264,Wakame,Undaria pinnatifida,species,full,0.2254
+SP_000265,Epazote,Dysphania ambrosioides,species,full,0.2294
+SP_000266,Oyster mushroom,Pleurotus ostreatus,species,full,0.2245
+SP_000267,Maitake,Grifola frondosa,species,full,0.2276
+SP_000268,Wheat,Triticum,species,full,0.2241
+SP_000269,Agave,Agave,species,full,0.2278
+SP_000270,Jellyfish,Scyphozoa,species,full,0.1502
+SP_000271,Anchovy,Engraulidae,species,full,0.0771
+SP_000272,Chanterelle,Cantharellus cibarius,species,full,0.2272
+SP_000273,Sturgeon,Acipenseridae,species,full,0.0771
+SP_000274,Cinnamon,Cinnamomum,species,full,0.227
+SP_000275,Crab,Brachyura,species,full,0.0771
+SP_000276,Garfish,Belone belone,species,full,0.0771
+SP_000277,Lake trout,Salvelinus namaycush,species,full,0.0738
+SP_000278,Persimmon,Diospyros,species,full,0.2281
+SP_000279,Kombu,Saccharina japonica,species,full,0.2252
+SP_000280,Snail,Gastropoda,species,full,0.0852
+SP_000281,Catfish,Siluriformes,species,full,0.0765
+SP_000282,Walnut,Juglans,species,full,0.2254
+SP_000283,Conch,Strombidae,species,full,0.2256
+SP_000284,Grape wine,,species,full,0.2
+SP_000285,Apple cider,,species,full,0.219
+SP_000286,Liquor,,species,full,0.1359
+SP_000287,Cheese,,species,full,0.0858
+SP_000288,Milk (Cow),,species,full,0.1707
+SP_000289,Eggs,,species,full,0.0868
+SP_000290,Yogurt,,species,full,0.0848
+SP_000291,Vodka,,species,full,0.0827
+SP_000292,Whisky,,species,full,0.1072
+SP_000293,Ice cream,,species,full,0.09
+SP_000294,Gin,,species,full,0.0937
+SP_000295,Honey,,species,full,0.2282
+SP_000296,Vinegar,,species,full,0.1209
+SP_000297,Rum,,species,full,0.1133
+SP_000298,Port wine,,species,full,0.108
+SP_000299,Vermouth,,species,full,0.0738
+SP_000300,Sherry,,species,full,0.2079
+SP_000301,Madeira wine,,species,full,0.1488
+SP_000302,Nougat,,species,full,0.1394
+SP_000303,Toffee,,species,full,0.0779
+SP_000304,Pizza,,species,full,0.0886
+SP_000305,Pastry,,species,full,0.0909
+SP_000306,Chewing gum,,species,full,0.097
+SP_000307,Marzipan,,species,full,0.0771
+SP_000308,Salt,,species,full,0.0881
+SP_000309,Butter,,species,full,0.09
+SP_000310,Cream,,species,full,0.09
+SP_000311,Sugar,,species,full,0.09
+SP_000312,Sausage,,species,full,0.1899
+SP_000313,Meatball,,species,full,0.0738
+SP_000314,Mustard,,species,full,0.09
+SP_000315,Pate,,species,full,0.0903
+SP_000316,Whey,,species,full,0.0881
+SP_000317,Marshmallow,,species,full,0.0997
+SP_000318,Gelatin,,species,full,0.0771
+SP_000319,Water,,species,full,0.0881
+SP_000320,Baby food,,species,full,0.0892
+SP_000321,Dumpling,,species,full,0.0879
+SP_000322,Syrup,,species,full,0.0879
+SP_000323,Tallow,,species,full,0.0881
+SP_000324,Remoulade,,species,full,0.0771
+SP_000325,Curry powder,,species,full,0.0965
+SP_000326,Other candy,,species,full,0.0868
+SP_000327,Meringue,,species,full,0.0738
+SP_000328,Lard,,species,full,0.0881
+SP_000329,Cocoa butter,,species,full,0.0881
+SP_000330,Cocoa powder,,species,full,0.1339
+SP_000331,Chocolate,,species,full,0.1315
+SP_000332,Hot chocolate,,species,full,0.2129
+SP_000333,Kefir,,species,full,0.0771
+SP_000334,Buttermilk,,species,full,0.0881
+SP_000335,Miso,,species,full,0.0924
+SP_000336,Tofu,,species,full,0.1772
+SP_000337,Zwieback,,species,full,0.1468
+SP_000338,Roe,,species,full,0.1194
+SP_000339,Icing,,species,full,0.1191
+SP_000340,Burrito,,species,full,0.1152
+SP_000341,Hamburger,,species,full,0.1152
+SP_000342,Chili,,species,full,0.1104
+SP_000343,Taco,,species,full,0.1061
+SP_000344,Tortilla,,species,full,0.1235
+SP_000345,Nachos,,species,full,0.0769
+SP_000346,Processed cheese,,species,full,0.1138
+SP_000347,Dulce de leche,,species,full,0.1346
+SP_000348,Topping,,species,full,0.1173
+SP_000349,Egg roll,,species,full,0.1138
+SP_000350,Popcorn,,species,full,0.1148
+SP_000351,Potato chip,,species,full,0.1152
+SP_000352,Tortilla chip,,species,full,0.109
+SP_000353,Corn chip,,species,full,0.1134
+SP_000354,Junket,,species,full,0.1229
+SP_000355,Falafel,,species,full,0.0949
+SP_000356,Pancake,,species,full,0.1152
+SP_000357,Pectin,,species,full,0.1515
+SP_000358,Pudding,,species,full,0.1138
+SP_000359,Waffle,,species,full,0.1125
+SP_000360,Soy milk,,species,full,0.0936
+SP_000361,Meatloaf,,species,full,0.1159
+SP_000362,Sake,,species,full,0.1515
+SP_000363,Couscous,,species,full,0.1175
+SP_000364,Bulgur,,species,full,0.1937
+SP_000365,Semolina,,species,full,0.0889
+SP_000366,Tostada,,species,full,0.084
+SP_000367,Baked potato,,species,full,0.0936
+SP_000368,Hot dog,,species,full,0.084
+SP_000369,Enchilada,,species,full,0.084
+SP_000370,Hushpuppy,,species,full,0.1125
+SP_000371,Soy yogurt,,species,full,0.1263
+SP_000372,Mixed nuts,,species,full,0.2256
+SP_000373,Canola,,species,full,0.2276
+SP_000374,Cooking oil,,species,full,0.1184
+SP_000375,Shortening,,species,full,0.1171
+SP_000376,Soy cream,,species,full,0.1111
+SP_000377,Molasses,,species,full,0.1477
+SP_000378,Cracker,,species,full,0.0892
+SP_000379,Ravioli,,species,full,0.1111
+SP_000380,Scrapple,,species,full,0.1469
+SP_000381,Succotash,,species,full,0.1201
+SP_000382,Tamale,,species,full,0.0789
+SP_000383,Flour,,species,full,0.1992
+SP_000384,Pita bread,,species,full,0.1264
+SP_000385,Focaccia,,species,full,0.1519
+SP_000386,Bagel,,species,full,0.1267
+SP_000387,Cornbread,,species,full,0.1264
+SP_000388,Corn grits,,species,full,0.1138
+SP_000389,Wonton wrapper,,species,full,0.1131
+SP_000390,Chocolate mousse,,species,full,0.1429
+SP_000391,Dripping,,species,full,0.1502
+SP_000392,Empanada,,species,full,0.0787
+SP_000393,Fudge,,species,full,0.1477
+SP_000394,Candy bar,,species,full,0.1488
+SP_000395,Margarine,,species,full,0.0873
+SP_000396,Hummus,,species,full,0.1156
+SP_000397,Cabbage,Brassica oleracea var. capitata,species,full,0.2271
+SP_000398,Citrus,,species,full,0.2349
+SP_000399,Nuts,,species,full,0.2245
+SP_000400,Fruits,,species,full,0.218
+SP_000401,Green vegetables,,species,full,0.2228
+SP_000402,Root vegetables,,species,full,0.2216
+SP_000403,Green zucchini,Cucurbita pepo var. cylindrica,species,full,0.2296
+SP_000404,Yellow zucchini,Cucurbita pepo var. cylindrica,species,full,0.229
+SP_000405,Green bell pepper,Capsicum annuum,species,full,0.2268
+SP_000406,Yellow bell pepper,Capsicum annuum,species,full,0.2275
+SP_000407,Orange bell pepper,Capsicum annuum,species,full,0.228
+SP_000408,Red bell pepper,Capsicum annuum,species,full,0.2259
+SP_000409,Yellow wax bean,Phaseolus vulgaris,species,full,0.2312
+SP_000410,Green bean,Phaseolus vulgaris,species,full,0.2285
+SP_000411,Japanese pumpkin,Cucurbita maxima,species,full,0.2272
+SP_000412,White cabbage,Brassica oleracea L. var. capitata L. f. alba DC.,species,full,0.2258
+SP_000413,Romaine lettuce,Lactuca sativa L. var. longifolia,species,full,0.2272
+SP_000414,Blackberry,Rubus,species,full,0.1714
+SP_000415,Black tea,,species,full,0.2321
+SP_000416,Green tea,,species,full,0.2321
+SP_000417,Olive oil,,species,full,0.4157
+SP_000418,Rapeseed oil,,species,full,0.0
+SP_000419,Soybean oil,,species,full,0.0
+SP_000420,Sour orange,Citrus × aurantium,species,full,0.0924
+SP_000421,Dessert wine,,species,full,1.0
+SP_000422,Red tea,,species,full,0.2175
+SP_000423,Mozzarella cheese,,species,full,0.0
+SP_000424,Plain cream cheese,,species,full,0.0
+SP_000425,Cheddar Cheese,Cheddar Cheese,species,full,0.0
+SP_000426,Parmesan cheese,,species,full,0.0
+SP_000427,Almond milk,,species,full,0.0
+SP_000428,Coconut milk,,species,full,0.0
+SP_000429,Coconut oil,,species,full,0.0
+SP_000430,Peanut oil,,species,full,0.0
+SP_000431,Cottonseed oil,,species,full,0.0
+SP_000432,Avocado oil,,species,full,0.0
+SP_000433,Grapeseed oil,,species,full,0.0
+SP_000434,Sesame oil,,species,full,0.0
+SP_000435,Swiss cheese,,species,full,0.0
+SP_000436,Cottage cheese,,species,full,0.0
+SP_000437,Blue cheese,,species,full,0.0
+SP_000438,Clam,,species,full,0.0
+SP_000439,Sour cream,,species,full,0.1201
+SP_000440,Jalapeno pepper,Capsicum annuum 'Jalapeño',species,full,0.1048
+SP_000441,Greek feta cheese,,species,full,0.0
+SP_000442,Plantain,Musa × paradisiaca,species,full,0.1048
+SP_000443,Clementine,Citrus × clementina,species,full,0.1048
+SP_000444,Green apple,,species,full,0.1048
+SP_000445,White onion,,species,full,0.0
+SP_000446,Red onion,,species,full,0.2213
+SP_000447,Green onion,,species,full,0.2213
+SP_000448,Green grape,,species,full,0.0924
+SP_000449,Red grape,,species,full,0.1048
+SP_000450,Black plum,Syzygium cumini,species,full,0.1048
+SP_000451,Green cabbage,Brassica oleracea var. sabauda L.,species,full,0.1048
+SP_000452,Black raisin,,species,full,0.1048
+SP_000453,Cannellini bean,,species,full,0.1048
+SP_000454,Green lentil,Lens culinaris,species,full,0.1048
+SP_000455,Cubanelle pepper,,species,full,0.1048
+SP_000456,Acorn squash,Cucurbita pepo var. turbinata,species,full,0.1048
+SP_000457,Iceberg lettuce,,species,full,0.1048
+SP_000458,Pea shoots,,species,full,0.1048
+SP_000459,Cape gooseberry,Physalis peruviana,species,full,0.1048
+SP_000460,Herbal tea,,species,full,0.2175
+SP_000461,Fish oil,,species,full,0.0738
+SP_000462,Taco shell,,species,full,0.1267
+SP_000463,Tostada shell,,species,full,0.1355
+ING_000001,soy sauce,,composite,full,0.0
+ING_000002,baking powder,,additive,nutrition_only,0.0
+ING_000003,baking soda,,additive,nutrition_only,0.0
+ING_000004,cooking spray,,additive,nutrition_only,0.0
+ING_000005,mayonnaise,,composite,nutrition_only,0.0
+ING_000006,worcestershire sauce,,composite,nutrition_only,0.0
+ING_000007,yeast,,additive,nutrition_only,0.0
+ING_000008,salsa,,composite,nutrition_only,0.0
+ING_000009,fish sauce,,composite,nutrition_only,0.0
+ING_000010,ketchup,,composite,full,0.0
+ING_000011,sauce,,species,full,0.0
+ING_000012,vegetable broth,,composite,nutrition_only,0.0
+ING_000013,oyster sauce,,composite,nutrition_only,0.0
+ING_000014,hoisin sauce,,composite,nutrition_only,0.0
+ING_000015,ghee,,composite,nutrition_only,0.0
+ING_000016,half & half,,species,nutrition_only,0.0
+ING_000017,sriracha,,composite,nutrition_only,0.0
+ING_000018,half- -half,,species,nutrition_only,0.0
+ING_000019,marinara sauce,,species,nutrition_only,0.0
+ING_000020,juice,,species,full,0.0
+ING_000021,ice,,species,full,0.0
+ING_000022,poppy seed,,species,full,0.0
+ING_000023,monterey jack,,species,full,0.0
+ING_000024,barbecue sauce,,composite,nutrition_only,0.0
+ING_000025,hot sauce,,composite,nutrition_only,0.0
+ING_000026,chipotl in adobo,,species,mechanism_only,0.0
+ING_000027,tequila,,species,nutrition_only,0.0
+ING_000028,seasoning,,species,nutrition_only,0.0
+ING_000029,ranch dressing,,composite,nutrition_only,0.0
+ING_000030,mussel,,species,full,0.0
+ING_000031,french bread,,species,nutrition_only,0.0
+ING_000032,herb,,species,full,0.0
+ING_000033,pesto,,species,nutrition_only,0.0
+ING_000034,ounce package yellow cake mix,,species,mechanism_only,0.0
+ING_000035,inch unbaked pie crust,,species,full,0.0
+ING_000036,spic,,species,full,0.0
+ING_000037,currant,,species,full,0.0
+ING_000038,tahini,,composite,nutrition_only,0.0
+ING_000039,pimento,,species,nutrition_only,0.0
+ING_000040,rhubarb,,species,full,0.0
+ING_000041,queso fresco,,species,nutrition_only,0.0
+ING_000042,beet,,species,full,0.0
+ING_000043,masa harina,,species,nutrition_only,0.0
+ING_000044,cotija,,species,nutrition_only,0.0
+ING_000045,teriyaki sauce,,composite,nutrition_only,0.0
+ING_000046,kimchi,,species,nutrition_only,0.0
+ING_000047,italian bread,,species,nutrition_only,0.0
+ING_000048,barbeque sauce,,species,name_only,0.0
+ING_000049,clam juice,,species,full,0.0
+ING_000050,green,,species,full,0.0
+ING_000051,nori,,species,mechanism_only,0.0
+ING_000052,artichok,,species,full,0.0
+ING_000053,stock,,composite,nutrition_only,0.0
+ING_000054,roll,,species,full,0.0
+ING_000055,adobo sauce,,species,name_only,0.0
+ING_000056,orzo,,species,mechanism_only,0.0
+ING_000057,ounce can cherry pie filling,,species,full,0.0
+ING_000058,mace,,species,nutrition_only,0.0
+ING_000059,cherry,,species,full,0.0
+ING_000060,broth,,composite,nutrition_only,0.0
+ING_000061,leg of lamb,,species,nutrition_only,0.0
+ING_000062,chuck roast,,species,nutrition_only,0.0
+ING_000063,sweet pickle relish,,species,full,0.0
+ING_000064,chorizo,,species,nutrition_only,0.0
+ING_000065,ounce jar marinara sauce,,species,name_only,0.0
+ING_000066,club soda,,species,nutrition_only,0.0
+ING_000067,mixed vegetabl,,species,nutrition_only,0.0
+ING_000068,hominy,,species,nutrition_only,0.0
+ING_000069,lamb shoulder,,species,nutrition_only,0.0
+ING_000070,jaggery,,composite,nutrition_only,0.0
+ING_000071,italian salad dressing,,composite,full,0.0
+ING_000072,pie crust,,species,full,0.0
+ING_000073,lamb,,species,full,0.0
+ING_000074,che fresh mozzarella,,species,nutrition_only,0.0
+ING_000075,fish stock,,composite,nutrition_only,0.0
+ING_000076,salad dressing,,composite,full,0.0
+ING_000077,sriracha sauce,,composite,nutrition_only,0.0
+ING_000078,fillet,,species,nutrition_only,0.0
+ING_000079,prun,,species,full,0.0
+ING_000080,bread machine yeast,,additive,nutrition_only,0.0
+ING_000081,curd,,species,nutrition_only,0.0
+ING_000082,lamb shank,,species,nutrition_only,0.0
+ING_000083,refrigerated piecrust,,species,mechanism_only,0.0
+ING_000084,phyllo dough,,species,full,0.0
+ING_000085,spring roll wrapper,,species,nutrition_only,0.0
+ING_000086,chuck,,species,nutrition_only,0.0
+ING_000087,mixed green,,species,nutrition_only,0.0
+ING_000088,whiskey,,composite,nutrition_only,0.0
+ING_000089,crouton,,species,nutrition_only,0.0
+ING_000090,picante sauce,,species,name_only,0.0
+ING_000091,tapioca starch,,additive,nutrition_only,0.0
+ING_000092,dressing,,composite,full,0.0
+ING_000093,radicchio,,species,nutrition_only,0.0
+ING_000094,salami,,species,nutrition_only,0.0
+ING_000095,littleneck clam,,species,mechanism_only,0.0
+ING_000096,escarole,,species,nutrition_only,0.0
+ING_000097,orcestershire sauce,,species,nutrition_only,0.0
+ING_000098,flax seed,,species,nutrition_only,0.0
+ING_000099,seaweed,,species,nutrition_only,0.0
+ING_000100,pickl,,species,nutrition_only,0.0
+ING_000101,alfredo sauce,,species,nutrition_only,0.0
+ING_000102,pretzel,,species,nutrition_only,0.0
+ING_000103,edamame,,species,nutrition_only,0.0
+ING_000104,rib,,species,full,0.0
+ING_000105,half half,,species,nutrition_only,0.0
+ING_000106,caramel sauce,,species,nutrition_only,0.0
+ING_000107,liquid,,species,nutrition_only,0.0
+ING_000108,inch unbaked pie shell,,species,mechanism_only,0.0
+ING_000109,bottled clam juice,,species,full,0.0
+ING_000110,pickle relish,,species,full,0.0
+ING_000111,flax seed meal,,species,nutrition_only,0.0
+ING_000112,vermicelli,,species,nutrition_only,0.0
+ING_000113,duck,,species,full,0.0
+ING_000114,granola,,species,nutrition_only,0.0
+ING_000115,brussel sprout,,species,full,0.0
+ING_000116,enokitake,,species,mechanism_only,0.0
+ING_000117,sauce taste,,species,nutrition_only,0.0
+ING_000118,salad green,,species,full,0.0
+ING_000119,cantaloupe,,species,full,0.0
+ING_000120,flatbread,,species,nutrition_only,0.0
+ING_000121,jam,,species,full,0.0
+ING_000122,inch pie crust baked,,species,full,0.0
+ING_000123,tapioca,,species,full,0.0
+ING_000124,sauerkraut,,species,nutrition_only,0.0
+ING_000125,monosodium glutamate msg,,species,mechanism_only,0.0
+ING_000126,ladyfinger,,species,nutrition_only,0.0
+ING_000127,naan,,species,nutrition_only,0.0
+ING_000128,italian-style salad dressing,,composite,full,0.0
+ING_000129,bbq sauce,,composite,nutrition_only,0.0
+ING_000130,curry leaf,Murraya koenigii,species,name_only,0.0
+ING_000131,galangal,Alpinia galanga,species,name_only,0.0
+ING_000132,ajwain,Trachyspermum ammi,species,name_only,0.0
+ING_000133,bok choy,Brassica rapa subsp. chinensis,species,full,0.0
+ING_000134,tomatillo,Physalis philadelphica,species,full,0.0
+ING_000135,prosciutto,,composite,name_only,0.0
+ING_000136,italian seasoning,,blend,full,0.0
+ING_000137,cajun seasoning,,blend,full,0.0
+ING_000138,five spice,,blend,full,0.0
+ING_000139,creole seasoning,,blend,name_only,0.0
+ING_000140,poultry seasoning,,blend,name_only,0.0
+ING_000141,old bay seasoning,,blend,full,0.0
+ING_000142,greek seasoning,,blend,name_only,0.0
+ING_000143,talian seasoning,,blend,full,0.0
+ING_000144,italian herb seasoning,,blend,name_only,0.0
+ING_000145,chaat masala,,blend,full,0.0
+ING_000146,mirin,,composite,name_only,0.0
+ING_000147,curry paste,,species,name_only,0.0
+ING_000148,baguette,,species,name_only,0.0
+ING_000149,linguine,,species,name_only,0.0
+ING_000150,guacamole,,species,name_only,0.0
+ING_000151,gochujang,,composite,name_only,0.0
+ING_000152,crème fraîche,,species,name_only,0.0
+ING_000153,chilli powder,,species,name_only,0.0
+ING_000154,espresso powder,,species,name_only,0.0
+ING_000155,asafoetida,,species,name_only,0.0
+ING_000156,fettucine,,species,name_only,0.0
+ING_000157,artichoke heart,,species,name_only,0.0
+ING_000158,mascarpone,,species,name_only,0.0
+ING_000159,thai red curry paste,,species,name_only,0.0
+ING_000160,paneer,,composite,name_only,0.0
+ING_000161,fluid ounc tequila,,species,name_only,0.0
+ING_000162,maraschino cherry,,species,name_only,0.0
+ING_000163,dashi,,species,name_only,0.0
+ING_000164,herb de provence,,species,name_only,0.0
+ING_000165,panko,,species,name_only,0.0
+ING_000166,xanthan gum,,additive,name_only,0.0
+ING_000167,penne,,species,name_only,0.0
+ING_000168,liquid smoke flavoring,,species,name_only,0.0
+ING_000169,cognac,,species,name_only,0.0
+ING_000170,sprinkl,,species,name_only,0.0
+ING_000171,pico de gallo,,species,name_only,0.0
+ING_000172,angel hair,,species,name_only,0.0
+ING_000173,quickcooking grit,,species,name_only,0.0
+ING_000174,toothpick,,species,name_only,0.0
+ING_000175,tilapia fillet,,species,name_only,0.0
+ING_000176,amchur,,species,name_only,0.0
+ING_000177,bonito flak,,species,name_only,0.0
+ING_000178,rigatoni,,species,name_only,0.0
+ING_000179,asiago,,species,name_only,0.0
+ING_000180,triple sec,,species,name_only,0.0
+ING_000181,file powder,,species,name_only,0.0
+ING_000182,ancho powder,,species,name_only,0.0
+ING_000183,slic bread,,species,name_only,0.0
+ING_000184,marinade,,composite,name_only,0.0
+ING_000185,cachaca,,species,name_only,0.0
+ING_000186,pickling spice,,species,name_only,0.0
+ING_000187,skewer,,species,name_only,0.0
+ING_000188,fish fillet,,species,name_only,0.0
+ING_000189,udon,,species,name_only,0.0
+ING_000190,halibut fillet,,species,name_only,0.0
+ING_000191,konbu,,species,name_only,0.0
+ING_000192,chutney,,species,name_only,0.0
+ING_000193,ounce package ranch dressing mix,,composite,name_only,0.0
+ING_000194,urad dal,,species,name_only,0.0
+ING_000195,dipping sauc,,species,name_only,0.0
+ING_000196,cod fillet,,species,name_only,0.0
+ING_000197,french baguette,,species,name_only,0.0
+ING_000198,ounce can artichoke heart drained,,species,name_only,0.0
+ING_000199,rotini,,species,name_only,0.0
+ING_000200,mixed spice,,species,name_only,0.0
+ING_000201,candied cherry,,species,name_only,0.0
+ING_000202,thai green curry paste,,species,name_only,0.0
+ING_000203,asafetida,,species,name_only,0.0
+ING_000204,kasuri methi,,species,name_only,0.0
+ING_000205,artichok heart marin,,species,name_only,0.0
+ING_000206,chana dal,,species,name_only,0.0
+ING_000207,moong dal,,species,name_only,0.0
+ING_000208,fusilli,,species,name_only,0.0
+ING_000209,vinaigrette,,species,name_only,0.0
+ING_000210,sambal ulek,,species,name_only,0.0
+ING_000211,nonstick spray,,species,name_only,0.0
+ING_000212,bread slic,,species,name_only,0.0
+ING_000213,liquid smoke,,species,name_only,0.0
+ING_000214,haricot vert,,species,name_only,0.0
+ING_000215,country bread,,species,name_only,0.0
+ING_000216,slaw mix,,species,name_only,0.0
+ING_000217,rocket leav,,species,name_only,0.0
+ING_000218,baking mix such as bisquick,,additive,name_only,0.0
+ING_000219,ras el hanout,,species,name_only,0.0
+ING_000220,orecchiette,,species,name_only,0.0
+ING_000221,matzo meal,,species,name_only,0.0
+ING_000222,slic prosciutto,,composite,name_only,0.0
+ING_000223,asafoetida powder,,species,name_only,0.0
+ING_000224,spanish chorizo,,species,name_only,0.0
+ING_000225,harissa,,species,name_only,0.0
+ING_000226,pitted prun,,species,name_only,0.0
+ING_000227,crema,,species,name_only,0.0
+ING_000228,gnocchi,,species,name_only,0.0
+ING_000229,ounce package frozen mixed vegetabl,,species,name_only,0.0
+ING_000230,crusty bread,,species,name_only,0.0
+ING_000231,garam masala,,blend,full,0.0
+ING_000232,biryani masala,,blend,full,0.0

@@ -1,0 +1,17 @@
+dataset_name,url,access_method,license,redistribution_allowed,commercial_use,notes,download_date,version
+USDA FoodData Central,https://fdc.nal.usda.gov/,API + bulk download,Public Domain,Yes,Yes,US government data,YYYY-MM-DD,2024-10
+Wikidata,https://www.wikidata.org/,SPARQL query,CC0,Yes,Yes,Fully open,YYYY-MM-DD,live
+PubChem,https://pubchem.ncbi.nlm.nih.gov/,API + FTP,Public Domain,Yes,Yes,NIH/NCBI resource,YYYY-MM-DD,live
+FooDB,https://foodb.ca/,Web scraping or download,CC BY-NC 4.0,Maybe,No,CHECK: Non-commercial clause,YYYY-MM-DD,v1.0
+FlavorDB,https://cosylab.iiitd.edu.in/flavordb/,Download,Academic use?,?,?,VERIFY LICENSE CAREFULLY,YYYY-MM-DD,2021
+ChEMBL,https://www.ebi.ac.uk/chembl/,FTP,CC BY-SA 3.0,Yes,Yes,Open bioactivity,YYYY-MM-DD,v33
+RecipeNLG,https://recipenlg.cs.put.poznan.pl/,Download,MIT,Yes,Yes,Fully open,YYYY-MM-DD,2020
+Recipe1M+,http://pic2recipe.csail.mit.edu/,Request access,Research only,No,No,Requires agreement,YYYY-MM-DD,N/A
+LINCS L1000,https://clue.io/,Download,Open,Yes,Yes,Broad Institute,YYYY-MM-DD,2024
+Reactome,https://reactome.org/,API + download,CC BY 4.0,Yes,Yes,Open pathways,YYYY-MM-DD,v88
+Gene Ontology,http://geneontology.org/,Download,CC BY 4.0,Yes,Yes,Open ontology,YYYY-MM-DD,2024-09
+Copernicus Sentinel,https://dataspace.copernicus.eu/,API,Free + open,Yes,Yes,ESA satellite data,YYYY-MM-DD,live
+ERA5 Climate,https://cds.climate.copernicus.eu/,API,Copernicus license,Yes,Yes with attribution,Check terms,YYYY-MM-DD,live
+SoilGrids,https://soilgrids.org/,API,CC BY 4.0,Yes,Yes,ISRIC,YYYY-MM-DD,v2.0
+BindingDB,https://www.bindingdb.org/,Download,CHECK,?,?,Verify before commercial use,YYYY-MM-DD,?
+MetaboLights,https://www.ebi.ac.uk/metabolights/,API,CC BY 4.0,Yes,Yes,EMBL-EBI resource,YYYY-MM-DD,live

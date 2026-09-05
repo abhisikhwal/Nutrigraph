@@ -1,0 +1,498 @@
+{
+  "purpose": "Authoritative inventory of every external dataset/source integrated into global-food-genome, for a data-integration showcase diagram.",
+  "recon_type": "read_only",
+  "generated_at": "2026-09-05T05:05:00+00:00",
+  "method": "Scanned data/raw/, data/interim/mappings/, processed pipeline artifacts, and script/notebook references. Scales are counted from disk where possible.",
+
+  "sources": [
+    {
+      "name": "FooDB",
+      "category": "chemistry/compounds",
+      "what_it_contributed": "The bioactive compounds in each food — the primary food→compound chemistry layer.",
+      "scale": {
+        "foods": 992,
+        "compounds": 70477,
+        "content_rows": 5145532,
+        "note": "foodb_2020_04_07 CSV release; content rows from phase9 foodb_contents.parquet"
+      },
+      "id_system": ["FooDB food id", "FooDB compound id (FDB*)", "InChIKey", "Latin binomial (name_scientific)"],
+      "on_disk": true,
+      "path": "data/raw/foodb/foodb_2020_04_07_csv/",
+      "integration_status": "core"
+    },
+    {
+      "name": "COCONUT",
+      "category": "chemistry/compounds",
+      "what_it_contributed": "A large natural-product compound library that expanded the compound registry ~10× beyond FooDB.",
+      "scale": {
+        "coconut_compounds": 695129,
+        "overlap_with_foodb": 58117,
+        "new_from_coconut": 624307,
+        "unified_registry": 693912,
+        "source": "data/processed/phase15_coconut/phase15_summary.json"
+      },
+      "id_system": ["COCONUT id", "InChIKey", "SMILES"],
+      "on_disk": true,
+      "path": "data/raw/coconut-09-2024.sdf",
+      "integration_status": "core"
+    },
+    {
+      "name": "ChEMBL",
+      "category": "bioactivity/pharmacology",
+      "what_it_contributed": "Measured compound→protein bioactivity (Ki/Kd/IC50/EC50) and mechanism-of-action action types for human single-protein targets.",
+      "scale": {
+        "molecules": 2878135,
+        "activity_rows": 24267312,
+        "targets": 17803,
+        "drug_mechanisms": 7568,
+        "corpus_pairs_after_filters": 1509644,
+        "moa_annotations_in_product": 690,
+        "source": "chembl_36.db + compound_target_corpus_v1_build_report.json + measured_moa_annotation_v1.parquet"
+      },
+      "id_system": ["ChEMBL molecule id (CHEMBL*)", "ChEMBL target id", "UniProt accession", "InChIKey", "SMILES"],
+      "on_disk": true,
+      "path": "data/raw/chembl/chembl_36/chembl_36_sqlite/chembl_36.db",
+      "integration_status": "core"
+    },
+    {
+      "name": "BindingDB",
+      "category": "bioactivity/pharmacology",
+      "what_it_contributed": "Measured compound→protein binding affinities that seed the measured half of the compound→gene graph.",
+      "scale": {
+        "raw_activity_rows": 3140596,
+        "phase16_high_quality_edges": 89730,
+        "corpus_pairs_after_filters": 1503957,
+        "unique_targets_phase16": 3202,
+        "source": "BindingDB_All.tsv + phase16_summary.json + compound_target_corpus_v1_build_report.json"
+      },
+      "id_system": ["BindingDB MonomerID", "Ligand InChI Key", "UniProt accession", "Target Name (curator protein common name)"],
+      "on_disk": true,
+      "path": "data/raw/BindingDB_All.tsv",
+      "integration_status": "core"
+    },
+    {
+      "name": "PharmGKB / ClinPGx",
+      "category": "bioactivity/pharmacology",
+      "what_it_contributed": "Pharmacogenomics chemicals, genes, variants, and relationships — used in compound-master identity crosswalks and genetics-phase joins.",
+      "scale": {
+        "genes": 25041,
+        "chemicals": 5163,
+        "relationships": 127600,
+        "variants": 7559,
+        "note": "License identifies ClinPGx (PharmGKB successor branding); files retain PharmGKB accession columns"
+      },
+      "id_system": ["PharmGKB Accession Id (PA*)", "HGNC symbol", "HGNC ID", "Ensembl Id", "NCBI Gene ID", "InChI / SMILES"],
+      "on_disk": true,
+      "path": "data/raw/gene/",
+      "integration_status": "core"
+    },
+    {
+      "name": "GTEx",
+      "category": "genomics/expression",
+      "what_it_contributed": "Which genes are expressed in which human tissues — the body-region / tissue-attribution layer.",
+      "scale": {
+        "genes": 74628,
+        "tissues": 68,
+        "file": "gene median TPM GCT"
+      },
+      "id_system": ["Ensembl gene ID (ENSG*)", "GTEx tissue labels"],
+      "on_disk": true,
+      "path": "data/raw/gtex.gct",
+      "integration_status": "core"
+    },
+    {
+      "name": "Gene Ontology (GO)",
+      "category": "pathways/ontology",
+      "what_it_contributed": "Biological process / pathway terms that enrichment scores attach to (majority of pathway IDs in the gene→pathway map).",
+      "scale": {
+        "terms_in_obo": 48251,
+        "gene_pathway_edges_go": 12645,
+        "source": "go-basic.obo + gene_pathway_mappings.parquet database=gene_ontology"
+      },
+      "id_system": ["GO ID (GO:*)", "HGNC gene symbol"],
+      "on_disk": true,
+      "path": "data/raw/pathways/go-basic.obo",
+      "integration_status": "core"
+    },
+    {
+      "name": "Reactome",
+      "category": "pathways/ontology",
+      "what_it_contributed": "Curated human pathway hierarchy and display names for R-HSA-* enrichment results and category profiles.",
+      "scale": {
+        "pathways_all_species": 23289,
+        "pathways_homo_sapiens": 2848,
+        "gene_pathway_edges_reactome": 2855,
+        "source": "ReactomePathways.txt + gene_pathway_mappings.parquet database=reactome"
+      },
+      "id_system": ["Reactome pathway ID (R-HSA-*)", "HGNC gene symbol"],
+      "on_disk": true,
+      "path": "data/raw/pathways/ReactomePathways.txt",
+      "related_path": "data/raw/pathways/ReactomePathwaysRelation.txt",
+      "integration_status": "core"
+    },
+    {
+      "name": "HGNC",
+      "category": "identity/mapping",
+      "what_it_contributed": "The canonical human gene symbol namespace — the hub that UniProt, Ensembl, BindingDB, and ChEMBL targets resolve into.",
+      "scale": {
+        "approved_symbols_rows": 44997,
+        "source": "hgnc_complete_set.txt"
+      },
+      "id_system": ["HGNC ID (HGNC:*)", "HGNC symbol", "Ensembl gene ID", "NCBI Gene ID", "UniProt accession (crossrefs)"],
+      "on_disk": true,
+      "path": "data/interim/mappings/hgnc_complete_set.txt",
+      "integration_status": "core"
+    },
+    {
+      "name": "UniProt",
+      "category": "identity/mapping",
+      "what_it_contributed": "Protein accessions that bridge BindingDB/ChEMBL targets to HGNC gene symbols.",
+      "scale": {
+        "mapping_rows": 161980,
+        "unique_accessions": 161854,
+        "unique_hgnc_symbols": 20546,
+        "source": "HUMAN_9606_idmapping (via uniprot_to_hgnc_build_report.json) → uniprot_to_hgnc.parquet"
+      },
+      "id_system": ["UniProt accession", "HGNC symbol"],
+      "on_disk": true,
+      "path": "data/interim/mappings/uniprot_to_hgnc.parquet",
+      "download_note": "Fetched from UniProt FTP during mapping build; local parquet + report retained",
+      "integration_status": "core"
+    },
+    {
+      "name": "USDA FoodData Central (FDC)",
+      "category": "food composition/nutrition",
+      "what_it_contributed": "Per-food nutrient composition and household-measure gram weights (tsp/cup → grams) for the nutrition and dose layers.",
+      "scale": {
+        "foods_in_fixed_parquet": 2063876,
+        "unique_fdc_ids_with_nutrients": 1949042,
+        "food_nutrient_rows": 26848323,
+        "nutrient_definitions": 477,
+        "food_portion_rows": 47173,
+        "species_with_composition_v2_1": 436,
+        "source": "usda_fooddata.zip / phase9 parquets + food_portion.parquet"
+      },
+      "id_system": ["FDC ID", "nutrient_id", "measure_unit / portion modifier"],
+      "on_disk": true,
+      "path": "data/raw/phase9_expansion/usda_fooddata.zip",
+      "also": [
+        "data/raw/usda/FoodData_Central_csv_2025-12-18.zip",
+        "data/raw/usda_fooddata.zip",
+        "data/raw/usda/foundation_foods.json"
+      ],
+      "integration_status": "core"
+    },
+    {
+      "name": "HMDB (Human Metabolome Database)",
+      "category": "chemistry/compounds",
+      "what_it_contributed": "Human metabolite identities (InChIKey-linked) for metabolomics-phase compound bridging; also flagged as a backfill source for name-only foods.",
+      "scale": {
+        "metabolites": 217920,
+        "source": "hmdb_metabolites.xml / hmdb_metabolites.parquet"
+      },
+      "id_system": ["HMDB accession (HMDB*)", "InChIKey", "SMILES"],
+      "on_disk": true,
+      "path": "data/raw/phase11_metabolomics/hmdb_metabolites.xml",
+      "also": ["data/raw/hmdb_metabolites.zip", "data/raw/hmdb_proteins.zip"],
+      "integration_status": "supporting"
+    },
+    {
+      "name": "Recon3D",
+      "category": "pathways/ontology",
+      "what_it_contributed": "Human metabolic reconstruction (reactions/metabolites) for Phase 11 metabolomics / microbiome pathway work.",
+      "scale": {
+        "release": "Recon3D_301",
+        "files": ["Recon3D_301.mat", "Recon3DModel_301.mat"],
+        "note": "MATLAB model archive; integrated in Phase 11 notebook pipeline"
+      },
+      "id_system": ["VMH / Recon metabolite & reaction IDs"],
+      "on_disk": true,
+      "path": "data/raw/Recon3D_301.zip",
+      "integration_status": "supporting"
+    },
+    {
+      "name": "SEED2VMH translation",
+      "category": "identity/mapping",
+      "what_it_contributed": "Crosswalk between SEED model exchange IDs and VMH reaction/metabolite IDs for microbiome mapping.",
+      "scale": {
+        "rows": 1925
+      },
+      "id_system": ["SEED EX_* ids", "VMH ids"],
+      "on_disk": true,
+      "path": "data/raw/SEED2VMH_translation.csv",
+      "integration_status": "supporting"
+    },
+    {
+      "name": "Phenol-Explorer",
+      "category": "chemistry/compounds",
+      "what_it_contributed": "Polyphenol compound classes and structures (supplemental chemistry catalog in the Phase 9 expansion download).",
+      "scale": {
+        "compounds": 501,
+        "metabolites": 372,
+        "source": "phase9_expansion phenol_*.parquet"
+      },
+      "id_system": ["Phenol-Explorer compound id", "CAS number", "formula"],
+      "on_disk": true,
+      "path": "data/raw/phase9_expansion/phenol_compounds.parquet",
+      "integration_status": "on_disk_partial",
+      "note": "Present in phase9 expansion artifacts; not a primary edge source in the live 695-node product graph"
+    },
+    {
+      "name": "Human Protein Atlas",
+      "category": "genomics/expression",
+      "what_it_contributed": "Tissue/cell-line protein expression reference (downloaded; GTEx is the expression source used in tissue profiles).",
+      "scale": {
+        "rows": 20162
+      },
+      "id_system": ["Ensembl gene ID", "Gene name"],
+      "on_disk": true,
+      "path": "data/raw/proteinatlas.tsv (1).zip",
+      "integration_status": "on_disk_partial",
+      "note": "On disk; product tissue layer is built from GTEx, not HPA"
+    },
+    {
+      "name": "Wikidata (foods)",
+      "category": "identity/mapping",
+      "what_it_contributed": "Food item labels and scientific names used in early ingredient-ontology / synonym building.",
+      "scale": {
+        "food_items": 1335
+      },
+      "id_system": ["Wikidata Q-id", "multilingual labels", "scientific_name"],
+      "on_disk": true,
+      "path": "data/raw/wikidata/food_items.json",
+      "integration_status": "supporting"
+    },
+    {
+      "name": "RecipeNLG",
+      "category": "recipes",
+      "what_it_contributed": "The large English recipe corpus that drives ingredient co-occurrence, string→species mapping, and landscape sampling.",
+      "scale": {
+        "recipes": 2231142,
+        "in_expanded_v2": 1261019,
+        "source": "full_dataset.csv; expanded store uses recipenlg subset"
+      },
+      "id_system": ["recipe_id (rnlg_*)", "free-text ingredient strings", "NER ingredient names"],
+      "on_disk": true,
+      "path": "data/raw/recipenlg/dataset/full_dataset.csv",
+      "integration_status": "core"
+    },
+    {
+      "name": "Food.com (Kaggle)",
+      "category": "recipes",
+      "what_it_contributed": "Additional recipe corpus with interactions; used in the expanded recipe store and landscape sample.",
+      "scale": {
+        "raw_recipes": 231637,
+        "in_expanded_v2": 40845
+      },
+      "id_system": ["Food.com recipe id", "ingredient strings"],
+      "on_disk": true,
+      "path": "data/raw/recipe/foodcom.zip",
+      "integration_status": "core"
+    },
+    {
+      "name": "Epicurious",
+      "category": "recipes",
+      "what_it_contributed": "Curated recipe set used in the expanded recipe store.",
+      "scale": {
+        "recipes": 20130,
+        "in_expanded_v2": 1069
+      },
+      "id_system": ["Epicurious recipe records", "ingredient strings"],
+      "on_disk": true,
+      "path": "data/raw/recipe/epi.zip",
+      "integration_status": "supporting"
+    },
+    {
+      "name": "Indian Food (Kaggle)",
+      "category": "recipes",
+      "what_it_contributed": "Small Indian cuisine recipe set with regional/diet labels.",
+      "scale": {
+        "recipes": 255,
+        "in_expanded_v2": 167
+      },
+      "id_system": ["recipe name", "ingredient strings", "state/course labels"],
+      "on_disk": true,
+      "path": "data/raw/recipe/indianf.zip",
+      "integration_status": "supporting"
+    },
+    {
+      "name": "Food_Recipe.csv (new corpus)",
+      "category": "recipes",
+      "what_it_contributed": "Indian regional recipes with reliable cuisine labels for the universe-v2 ingest.",
+      "scale": { "recipes": 739 },
+      "id_system": ["recipe name", "comma-separated ingredient names", "cuisine/region label"],
+      "on_disk": true,
+      "path": "data/raw/new_recipes/Food_Recipe.csv",
+      "integration_status": "core"
+    },
+    {
+      "name": "recipes2.json (new corpus)",
+      "category": "recipes",
+      "what_it_contributed": "Additional recipe JSON corpus ingested into recipes_new_v2.",
+      "scale": { "recipes": 9944 },
+      "id_system": ["recipe title", "ingredient string list"],
+      "on_disk": true,
+      "path": "data/raw/new_recipes/recipes2.json",
+      "integration_status": "core"
+    },
+    {
+      "name": "recipes3.json (new corpus / Kaggle cuisines)",
+      "category": "recipes",
+      "what_it_contributed": "Large Kaggle-tagged cuisine recipe set — primary cuisine-label source for the turmeric+pepper cuisine layer.",
+      "scale": { "recipes": 39774 },
+      "id_system": ["recipe title", "ingredient string list", "cuisine tag"],
+      "on_disk": true,
+      "path": "data/raw/new_recipes/recipes3.json",
+      "integration_status": "core"
+    },
+    {
+      "name": "recipes4 (new corpus)",
+      "category": "recipes",
+      "what_it_contributed": "Largest new-corpus batch with quantity-rich ingredient lines and noisy cuisine_list tags.",
+      "scale": {
+        "recipes_csv": 62126,
+        "recipes_json_duplicate": 62126,
+        "note": "CSV and JSON are the same corpus; ingest used recipes4.csv only"
+      },
+      "id_system": ["recipe_title", "ingredients_canonical", "cuisine_list"],
+      "on_disk": true,
+      "path": "data/raw/new_recipes/recipes4.csv",
+      "also": ["data/raw/new_recipes/recipes4.json"],
+      "integration_status": "core"
+    },
+    {
+      "name": "recipes5.csv (new corpus)",
+      "category": "recipes",
+      "what_it_contributed": "Small recipe set with reliable area (cuisine-region) labels.",
+      "scale": { "recipes": 620 },
+      "id_system": ["name", "area", "comma-separated ingredients"],
+      "on_disk": true,
+      "path": "data/raw/new_recipes/recipes5.csv",
+      "integration_status": "core"
+    },
+    {
+      "name": "recipes_1.csv (new corpus)",
+      "category": "recipes",
+      "what_it_contributed": "Present on disk but skipped at ingest — no usable ingredient column.",
+      "scale": { "rows": 9997 },
+      "id_system": ["n/a — no ingredients"],
+      "on_disk": true,
+      "path": "data/raw/new_recipes/recipes_1.csv",
+      "integration_status": "on_disk_partial",
+      "note": "Explicitly excluded from universe v2 recipe ingest"
+    }
+  ],
+
+  "integration_challenge": {
+    "identifier_reconciliations": [
+      {
+        "problem": "BindingDB protein common names → HGNC symbols",
+        "bridge": "BindingDB Target Name / UniProt accession → UniProt HUMAN_9606 idmapping + HGNC complete set → HGNC symbol (ambiguous BindingDB names flagged, not guessed)",
+        "namespaces": ["BindingDB Target Name", "UniProt accession", "HGNC symbol"]
+      },
+      {
+        "problem": "ChEMBL targets → genes",
+        "bridge": "ChEMBL target (SINGLE PROTEIN, Homo sapiens) → UniProt accession → HGNC symbol; MoA action_type retained from ChEMBL drug_mechanism",
+        "namespaces": ["ChEMBL target id", "UniProt accession", "HGNC symbol", "ChEMBL action_type"]
+      },
+      {
+        "problem": "GTEx Ensembl IDs → HGNC",
+        "bridge": "GTEx ENSG* rows joined through HGNC Ensembl cross-references before tissue scoring",
+        "namespaces": ["Ensembl gene ID", "HGNC symbol"]
+      },
+      {
+        "problem": "Food ingredient strings → species → FooDB → FDC",
+        "bridge": "Recipe free text → alias/string map → SP_*/ING_* species nodes → FooDB food id (exact/Latin) → USDA FDC id (species_fdc_map_production)",
+        "namespaces": ["free-text ingredient string", "species_node_id (SP_*)", "FooDB food id", "FDC ID"]
+      },
+      {
+        "problem": "Compound identity across chemistry databases",
+        "bridge": "Normalize to InChIKey; unify FooDB FDB* + COCONUT id + PharmGKB chemical + BindingDB ligand + ChEMBL molecule into compound_master_v2",
+        "namespaces": ["InChIKey", "FooDB compound id", "COCONUT id", "PharmGKB PA*", "BindingDB MonomerID", "ChEMBL id", "PubChem CID (crossref slot)"]
+      },
+      {
+        "problem": "Pathway ID dual namespace",
+        "bridge": "Gene→pathway map carries both GO:* and R-HSA-*; display names resolved via go-basic.obo and ReactomePathways.txt",
+        "namespaces": ["GO ID", "Reactome R-HSA-*", "HGNC symbol"]
+      },
+      {
+        "problem": "Nutrient codes vs human labels",
+        "bridge": "FDC nutrient_id joined to FDA Daily Value table by nutrient name / id for %DV panels",
+        "namespaces": ["FDC nutrient_id", "FDA Daily Value nutrient keys"]
+      },
+      {
+        "problem": "VMH / SEED microbiome IDs (Phase 11)",
+        "bridge": "SEED2VMH_translation maps SEED EX_* exchange ids to VMH ids; Recon3D supplies the reaction network",
+        "namespaces": ["SEED EX_*", "VMH id", "Recon3D reaction/metabolite ids"]
+      }
+    ],
+
+    "integrated_result_scale": {
+      "live_universe_ingredients": 695,
+      "mechanism_live_ingredients_in_icc": 445,
+      "compounds_in_icc": 48459,
+      "ingredient_compound_edges": 2022289,
+      "genes_in_gene_sets": 1532,
+      "ingredient_gene_edges": 358600,
+      "pathways": 4543,
+      "gene_pathway_edges": 15500,
+      "tissues": 68,
+      "nutrients": 224,
+      "ingredient_nutrient_edges": 24479,
+      "species_with_nutrition_composition": 436,
+      "compound_gene_measured_edges_normalized": 12926,
+      "compound_target_training_corpus_pairs": 3013601,
+      "compound_master_rows": 759270,
+      "new_recipe_corpus_ingested": 113203,
+      "expanded_recipe_store": 1303100,
+      "distinct_id_systems_unified": [
+        "InChIKey",
+        "FooDB food/compound id",
+        "COCONUT id",
+        "ChEMBL id",
+        "BindingDB MonomerID",
+        "PharmGKB Accession",
+        "UniProt accession",
+        "HGNC symbol / HGNC ID",
+        "Ensembl gene ID",
+        "NCBI Gene ID",
+        "GO ID",
+        "Reactome R-HSA-*",
+        "FDC ID",
+        "FDC nutrient_id",
+        "species_node_id (SP_*/ING_*)",
+        "Wikidata Q-id",
+        "HMDB accession",
+        "VMH / SEED ids"
+      ],
+      "n_distinct_id_systems": 18
+    },
+
+    "heterogeneity_metric": {
+      "n_source_datasets_listed": 27,
+      "n_categories": 7,
+      "categories": [
+        "chemistry/compounds",
+        "bioactivity/pharmacology",
+        "genomics/expression",
+        "pathways/ontology",
+        "food composition/nutrition",
+        "recipes",
+        "identity/mapping"
+      ],
+      "n_core_integrated": 18,
+      "n_supporting": 5,
+      "n_on_disk_partial": 4,
+      "one_sentence": "Twenty-seven heterogeneous sources spanning seven data categories — food chemistry (FooDB, COCONUT, HMDB), pharmacology (ChEMBL, BindingDB, PharmGKB), expression (GTEx), pathways (GO, Reactome), nutrition (USDA FDC), recipes (RecipeNLG + Food.com + Epicurious + Indian Food + six new corpora), and identity hubs (HGNC, UniProt, Wikidata) — were reconciled across 18 identifier namespaces into one 695-ingredient mechanism+nutrition graph."
+    }
+  },
+
+  "counts_verification_notes": [
+    "RecipeNLG 2,231,142 counted from full_dataset.csv rows; expanded_v2 retains 1,261,019 recipenlg recipes after processing filters.",
+    "recipes5.csv has 620 rows with ingredients (earlier line-count tools that reported ~3k were wrong or counted differently); live ingest used 620.",
+    "USDA food parquet has 2.06M food rows; nutrient joins cover 1.95M distinct fdc_ids — FDC is a large catalog, species map uses a curated subset.",
+    "Phenol-Explorer and Human Protein Atlas are present on disk; product tissue profiles use GTEx, not HPA.",
+    "recipes_1.csv is on disk but was not ingested (no ingredients).",
+    "recipes4.csv and recipes4.json are duplicates of one corpus (62,126 recipes)."
+  ]
+}

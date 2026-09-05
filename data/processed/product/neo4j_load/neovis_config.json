@@ -1,0 +1,65 @@
+{
+  "serverUrl": "bolt://YOUR_VPS_HOST:7687",
+  "serverUser": "readonly",
+  "serverPassword": "CHANGE_ME_READONLY_PASSWORD",
+  "initialCypher": "MATCH (n) WHERE toLower(coalesce(n.name, n.symbol, '')) CONTAINS toLower($q) RETURN n LIMIT 25",
+  "labels": {
+    "Ingredient": {
+      "caption": "name",
+      "size": "measured_fraction",
+      "community": "node_type"
+    },
+    "Compound": {
+      "caption": "name"
+    },
+    "Gene": {
+      "caption": "symbol"
+    },
+    "Pathway": {
+      "caption": "name"
+    },
+    "Tissue": {
+      "caption": "name"
+    },
+    "Nutrient": {
+      "caption": "name"
+    }
+  },
+  "relationships": {
+    "CONTAINS": {
+      "caption": false,
+      "thickness": 1
+    },
+    "TARGETS": {
+      "caption": "evidence",
+      "thickness": "confidence",
+      "color_by_property": {
+        "property": "evidence",
+        "map": {
+          "measured": "#2E7D32",
+          "predicted": "#F9A825"
+        }
+      }
+    },
+    "IN_PATHWAY": {
+      "caption": false
+    },
+    "EXPRESSED_IN": {
+      "caption": false,
+      "thickness": "score"
+    },
+    "HAS_NUTRIENT": {
+      "caption": false
+    }
+  },
+  "notes": [
+    "Neovis.js does not natively map relationship color by property in all versions; apply measured/predicted colors in a post-query style hook or via vis.js edge options when assembling the network from Cypher results.",
+    "Connect as the read-only Neo4j user only.",
+    "Use parameterized expand templates from cypher_templates.json on node click."
+  ],
+  "click_to_expand": {
+    "query": "MATCH (n)-[r]-(m)\nWHERE id(n) = $nodeId\nRETURN n, r, m\nLIMIT $limit",
+    "limit": 50,
+    "evidence_toggle_query": "MATCH (n)-[r:TARGETS]-(m)\nWHERE id(n) = $nodeId AND r.evidence = $evidence\nRETURN n, r, m\nLIMIT $limit"
+  }
+}

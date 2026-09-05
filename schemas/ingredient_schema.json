@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ingredient Master Schema",
+  "description": "Schema for the canonical ingredient_master table",
+  "type": "object",
+  "required": [
+    "ingredient_id",
+    "canonical_name",
+    "category"
+  ],
+  "properties": {
+    "ingredient_id": {
+      "type": "string",
+      "pattern": "^ING_\\d{5}$",
+      "description": "Primary identifier: ING_ + 5-digit number"
+    },
+    "canonical_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Preferred English name, lowercase, singular"
+    },
+    "scientific_name": {
+      "type": ["string", "null"],
+      "description": "Binomial nomenclature (genus species) when applicable"
+    },
+    "synonyms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Alternative names including regional spellings"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "vegetable",
+        "fruit",
+        "grain",
+        "legume",
+        "spice",
+        "herb",
+        "meat",
+        "fish",
+        "dairy",
+        "nut",
+        "seed",
+        "oil",
+        "sweetener",
+        "beverage",
+        "additive",
+        "other"
+      ],
+      "description": "High-level ingredient category"
+    },
+    "fdc_id": {
+      "type": ["integer", "null"],
+      "description": "USDA FoodData Central ID"
+    },
+    "wikidata_qid": {
+      "type": ["string", "null"],
+      "pattern": "^Q\\d+$",
+      "description": "Wikidata entity ID"
+    },
+    "taxonomy_id": {
+      "type": ["integer", "null"],
+      "description": "NCBI Taxonomy ID for biological source"
+    },
+    "is_plant_based": {
+      "type": "boolean",
+      "description": "True if derived from plants"
+    },
+    "is_animal_based": {
+      "type": "boolean",
+      "description": "True if derived from animals"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of datasets contributing to this entry"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Additional notes or caveats"
+    }
+  }
+}

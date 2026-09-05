@@ -1,0 +1,1086 @@
+{
+  "generated_at": "2026-09-04T20:44:22.021943+00:00",
+  "demos": {
+    "spice_curry": {
+      "recipe_id": "showcase_spice_curry",
+      "label": "Spice curry",
+      "n_servings": 4,
+      "ingredients": [
+        {
+          "raw": "1 tbsp turmeric",
+          "name": "Turmeric",
+          "id": "SP_000052",
+          "amount": 1.0,
+          "unit": "tablespoon",
+          "mass_g": 9.4
+        },
+        {
+          "raw": "1 tsp cumin",
+          "name": "Cumin",
+          "id": "SP_000051",
+          "amount": 1.0,
+          "unit": "teaspoon",
+          "mass_g": 2.1
+        },
+        {
+          "raw": "1 tsp coriander powder",
+          "name": "Coriander",
+          "id": "SP_000048",
+          "amount": 1.0,
+          "unit": "teaspoon",
+          "mass_g": 2.5
+        },
+        {
+          "raw": "2 tbsp vegetable oil",
+          "name": "Cooking oil",
+          "id": "SP_000374",
+          "amount": 2.0,
+          "unit": "tablespoon",
+          "mass_g": 27.0
+        },
+        {
+          "raw": "1 cup onion, chopped",
+          "name": "Garden onion",
+          "id": "SP_000003",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 160.0
+        },
+        {
+          "raw": "1 cup coconut milk",
+          "name": "Coconut milk",
+          "id": "SP_000428",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 240.0
+        },
+        {
+          "raw": "salt to taste",
+          "name": "Salt",
+          "id": "SP_000308",
+          "amount": 0.5,
+          "unit": "trace",
+          "mass_g": 0.5
+        }
+      ],
+      "nutrient_panel": {
+        "basis": "per_serving",
+        "source": "FDA Daily Values (2016 label, 21 CFR 101.9)",
+        "nutrients": [
+          {
+            "nutrient": "Saturated fat",
+            "nutrient_key": "Saturated Fat",
+            "total_amount": 13.684,
+            "dv_amount": 20.0,
+            "unit": "G",
+            "percent_dv": 68.4
+          },
+          {
+            "nutrient": "Calories",
+            "nutrient_key": "Energy",
+            "total_amount": 1155.885,
+            "dv_amount": 2000.0,
+            "unit": "KCAL",
+            "percent_dv": 57.8
+          },
+          {
+            "nutrient": "Total fat",
+            "nutrient_key": "Total Fat",
+            "total_amount": 21.291,
+            "dv_amount": 78.0,
+            "unit": "G",
+            "percent_dv": 27.3
+          },
+          {
+            "nutrient": "Iron",
+            "nutrient_key": "Iron, Fe",
+            "total_amount": 2.758,
+            "dv_amount": 18.0,
+            "unit": "MG",
+            "percent_dv": 15.3
+          },
+          {
+            "nutrient": "Dietary fiber",
+            "nutrient_key": "Fiber, total dietary",
+            "total_amount": 2.606,
+            "dv_amount": 28.0,
+            "unit": "G",
+            "percent_dv": 9.3
+          },
+          {
+            "nutrient": "Folate (DFE)",
+            "nutrient_key": "Folate, DFE",
+            "total_amount": 36.22,
+            "dv_amount": 400.0,
+            "unit": "UG",
+            "percent_dv": 9.1
+          },
+          {
+            "nutrient": "Magnesium",
+            "nutrient_key": "Magnesium, Mg",
+            "total_amount": 33.172,
+            "dv_amount": 420.0,
+            "unit": "MG",
+            "percent_dv": 7.9
+          },
+          {
+            "nutrient": "Potassium",
+            "nutrient_key": "Potassium, K",
+            "total_amount": 277.793,
+            "dv_amount": 4700.0,
+            "unit": "MG",
+            "percent_dv": 5.9
+          },
+          {
+            "nutrient": "Zinc",
+            "nutrient_key": "Zinc, Zn",
+            "total_amount": 0.604,
+            "dv_amount": 11.0,
+            "unit": "MG",
+            "percent_dv": 5.5
+          },
+          {
+            "nutrient": "Vitamin C",
+            "nutrient_key": "Vitamin C, total ascorbic acid",
+            "total_amount": 4.866,
+            "dv_amount": 90.0,
+            "unit": "MG",
+            "percent_dv": 5.4
+          }
+        ]
+      },
+      "heroes": {
+        "bulk": {
+          "ingredient_id": "SP_000428",
+          "canonical_name": "Coconut milk",
+          "mass_g": 240.0,
+          "share_of_recipe_mass": 0.5436
+        },
+        "potency": {
+          "ingredient_id": "SP_000048",
+          "canonical_name": "Coriander",
+          "potency_proxy": 0.738,
+          "mass_g": 2.5,
+          "note": "Highest intrinsic potency (compound density × enrichment); not mass-weighted."
+        },
+        "theme": {
+          "neurotransmitter_brain": {
+            "name": "Garden onion",
+            "relative_contribution": 0.738,
+            "mass_g": 160.0,
+            "theme": "Neurotransmitter & brain signaling"
+          },
+          "muscle_contraction": {
+            "name": "Garden onion",
+            "relative_contribution": 0.73,
+            "mass_g": 160.0,
+            "theme": "Muscle contraction & motility"
+          },
+          "gpcr_signaling": {
+            "name": "Garden onion",
+            "relative_contribution": 0.772,
+            "mass_g": 160.0,
+            "theme": "GPCR & receptor signaling"
+          },
+          "cardiovascular": {
+            "name": "Garden onion",
+            "relative_contribution": 0.777,
+            "mass_g": 160.0,
+            "theme": "Cardiovascular & vascular"
+          },
+          "ion_transport": {
+            "name": "Garden onion",
+            "relative_contribution": 0.899,
+            "mass_g": 160.0,
+            "theme": "Ion transport & membrane"
+          }
+        }
+      },
+      "redundancy": [
+        {
+          "name": "Turmeric",
+          "redundancy_score": 0.9813,
+          "leave_one_out_change": 0.0187,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Coriander",
+          "redundancy_score": 0.9644,
+          "leave_one_out_change": 0.0356,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Pepper (Spice)",
+          "redundancy_score": 0.9636,
+          "leave_one_out_change": 0.0364,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garden tomato",
+          "redundancy_score": 0.9618,
+          "leave_one_out_change": 0.0382,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garlic",
+          "redundancy_score": 0.9565,
+          "leave_one_out_change": 0.0435,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Ginger",
+          "redundancy_score": 0.9554,
+          "leave_one_out_change": 0.0446,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garden onion",
+          "redundancy_score": 0.9546,
+          "leave_one_out_change": 0.0454,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Chili",
+          "redundancy_score": 0.9532,
+          "leave_one_out_change": 0.0468,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Cumin",
+          "redundancy_score": 0.9508,
+          "leave_one_out_change": 0.0492,
+          "is_unique_contributor": false
+        }
+      ],
+      "top_themes": [
+        {
+          "theme": "Neurotransmitter & brain signaling",
+          "strength": 2.8604,
+          "drivers": []
+        },
+        {
+          "theme": "Muscle contraction & motility",
+          "strength": 2.7184,
+          "drivers": []
+        },
+        {
+          "theme": "GPCR & receptor signaling",
+          "strength": 2.6508,
+          "drivers": []
+        },
+        {
+          "theme": "Apoptosis & cell death",
+          "strength": 2.0746,
+          "drivers": []
+        },
+        {
+          "theme": "Cardiovascular & vascular",
+          "strength": 2.0667,
+          "drivers": []
+        },
+        {
+          "theme": "General metabolism & energy",
+          "strength": 1.883,
+          "drivers": []
+        }
+      ],
+      "warnings": []
+    },
+    "lentil_dal": {
+      "recipe_id": "showcase_lentil_dal",
+      "label": "Lentil dal",
+      "n_servings": 4,
+      "ingredients": [
+        {
+          "raw": "1 cup red lentils",
+          "name": "Lentils",
+          "id": "SP_000068",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 77.0
+        },
+        {
+          "raw": "1 tsp turmeric",
+          "name": "Turmeric",
+          "id": "SP_000052",
+          "amount": 1.0,
+          "unit": "teaspoon",
+          "mass_g": 3.0
+        },
+        {
+          "raw": "1 tsp cumin",
+          "name": "Cumin",
+          "id": "SP_000051",
+          "amount": 1.0,
+          "unit": "teaspoon",
+          "mass_g": 2.1
+        },
+        {
+          "raw": "1 tbsp ghee",
+          "name": "ghee",
+          "id": "ING_000015",
+          "amount": 1.0,
+          "unit": "tablespoon",
+          "mass_g": 14.0
+        },
+        {
+          "raw": "1 cup onion, diced",
+          "name": "Garden onion",
+          "id": "SP_000003",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 160.0
+        },
+        {
+          "raw": "2 cups water",
+          "name": "Water",
+          "id": "SP_000319",
+          "amount": 2.0,
+          "unit": "cup",
+          "mass_g": 112.0
+        },
+        {
+          "raw": "salt to taste",
+          "name": "Salt",
+          "id": "SP_000308",
+          "amount": 0.5,
+          "unit": "trace",
+          "mass_g": 0.5
+        }
+      ],
+      "nutrient_panel": {
+        "basis": "per_serving",
+        "source": "FDA Daily Values (2016 label, 21 CFR 101.9)",
+        "nutrients": [
+          {
+            "nutrient": "Vitamin C",
+            "nutrient_key": "Vitamin C, total ascorbic acid",
+            "total_amount": 21.582,
+            "dv_amount": 90.0,
+            "unit": "MG",
+            "percent_dv": 24.0
+          },
+          {
+            "nutrient": "Folate (DFE)",
+            "nutrient_key": "Folate, DFE",
+            "total_amount": 86.025,
+            "dv_amount": 400.0,
+            "unit": "UG",
+            "percent_dv": 21.5
+          },
+          {
+            "nutrient": "Calories",
+            "nutrient_key": "Energy",
+            "total_amount": 269.818,
+            "dv_amount": 2000.0,
+            "unit": "KCAL",
+            "percent_dv": 13.5
+          },
+          {
+            "nutrient": "Iron",
+            "nutrient_key": "Iron, Fe",
+            "total_amount": 1.93,
+            "dv_amount": 18.0,
+            "unit": "MG",
+            "percent_dv": 10.7
+          },
+          {
+            "nutrient": "Vitamin A",
+            "nutrient_key": "Vitamin A, RAE",
+            "total_amount": 88.921,
+            "dv_amount": 900.0,
+            "unit": "UG",
+            "percent_dv": 9.9
+          },
+          {
+            "nutrient": "Magnesium",
+            "nutrient_key": "Magnesium, Mg",
+            "total_amount": 34.484,
+            "dv_amount": 420.0,
+            "unit": "MG",
+            "percent_dv": 8.2
+          },
+          {
+            "nutrient": "Protein",
+            "nutrient_key": "Protein",
+            "total_amount": 3.059,
+            "dv_amount": 50.0,
+            "unit": "G",
+            "percent_dv": 6.1
+          },
+          {
+            "nutrient": "Dietary fiber",
+            "nutrient_key": "Fiber, total dietary",
+            "total_amount": 1.493,
+            "dv_amount": 28.0,
+            "unit": "G",
+            "percent_dv": 5.3
+          },
+          {
+            "nutrient": "Potassium",
+            "nutrient_key": "Potassium, K",
+            "total_amount": 232.735,
+            "dv_amount": 4700.0,
+            "unit": "MG",
+            "percent_dv": 5.0
+          },
+          {
+            "nutrient": "Zinc",
+            "nutrient_key": "Zinc, Zn",
+            "total_amount": 0.468,
+            "dv_amount": 11.0,
+            "unit": "MG",
+            "percent_dv": 4.3
+          }
+        ]
+      },
+      "heroes": {
+        "bulk": {
+          "ingredient_id": "SP_000003",
+          "canonical_name": "Garden onion",
+          "mass_g": 160.0,
+          "share_of_recipe_mass": 0.4341
+        },
+        "potency": {
+          "ingredient_id": "SP_000003",
+          "canonical_name": "Garden onion",
+          "potency_proxy": 0.7377,
+          "mass_g": 160.0,
+          "note": "Highest intrinsic potency (compound density × enrichment); not mass-weighted."
+        },
+        "theme": {
+          "neurotransmitter_brain": {
+            "name": "Garden onion",
+            "relative_contribution": 0.534,
+            "mass_g": 160.0,
+            "theme": "Neurotransmitter & brain signaling"
+          },
+          "muscle_contraction": {
+            "name": "Garden onion",
+            "relative_contribution": 0.523,
+            "mass_g": 160.0,
+            "theme": "Muscle contraction & motility"
+          },
+          "gpcr_signaling": {
+            "name": "Garden onion",
+            "relative_contribution": 0.544,
+            "mass_g": 160.0,
+            "theme": "GPCR & receptor signaling"
+          },
+          "xenobiotic_detox": {
+            "name": "Lentils",
+            "relative_contribution": 0.683,
+            "mass_g": 77.0,
+            "theme": "Detoxification & xenobiotic metabolism"
+          },
+          "metabolism_energy": {
+            "name": "Lentils",
+            "relative_contribution": 0.68,
+            "mass_g": 77.0,
+            "theme": "General metabolism & energy"
+          }
+        }
+      },
+      "redundancy": [
+        {
+          "name": "Turmeric",
+          "redundancy_score": 0.9786,
+          "leave_one_out_change": 0.0214,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garlic",
+          "redundancy_score": 0.9611,
+          "leave_one_out_change": 0.0389,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Ginger",
+          "redundancy_score": 0.9555,
+          "leave_one_out_change": 0.0445,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Cumin",
+          "redundancy_score": 0.9541,
+          "leave_one_out_change": 0.0459,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Lentils",
+          "redundancy_score": 0.9533,
+          "leave_one_out_change": 0.0467,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garden tomato",
+          "redundancy_score": 0.9529,
+          "leave_one_out_change": 0.0471,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garden onion",
+          "redundancy_score": 0.9486,
+          "leave_one_out_change": 0.0514,
+          "is_unique_contributor": false
+        }
+      ],
+      "top_themes": [
+        {
+          "theme": "General metabolism & energy",
+          "strength": 2.356,
+          "drivers": []
+        },
+        {
+          "theme": "Neurotransmitter & brain signaling",
+          "strength": 2.2885,
+          "drivers": []
+        },
+        {
+          "theme": "Steroid & hormone metabolism",
+          "strength": 2.2549,
+          "drivers": []
+        },
+        {
+          "theme": "Lipid metabolism",
+          "strength": 2.2373,
+          "drivers": []
+        },
+        {
+          "theme": "GPCR & receptor signaling",
+          "strength": 2.1303,
+          "drivers": []
+        },
+        {
+          "theme": "Muscle contraction & motility",
+          "strength": 2.1026,
+          "drivers": []
+        }
+      ],
+      "warnings": []
+    },
+    "plain_cake": {
+      "recipe_id": "showcase_plain_cake",
+      "label": "Plain cake",
+      "n_servings": 8,
+      "ingredients": [
+        {
+          "raw": "2 cups all-purpose flour",
+          "name": "Flour",
+          "id": "SP_000383",
+          "amount": 2.0,
+          "unit": "cup",
+          "mass_g": 250.0
+        },
+        {
+          "raw": "1 cup granulated sugar",
+          "name": "Sugar",
+          "id": "SP_000311",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 200.0
+        },
+        {
+          "raw": "1/2 cup butter",
+          "name": "Butter",
+          "id": "SP_000309",
+          "amount": 0.5,
+          "unit": "cup",
+          "mass_g": 113.5
+        },
+        {
+          "raw": "2 eggs",
+          "name": "Eggs",
+          "id": "SP_000289",
+          "amount": 2.0,
+          "unit": "egg",
+          "mass_g": 100.0
+        },
+        {
+          "raw": "1 cup milk",
+          "name": "Milk (Cow)",
+          "id": "SP_000288",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 244.0
+        },
+        {
+          "raw": "2 tsp baking powder",
+          "name": "baking powder",
+          "id": "ING_000002",
+          "amount": 2.0,
+          "unit": "teaspoon",
+          "mass_g": 9.2
+        },
+        {
+          "raw": "1 tsp vanilla extract",
+          "name": "Vanilla",
+          "id": "SP_000134",
+          "amount": 1.0,
+          "unit": "teaspoon",
+          "mass_g": 4.2
+        }
+      ],
+      "nutrient_panel": {
+        "basis": "per_serving",
+        "source": "FDA Daily Values (2016 label, 21 CFR 101.9)",
+        "nutrients": [
+          {
+            "nutrient": "Saturated fat",
+            "nutrient_key": "Saturated Fat",
+            "total_amount": 7.732,
+            "dv_amount": 20.0,
+            "unit": "G",
+            "percent_dv": 38.7
+          },
+          {
+            "nutrient": "Calories",
+            "nutrient_key": "Energy",
+            "total_amount": 631.73,
+            "dv_amount": 2000.0,
+            "unit": "KCAL",
+            "percent_dv": 31.6
+          },
+          {
+            "nutrient": "Total fat",
+            "nutrient_key": "Total Fat",
+            "total_amount": 12.653,
+            "dv_amount": 78.0,
+            "unit": "G",
+            "percent_dv": 16.2
+          },
+          {
+            "nutrient": "Vitamin A",
+            "nutrient_key": "Vitamin A, RAE",
+            "total_amount": 111.073,
+            "dv_amount": 900.0,
+            "unit": "UG",
+            "percent_dv": 12.3
+          },
+          {
+            "nutrient": "Cholesterol",
+            "nutrient_key": "Cholesterol",
+            "total_amount": 33.553,
+            "dv_amount": 300.0,
+            "unit": "MG",
+            "percent_dv": 11.2
+          },
+          {
+            "nutrient": "Carbohydrate",
+            "nutrient_key": "Carbohydrate, by difference",
+            "total_amount": 29.143,
+            "dv_amount": 275.0,
+            "unit": "G",
+            "percent_dv": 10.6
+          },
+          {
+            "nutrient": "Calcium",
+            "nutrient_key": "Calcium, Ca",
+            "total_amount": 128.799,
+            "dv_amount": 1300.0,
+            "unit": "MG",
+            "percent_dv": 9.9
+          },
+          {
+            "nutrient": "Iron",
+            "nutrient_key": "Iron, Fe",
+            "total_amount": 1.386,
+            "dv_amount": 18.0,
+            "unit": "MG",
+            "percent_dv": 7.7
+          },
+          {
+            "nutrient": "Vitamin B12",
+            "nutrient_key": "Vitamin B-12",
+            "total_amount": 0.161,
+            "dv_amount": 2.4,
+            "unit": "UG",
+            "percent_dv": 6.7
+          },
+          {
+            "nutrient": "Sodium",
+            "nutrient_key": "Sodium, Na",
+            "total_amount": 140.71,
+            "dv_amount": 2300.0,
+            "unit": "MG",
+            "percent_dv": 6.1
+          }
+        ]
+      },
+      "heroes": {
+        "bulk": {
+          "ingredient_id": "SP_000383",
+          "canonical_name": "Flour",
+          "mass_g": 250.0,
+          "share_of_recipe_mass": 0.2715
+        },
+        "potency": {
+          "ingredient_id": "SP_000383",
+          "canonical_name": "Flour",
+          "potency_proxy": 0.8256,
+          "mass_g": 250.0,
+          "note": "Highest intrinsic potency (compound density × enrichment); not mass-weighted."
+        },
+        "theme": {
+          "vitamin_micronutrient": {
+            "name": "Flour",
+            "relative_contribution": 0.35,
+            "mass_g": 250.0,
+            "theme": "Vitamin & micronutrient response"
+          },
+          "metabolism_energy": {
+            "name": "Vanilla",
+            "relative_contribution": 0.602,
+            "mass_g": 4.2,
+            "theme": "General metabolism & energy"
+          },
+          "lipid_metabolism": {
+            "name": "Vanilla",
+            "relative_contribution": 0.732,
+            "mass_g": 4.2,
+            "theme": "Lipid metabolism"
+          },
+          "steroid_hormone": {
+            "name": "Vanilla",
+            "relative_contribution": 0.843,
+            "mass_g": 4.2,
+            "theme": "Steroid & hormone metabolism"
+          },
+          "xenobiotic_detox": {
+            "name": "Milk (Cow)",
+            "relative_contribution": 0.681,
+            "mass_g": 244.0,
+            "theme": "Detoxification & xenobiotic metabolism"
+          }
+        }
+      },
+      "redundancy": [
+        {
+          "name": "Eggs",
+          "redundancy_score": 0.9645,
+          "leave_one_out_change": 0.0355,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Milk (Cow)",
+          "redundancy_score": 0.9592,
+          "leave_one_out_change": 0.0408,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Sugar",
+          "redundancy_score": 0.9558,
+          "leave_one_out_change": 0.0442,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Flour",
+          "redundancy_score": 0.9536,
+          "leave_one_out_change": 0.0464,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Butter",
+          "redundancy_score": 0.9535,
+          "leave_one_out_change": 0.0465,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Vanilla",
+          "redundancy_score": 0.7695,
+          "leave_one_out_change": 0.2305,
+          "is_unique_contributor": true
+        }
+      ],
+      "top_themes": [
+        {
+          "theme": "Vitamin & micronutrient response",
+          "strength": 1.1142,
+          "drivers": []
+        },
+        {
+          "theme": "General metabolism & energy",
+          "strength": 0.7304,
+          "drivers": []
+        },
+        {
+          "theme": "Lipid metabolism",
+          "strength": 0.6478,
+          "drivers": []
+        },
+        {
+          "theme": "Steroid & hormone metabolism",
+          "strength": 0.5815,
+          "drivers": []
+        },
+        {
+          "theme": "Muscle contraction & motility",
+          "strength": 0.2688,
+          "drivers": []
+        },
+        {
+          "theme": "Detoxification & xenobiotic metabolism",
+          "strength": 0.1691,
+          "drivers": []
+        }
+      ],
+      "warnings": []
+    },
+    "green_salad": {
+      "recipe_id": "showcase_green_salad",
+      "label": "Green salad",
+      "n_servings": 2,
+      "ingredients": [
+        {
+          "raw": "2 cups lettuce",
+          "name": "Lettuce",
+          "id": "SP_000066",
+          "amount": 2.0,
+          "unit": "cup",
+          "mass_g": 94.0
+        },
+        {
+          "raw": "1 cup cucumber, sliced",
+          "name": "Cucumber",
+          "id": "SP_000050",
+          "amount": 1.0,
+          "unit": "cup",
+          "mass_g": 240.0
+        },
+        {
+          "raw": "1 tomato",
+          "name": "Garden tomato",
+          "id": "SP_000120",
+          "amount": 1.0,
+          "unit": null,
+          "mass_g": null
+        },
+        {
+          "raw": "2 tbsp olive oil",
+          "name": "Olive oil",
+          "id": "SP_000417",
+          "amount": 2.0,
+          "unit": "tablespoon",
+          "mass_g": 27.0
+        },
+        {
+          "raw": "1 tbsp lemon juice",
+          "name": "Lemon",
+          "id": "SP_000044",
+          "amount": 1.0,
+          "unit": "tablespoon",
+          "mass_g": 15.0
+        },
+        {
+          "raw": "salt to taste",
+          "name": "Salt",
+          "id": "SP_000308",
+          "amount": 0.5,
+          "unit": "trace",
+          "mass_g": 0.5
+        }
+      ],
+      "nutrient_panel": {
+        "basis": "per_serving",
+        "source": "FDA Daily Values (2016 label, 21 CFR 101.9)",
+        "nutrients": [
+          {
+            "nutrient": "Calories",
+            "nutrient_key": "Energy",
+            "total_amount": 660.535,
+            "dv_amount": 2000.0,
+            "unit": "KCAL",
+            "percent_dv": 33.0
+          },
+          {
+            "nutrient": "Folate (DFE)",
+            "nutrient_key": "Folate, DFE",
+            "total_amount": 127.84,
+            "dv_amount": 400.0,
+            "unit": "UG",
+            "percent_dv": 32.0
+          },
+          {
+            "nutrient": "Vitamin A",
+            "nutrient_key": "Vitamin A, RAE",
+            "total_amount": 204.92,
+            "dv_amount": 900.0,
+            "unit": "UG",
+            "percent_dv": 22.8
+          },
+          {
+            "nutrient": "Total fat",
+            "nutrient_key": "Total Fat",
+            "total_amount": 13.854,
+            "dv_amount": 78.0,
+            "unit": "G",
+            "percent_dv": 17.8
+          },
+          {
+            "nutrient": "Saturated fat",
+            "nutrient_key": "Saturated Fat",
+            "total_amount": 1.882,
+            "dv_amount": 20.0,
+            "unit": "G",
+            "percent_dv": 9.4
+          },
+          {
+            "nutrient": "Potassium",
+            "nutrient_key": "Potassium, K",
+            "total_amount": 319.75,
+            "dv_amount": 4700.0,
+            "unit": "MG",
+            "percent_dv": 6.8
+          },
+          {
+            "nutrient": "Sodium",
+            "nutrient_key": "Sodium, Na",
+            "total_amount": 102.598,
+            "dv_amount": 2300.0,
+            "unit": "MG",
+            "percent_dv": 4.5
+          },
+          {
+            "nutrient": "Magnesium",
+            "nutrient_key": "Magnesium, Mg",
+            "total_amount": 18.712,
+            "dv_amount": 420.0,
+            "unit": "MG",
+            "percent_dv": 4.5
+          },
+          {
+            "nutrient": "Dietary fiber",
+            "nutrient_key": "Fiber, total dietary",
+            "total_amount": 0.987,
+            "dv_amount": 28.0,
+            "unit": "G",
+            "percent_dv": 3.5
+          },
+          {
+            "nutrient": "Zinc",
+            "nutrient_key": "Zinc, Zn",
+            "total_amount": 0.353,
+            "dv_amount": 11.0,
+            "unit": "MG",
+            "percent_dv": 3.2
+          }
+        ]
+      },
+      "heroes": {
+        "bulk": {
+          "ingredient_id": "SP_000050",
+          "canonical_name": "Cucumber",
+          "mass_g": 240.0,
+          "share_of_recipe_mass": 0.6375
+        },
+        "potency": {
+          "ingredient_id": "SP_000050",
+          "canonical_name": "Cucumber",
+          "potency_proxy": 0.7385,
+          "mass_g": 240.0,
+          "note": "Highest intrinsic potency (compound density × enrichment); not mass-weighted."
+        },
+        "theme": {
+          "muscle_contraction": {
+            "name": "Cucumber",
+            "relative_contribution": 0.455,
+            "mass_g": 240.0,
+            "theme": "Muscle contraction & motility"
+          },
+          "biological_regulation": {
+            "name": "Cucumber",
+            "relative_contribution": 0.456,
+            "mass_g": 240.0,
+            "theme": "Biological regulation & homeostasis"
+          },
+          "eicosanoid_prostaglandin": {
+            "name": "Cucumber",
+            "relative_contribution": 0.562,
+            "mass_g": 240.0,
+            "theme": "Eicosanoid / prostaglandin / COX"
+          },
+          "neurotransmitter_brain": {
+            "name": "Cucumber",
+            "relative_contribution": 0.559,
+            "mass_g": 240.0,
+            "theme": "Neurotransmitter & brain signaling"
+          },
+          "inflammation_immune": {
+            "name": "Cucumber",
+            "relative_contribution": 0.568,
+            "mass_g": 240.0,
+            "theme": "Inflammation & immune response"
+          }
+        }
+      },
+      "redundancy": [
+        {
+          "name": "Lettuce",
+          "redundancy_score": 0.9397,
+          "leave_one_out_change": 0.0603,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Lemon",
+          "redundancy_score": 0.9362,
+          "leave_one_out_change": 0.0638,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Garden tomato",
+          "redundancy_score": 0.9284,
+          "leave_one_out_change": 0.0716,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Cucumber",
+          "redundancy_score": 0.9055,
+          "leave_one_out_change": 0.0945,
+          "is_unique_contributor": false
+        },
+        {
+          "name": "Olive oil",
+          "redundancy_score": 0.8968,
+          "leave_one_out_change": 0.1032,
+          "is_unique_contributor": false
+        }
+      ],
+      "top_themes": [
+        {
+          "theme": "Biological regulation & homeostasis",
+          "strength": 2.1219,
+          "drivers": []
+        },
+        {
+          "theme": "Muscle contraction & motility",
+          "strength": 2.1028,
+          "drivers": []
+        },
+        {
+          "theme": "Neurotransmitter & brain signaling",
+          "strength": 1.7045,
+          "drivers": []
+        },
+        {
+          "theme": "Inflammation & immune response",
+          "strength": 1.5968,
+          "drivers": []
+        },
+        {
+          "theme": "GPCR & receptor signaling",
+          "strength": 1.5855,
+          "drivers": []
+        },
+        {
+          "theme": "Cytokine & interleukin signaling",
+          "strength": 1.5676,
+          "drivers": []
+        }
+      ],
+      "warnings": [
+        "Unconverted: 1 tomato"
+      ]
+    }
+  },
+  "note": "Dose from DoseEngine; redundancy/themes from recipe_message_engine outputs."
+}

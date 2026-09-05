@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-09-05T05:37:51.200048+00:00",
+  "scope": "trimmed visualizable graph for public Neovis demo",
+  "trim": {
+    "compounds_per_ingredient": 50,
+    "predicted_targets_per_compound": 20,
+    "tissues_per_gene": 12,
+    "note": "Full 2M+ CONTAINS layer NOT loaded"
+  },
+  "nodes": {
+    "Ingredient": 695,
+    "Compound": 600,
+    "Gene": 1532,
+    "Pathway": 4348,
+    "Tissue": 68,
+    "Nutrient": 224,
+    "total": 7467
+  },
+  "edges": {
+    "CONTAINS": 21850,
+    "TARGETS": 3893,
+    "TARGETS_measured": 454,
+    "TARGETS_predicted": 3439,
+    "IN_PATHWAY": 10875,
+    "EXPRESSED_IN": 18204,
+    "HAS_NUTRIENT": 24479,
+    "total": 79301
+  },
+  "sources": {
+    "ingredients": "data\\processed\\product\\universe_v2\\ingredient_nodes_v2_locked.json",
+    "profiles_measured_fraction": "data\\processed\\product\\ingredient_profiles_v2.jsonl",
+    "contains": "data\\processed\\canonical\\ingredient_compound_canonical_v2.parquet",
+    "targets": "data\\processed\\integrated\\compound_gene_integrated_v1.parquet",
+    "genes": "data\\processed\\integrated\\ingredient_gene_sets_v3.parquet",
+    "pathways": "data\\interim\\pathways\\gene_pathway_mappings.parquet",
+    "tissues": "data\\processed\\tier1\\ingredient_tissue_profiles_v2.parquet",
+    "expression": "data\\raw\\gtex.gct",
+    "nutrients": "data\\processed\\product\\nutrients\\species_nutrient_profiles_production.parquet"
+  },
+  "honesty": {
+    "property": "TARGETS.evidence",
+    "values": [
+      "measured",
+      "predicted"
+    ],
+    "confidence_property": "TARGETS.confidence"
+  },
+  "safety": {
+    "model": "read-only Neo4j user + open parameterized MATCH templates",
+    "not": "fixed canned query set / limited node allow-list"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Compound Master Schema",
+  "description": "Schema for the canonical compound_master table",
+  "type": "object",
+  "required": [
+    "pubchem_cid",
+    "inchikey",
+    "canonical_smiles",
+    "molecular_formula"
+  ],
+  "properties": {
+    "pubchem_cid": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "PubChem Compound Identifier (primary key)"
+    },
+    "inchikey": {
+      "type": "string",
+      "pattern": "^[A-Z]{14}-[A-Z]{10}-[A-Z]$",
+      "description": "InChIKey for structure-based deduplication"
+    },
+    "canonical_smiles": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Canonical SMILES string from PubChem"
+    },
+    "iupac_name": {
+      "type": ["string", "null"],
+      "description": "IUPAC systematic name"
+    },
+    "common_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Trivial or trade names"
+    },
+    "molecular_formula": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Molecular formula (e.g., C21H20O6)"
+    },
+    "molecular_weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Molecular weight in g/mol"
+    },
+    "chembl_id": {
+      "type": ["string", "null"],
+      "pattern": "^CHEMBL\\d+$",
+      "description": "ChEMBL compound identifier"
+    },
+    "cas_number": {
+      "type": ["string", "null"],
+      "description": "CAS Registry Number (not always unique)"
+    },
+    "compound_class": {
+      "type": ["string", "null"],
+      "description": "Chemical class or category"
+    },
+    "lipinski_ro5_pass": {
+      "type": ["boolean", "null"],
+      "description": "Passes Lipinski's Rule of 5 (druglikeness)"
+    },
+    "bioavailability_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Predicted oral bioavailability (0-1)"
+    },
+    "natural_product": {
+      "type": ["boolean", "null"],
+      "description": "True if naturally occurring"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Datasets contributing data for this compound"
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Recipe Master Schema",
+  "description": "Schema for the canonical recipe_master table",
+  "type": "object",
+  "required": [
+    "recipe_id",
+    "recipe_name",
+    "source_dataset"
+  ],
+  "properties": {
+    "recipe_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+_[a-zA-Z0-9_]+$",
+      "description": "Primary key: source_original_id (e.g., recipenlg_0001234)"
+    },
+    "recipe_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Title or name of the recipe"
+    },
+    "source_dataset": {
+      "type": "string",
+      "enum": [
+        "RecipeNLG",
+        "Recipe1M+",
+        "AllRecipes",
+        "FoodNetwork",
+        "custom"
+      ],
+      "description": "Original dataset source"
+    },
+    "url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL to original recipe if available"
+    },
+    "cuisine": {
+      "type": ["string", "null"],
+      "description": "Cuisine type or regional classification"
+    },
+    "course": {
+      "type": ["string", "null"],
+      "enum": [
+        "appetizer",
+        "main course",
+        "side dish",
+        "dessert",
+        "beverage",
+        "snack",
+        "breakfast",
+        "lunch",
+        "dinner",
+        null
+      ],
+      "description": "Meal course category"
+    },
+    "dietary_tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "vegetarian",
+          "vegan",
+          "gluten-free",
+          "dairy-free",
+          "keto",
+          "paleo",
+          "low-carb",
+          "high-protein"
+        ]
+      },
+      "description": "Dietary restriction tags"
+    },
+    "num_ingredients": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Number of ingredients in the recipe"
+    },
+    "ingredient_list": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^ING_\\d{5}$"
+      },
+      "description": "Array of ingredient_ids used in recipe"
+    },
+    "instructions": {
+      "type": ["string", "null"],
+      "description": "Cooking instructions (if available)"
+    },
+    "prep_time_minutes": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Preparation time in minutes"
+    },
+    "cook_time_minutes": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Cooking time in minutes"
+    },
+    "servings": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Number of servings"
+    },
+    "rating": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 5,
+      "description": "User rating (0-5 scale)"
+    },
+    "num_reviews": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Number of user reviews"
+    }
+  }
+}

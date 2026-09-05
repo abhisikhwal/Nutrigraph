@@ -1,0 +1,116 @@
+# Dataset metadata: URLs, versions, access methods
+# This file complements licenses/datasets_registry.csv
+
+usda_fooddata:
+  url: https://fdc.nal.usda.gov/
+  api_endpoint: https://api.nal.usda.gov/fdc/v1/
+  bulk_download: https://fdc.nal.usda.gov/download-datasets.html
+  license: Public Domain
+  requires_api_key: true
+  api_key_env_var: USDA_API_KEY
+  recommended_version: "2024-10"
+
+wikidata:
+  url: https://www.wikidata.org/
+  sparql_endpoint: https://query.wikidata.org/sparql
+  license: CC0
+  requires_api_key: false
+  notes: Use SPARQL for structured queries, rate-limit to 1 req/sec
+
+pubchem:
+  url: https://pubchem.ncbi.nlm.nih.gov/
+  api_endpoint: https://pubchem.ncbi.nlm.nih.gov/rest/pug/
+  ftp: ftp://ftp.ncbi.nlm.nih.gov/pubchem/
+  license: Public Domain
+  requires_api_key: false
+  rate_limit: 5_requests_per_second
+
+foodb:
+  url: https://foodb.ca/
+  download_url: https://foodb.ca/downloads
+  license: CC BY-NC 4.0
+  requires_api_key: false
+  commercial_use: false
+  notes: CHECK LICENSE - non-commercial clause may restrict use
+
+flavordb:
+  url: https://cosylab.iiitd.edu.in/flavordb/
+  license: UNKNOWN
+  requires_api_key: false
+  notes: VERIFY LICENSE CAREFULLY before use
+
+chembl:
+  url: https://www.ebi.ac.uk/chembl/
+  ftp: ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/
+  api_endpoint: https://www.ebi.ac.uk/chembl/api/data/
+  license: CC BY-SA 3.0
+  requires_api_key: false
+  recommended_version: "33"
+
+bindingdb:
+  url: https://www.bindingdb.org/
+  download_url: https://www.bindingdb.org/bind/downloads.jsp
+  license: CHECK
+  requires_api_key: false
+
+recipenlg:
+  url: https://recipenlg.cs.put.poznan.pl/
+  download_url: https://recipenlg.cs.put.poznan.pl/dataset
+  license: MIT
+  requires_api_key: false
+  recommended_version: "2020"
+
+recipe1m:
+  url: http://pic2recipe.csail.mit.edu/
+  license: Research only
+  requires_agreement: true
+  commercial_use: false
+  notes: Requires data use agreement
+
+lincs_l1000:
+  url: https://clue.io/
+  api_endpoint: https://api.clue.io/
+  download_url: https://clue.io/data/CMap2020
+  license: Open
+  requires_api_key: true
+  api_key_url: https://clue.io/connectopedia/api_access
+
+reactome:
+  url: https://reactome.org/
+  api_endpoint: https://reactome.org/ContentService/
+  download_url: https://reactome.org/download-data
+  license: CC BY 4.0
+  requires_api_key: false
+  recommended_version: "88"
+
+gene_ontology:
+  url: http://geneontology.org/
+  download_url: http://current.geneontology.org/ontology/
+  license: CC BY 4.0
+  requires_api_key: false
+
+copernicus_sentinel:
+  url: https://dataspace.copernicus.eu/
+  api_endpoint: https://catalogue.dataspace.copernicus.eu/odata/v1/
+  license: Free and open
+  requires_api_key: true
+  api_key_url: https://dataspace.copernicus.eu/
+
+era5_climate:
+  url: https://cds.climate.copernicus.eu/
+  api_name: cdsapi
+  license: Copernicus license
+  requires_api_key: true
+  api_key_url: https://cds.climate.copernicus.eu/api-how-to
+
+soilgrids:
+  url: https://soilgrids.org/
+  api_endpoint: https://rest.isric.org/soilgrids/v2.0/
+  license: CC BY 4.0
+  requires_api_key: false
+
+metabolights:
+  url: https://www.ebi.ac.uk/metabolights/
+  api_endpoint: https://www.ebi.ac.uk/metabolights/ws/
+  license: CC BY 4.0
+  requires_api_key: false

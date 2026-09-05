@@ -1,0 +1,225 @@
+nutrient_id,name,group
+1178,Vitamin B-12,vitamin
+1277,MUFA 20:1,other
+1265,SFA 16:0,other
+1089,"Iron, Fe",mineral
+1260,SFA 6:0,other
+1095,"Zinc, Zn",mineral
+1325,PUFA 20:3,other
+1165,Thiamin,vitamin
+1105,Retinol,vitamin
+1008,Energy,macro
+1014,Maltose,other
+1010,Sucrose,other
+1259,SFA 4:0,other
+1276,PUFA 18:4,other
+1332,SFA 13:0,other
+1253,Cholesterol,other
+1170,Pantothenic acid,vitamin
+1269,PUFA 18:2,other
+1092,"Potassium, K",mineral
+1166,Riboflavin,vitamin
+1162,"Vitamin C, total ascorbic acid",vitamin
+1321,"PUFA 18:3 n-6 c,c,c",other
+1190,"Folate, DFE",vitamin
+1293,"Fatty acids, total polyunsaturated",fatty_acid
+1266,SFA 18:0,other
+1267,SFA 20:0,other
+1087,"Calcium, Ca",mineral
+1313,"PUFA 20:2 n-6 c,c",other
+1333,MUFA 15:1,other
+1279,MUFA 22:1,other
+1114,Vitamin D (D2 + D3),vitamin
+1167,Niacin,vitamin
+1262,SFA 10:0,other
+1299,SFA 15:0,other
+1018,"Alcohol, ethyl",other
+1268,MUFA 18:1,other
+2000,Total Sugars,macro
+1005,"Carbohydrate, by difference",macro
+1011,Glucose,other
+1304,TFA 18:1 t,other
+1292,"Fatty acids, total monounsaturated",fatty_acid
+1404,"PUFA 18:3 n-3 c,c,c (ALA)",other
+1271,PUFA 20:4,other
+1270,PUFA 18:3,other
+1177,"Folate, total",vitamin
+1003,Protein,macro
+1075,Galactose,other
+1012,Fructose,other
+1315,MUFA 18:1 c,other
+1127,"Tocopherol, delta",vitamin
+1312,MUFA 24:1 c,other
+1128,"Tocotrienol, alpha",other
+1214,Lysine,other
+1224,Glutamic acid,other
+1215,Methionine,other
+1264,SFA 14:0,other
+1009,Starch,other
+1013,Lactose,other
+1210,Tryptophan,other
+1062,Energy,macro
+1101,"Manganese, Mn",mineral
+1226,Proline,other
+1007,Ash,macro
+1211,Threonine,other
+1329,"Fatty acids, total trans-monoenoic",fatty_acid
+1051,Water,macro
+1223,Aspartic acid,other
+1131,"Tocotrienol, delta",other
+1323,MUFA 17:1,other
+1090,"Magnesium, Mg",mineral
+1175,Vitamin B-6,vitamin
+1106,"Vitamin A, RAE",vitamin
+1217,Phenylalanine,other
+1257,"Fatty acids, total trans",fatty_acid
+1280,PUFA 22:5 n-3 (DPA),other
+1275,MUFA 16:1,other
+1185,Vitamin K (phylloquinone),vitamin
+1225,Glycine,other
+1221,Histidine,other
+1273,SFA 22:0,other
+1109,Vitamin E (alpha-tocopherol),vitamin
+1220,Arginine,other
+1218,Tyrosine,other
+1098,"Copper, Cu",mineral
+1129,"Tocotrienol, beta",other
+1300,SFA 17:0,other
+1219,Valine,other
+1110,"Vitamin D (D2 + D3), International Units",vitamin
+1263,SFA 12:0,other
+1125,"Tocopherol, beta",vitamin
+1079,"Fiber, total dietary",macro
+1301,SFA 24:0,other
+1216,Cystine,other
+1212,Isoleucine,other
+1222,Alanine,other
+1261,SFA 8:0,other
+1093,"Sodium, Na",mineral
+1274,MUFA 14:1,other
+1091,"Phosphorus, P",mineral
+1186,Folic acid,vitamin
+1227,Serine,other
+1104,"Vitamin A, IU",vitamin
+1272,PUFA 22:6 n-3 (DHA),other
+1258,"Fatty acids, total saturated",fatty_acid
+1184,Vitamin K (Dihydrophylloquinone),vitamin
+1187,"Folate, food",vitamin
+1213,Leucine,other
+1130,"Tocotrienol, gamma",other
+1228,Hydroxyproline,other
+1103,"Selenium, Se",mineral
+1278,PUFA 20:5 n-3 (EPA),other
+1126,"Tocopherol, gamma",vitamin
+1004,Total lipid (fat),macro
+1123,Lutein + zeaxanthin,other
+1107,"Carotene, beta",vitamin
+1057,Caffeine,other
+1108,"Carotene, alpha",vitamin
+1122,Lycopene,other
+1058,Theobromine,other
+1120,"Cryptoxanthin, beta",other
+1242,"Vitamin E, added",vitamin
+1246,"Vitamin B-12, added",vitamin
+1180,"Choline, total",vitamin
+1112,Vitamin D3 (cholecalciferol),vitamin
+1411,PUFA 22:4,other
+1099,"Fluoride, F",other
+1183,Vitamin K (Menaquinone-4),vitamin
+1331,"Fatty acids, total trans-polyenoic",fatty_acid
+1317,MUFA 22:1 c,other
+1305,TFA 22:1 t,other
+1311,PUFA 18:2 CLAs,other
+1314,MUFA 16:1 c,other
+1303,TFA 16:1 t,other
+1306,TFA 18:2 t not further defined,other
+1405,PUFA 20:3 n-3,other
+1409,PUFA 18:3i,other
+1316,"PUFA 18:2 n-6 c,c",other
+1406,PUFA 20:3 n-6,other
+1111,Vitamin D2 (ergocalciferol),vitamin
+1198,Betaine,other
+2026,PUFA 20:2 c,other
+2025,PUFA 22:6 c,other
+2024,PUFA 22:5 c,other
+2023,PUFA 20:5c,other
+2022,PUFA 20:4c,other
+2020,PUFA 20:3 c,other
+2018,PUFA 18:3 c,other
+2017,TFA 18:2 t,other
+2016,PUFA 18:2 c,other
+2010,MUFA 17:1 c,other
+1085,Total fat (NLEA),other
+1063,"Sugars, Total",macro
+2048,Energy (Atwater Specific Factors),macro
+2047,Energy (Atwater General Factors),macro
+1119,Zeaxanthin,other
+2014,MUFA 22:1 n-9,other
+2050,Genistin,other
+2049,Daidzin,other
+2021,PUFA 22:3,other
+2003,SFA 5:0,other
+1161,cis-Lutein/Zeaxanthin,other
+1160,cis-Lycopene,other
+2004,SFA 7:0,other
+2032,"Cryptoxanthin, alpha",other
+2005,SFA 9:0,other
+2015,MUFA 22:1 n-11,other
+1002,Nitrogen,other
+2028,trans-beta-Carotene,vitamin
+1076,Raffinose,other
+1159,cis-beta-Carotene,vitamin
+1414,PUFA 20:3 n-9,other
+1335,SFA 11:0,other
+2029,trans-Lycopene,other
+1102,"Molybdenum, Mo",other
+2009,MUFA 14:1 c,other
+1340,Daidzein,other
+2013,TFA 20:1 t,other
+1341,Genistein,other
+1232,Cysteine,other
+1176,Biotin,vitamin
+1100,"Iodine, I",other
+1334,PUFA 22:2,other
+2051,Glycitin,other
+1118,"Carotene, gamma",vitamin
+1077,Stachyose,other
+2063,Verbascose,other
+2008,MUFA 12:1,other
+2019,TFA 18:3 t,other
+2012,MUFA 20:1 c,other
+1281,TFA 14:1 t,other
+2006,SFA 21:0,other
+2007,SFA 23:0,other
+1283,Phytosterols,other
+1041,Oxalic acid,other
+1032,Citric acid,other
+1043,Pyruvic acid,other
+1039,Malic acid,other
+1044,Quinic acid,other
+1117,Phytofluene,other
+1084,"Fiber, insoluble",macro
+1050,"Carbohydrate, by summation",macro
+1082,"Fiber, soluble",macro
+1116,Phytoene,other
+1288,Beta-sitosterol,other
+1285,Stigmasterol,other
+1286,Campesterol,other
+2038,High Molecular Weight Dietary Fiber (HMWDF),macro
+2033,Total dietary fiber (AOAC 2011.25),other
+2065,Low Molecular Weight Dietary Fiber (LMWDF),macro
+1408,PUFA 20:4 n-6,other
+1330,"Fatty acids, total trans-dienoic",fatty_acid
+1410,PUFA 21:5,other
+1412,MUFA 18:1-11 t (18:1t n-7),other
+1307,PUFA 18:2 i,other
+2058,Beta-glucan,other
+1188,5-methyl tetrahydrofolate (5-MTHF),other
+1191,10-Formyl folic acid (10HCOFA),other
+1192,5-Formyltetrahydrofolic acid (5-HCOH4,other
+1287,Brassicasterol,other
+1294,Beta-sitostanol,other
+1289,Campestanol,other
+1296,Delta-5-avenasterol,other
+1298,"Phytosterols, other",other
+1310,"TFA 18:2 t,t",other

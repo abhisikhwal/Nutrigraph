@@ -1,0 +1,6 @@
+# Phase15 extras (pip install -r install_phase15_extras_cpu.txt)
+# For CPU-only PyTorch, install torch separately first:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+node2vec
+pykeen
+torch-geometric

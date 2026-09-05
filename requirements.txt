@@ -1,0 +1,42 @@
+# Pip dependencies for NutriGraph / global-food-genome
+# Prefer: conda env create -f environment.yml
+# Product / Neo4j path can use a lean subset (pandas, pyarrow, neo4j, rdkit).
+
+# Core
+pandas>=2.0
+numpy>=1.24
+scipy>=1.11
+scikit-learn>=1.3
+pyarrow
+pyyaml
+tqdm
+joblib
+rapidfuzz>=3.0
+
+# Chemistry
+rdkit
+
+# Graph / Neo4j demo load
+networkx
+neo4j>=5.0
+
+# Bio / I/O helpers
+biopython
+requests
+openpyxl
+
+# Viz / notebooks (optional)
+matplotlib>=3.7
+seaborn>=0.12
+
+# API / scraping helpers (dataset acquisition)
+beautifulsoup4
+
+# Testing / quality
+pytest
+pytest-cov
+
+# Optional heavier stacks (phase15 embeddings, Streamlit demo)
+# torch
+# streamlit
+# pyvis

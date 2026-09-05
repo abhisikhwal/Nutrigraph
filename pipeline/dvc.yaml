@@ -1,0 +1,31 @@
+# DVC Pipeline Configuration (Optional)
+# Data Version Control for reproducible pipelines
+# Install: pip install dvc
+# Initialize: dvc init
+
+# Example stage definitions
+# Uncomment and customize as needed
+
+# stages:
+#   download_usda:
+#     cmd: python scripts/phase1_ingredient_ontology/01_download_usda.py
+#     deps:
+#       - scripts/phase1_ingredient_ontology/01_download_usda.py
+#       - config/datasets.yaml
+#     outs:
+#       - data/raw/usda/food.csv
+#   
+#   build_ingredient_master:
+#     cmd: python scripts/phase1_ingredient_ontology/03_build_ingredient_master.py
+#     deps:
+#       - scripts/phase1_ingredient_ontology/03_build_ingredient_master.py
+#       - data/raw/usda/food.csv
+#       - data/raw/wikidata/ingredients.json
+#     outs:
+#       - data/processed/canonical/ingredient_master.parquet
+#     metrics:
+#       - metrics/ingredient_stats.json:
+#           cache: false
+
+# To run pipeline with DVC:
+# $ dvc repro

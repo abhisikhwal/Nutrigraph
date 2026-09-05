@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Signature Library Schema",
+  "description": "Schema for transcriptomic signature metadata",
+  "type": "object",
+  "required": [
+    "signature_id",
+    "source",
+    "cell_line",
+    "platform"
+  ],
+  "properties": {
+    "signature_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Primary key: source-specific signature ID"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "LINCS_L1000",
+        "GEO",
+        "CMAP",
+        "CREEDS",
+        "custom"
+      ],
+      "description": "Dataset source"
+    },
+    "cell_line": {
+      "type": "string",
+      "description": "Cell type, cell line, or tissue"
+    },
+    "cell_ontology_id": {
+      "type": ["string", "null"],
+      "description": "Cell Ontology ID (if applicable)"
+    },
+    "treatment": {
+      "type": ["string", "null"],
+      "description": "Treatment or perturbagen name"
+    },
+    "pubchem_cid": {
+      "type": ["integer", "null"],
+      "description": "PubChem CID if treatment is a compound"
+    },
+    "dose_um": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Treatment dose in micromolar (μM)"
+    },
+    "dose_units": {
+      "type": ["string", "null"],
+      "enum": ["uM", "nM", "mM", "mg/mL", "ug/mL", null],
+      "description": "Dose units if not micromolar"
+    },
+    "duration_hours": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Treatment duration in hours"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "L1000",
+        "RNA-seq",
+        "microarray",
+        "Affymetrix",
+        "Illumina"
+      ],
+      "description": "Measurement platform"
+    },
+    "num_genes": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Number of genes measured or reported"
+    },
+    "gene_id_type": {
+      "type": ["string", "null"],
+      "enum": ["entrez", "ensembl", "symbol", "probe", null],
+      "description": "Gene identifier type used"
+    },
+    "perturbation_type": {
+      "type": ["string", "null"],
+      "enum": [
+        "compound",
+        "genetic",
+        "knockdown",
+        "overexpression",
+        "disease",
+        "control",
+        null
+      ],
+      "description": "Type of perturbation"
+    },
+    "control_signature_id": {
+      "type": ["string", "null"],
+      "description": "Signature ID for matched control/vehicle"
+    },
+    "replicate_id": {
+      "type": ["string", "null"],
+      "description": "Replicate identifier if part of a series"
+    },
+    "geo_accession": {
+      "type": ["string", "null"],
+      "pattern": "^GSE\\d+$",
+      "description": "GEO Series accession (if applicable)"
+    },
+    "pubmed_id": {
+      "type": ["integer", "null"],
+      "description": "PubMed ID for associated publication"
+    },
+    "quality_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Quality control score (0-1)"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Additional metadata or caveats"
+    }
+  }
+}

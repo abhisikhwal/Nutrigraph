@@ -1,0 +1,101 @@
+{
+  "generated_at": "2026-09-04T20:44:20.089624+00:00",
+  "findings": [
+    {
+      "id": "total_ingredients",
+      "value": 695,
+      "caption": "The live culinary universe: every ingredient the product can recognize.",
+      "source": "universe_v2_live_report.json"
+    },
+    {
+      "id": "ingredient_growth",
+      "value": "463 → 695",
+      "caption": "Expanded from the original 463 species nodes by adding 232 recipe-derived ingredients.",
+      "source": "universe_v2_live_report.json"
+    },
+    {
+      "id": "measured_vs_inferred",
+      "value": {
+        "measured_pct": 20.4,
+        "inferred_pct": 79.6
+      },
+      "caption": "About one-fifth of ingredient→gene edges are lab-measured; the rest are structure-inferred.",
+      "source": "ingredient_gene_sets_v3.parquet (evidence column)"
+    },
+    {
+      "id": "inference_validation_hit_at_10",
+      "value": 0.8584,
+      "caption": "On a hard Murcko-scaffold split, nearest-neighbor inference recovers a true target in the top-10 ~86% of the time.",
+      "source": "thread2/recon/knn_similarity_validation.json (scaffold_split)"
+    },
+    {
+      "id": "fdr_null_calibration",
+      "value": "1.3%",
+      "caption": "Only 1.3% of random null ingredient gene-sets light up any pathway at q<0.1 — the enrichment test is conservative, not inflated.",
+      "source": "enrichment_v3_calibration_report.json → validation.null_calibration"
+    },
+    {
+      "id": "mean_recipe_redundancy",
+      "value": 0.9048,
+      "caption": "Across 400 recipes, leave-one-out redundancy averages ~0.90 — most ingredients are partially interchangeable.",
+      "source": "landscape/landscape_report_v1.json"
+    },
+    {
+      "id": "turmeric_in_curry_loo",
+      "value": {
+        "redundancy_score": 0.9813,
+        "leave_one_out_change_pct": 1.87,
+        "is_unique_contributor": false
+      },
+      "caption": "In a spice curry, removing turmeric barely moves the body-message vector (~2% change) — spices are redundant with each other.",
+      "source": "recipe_messages/spice_curry_message.json"
+    },
+    {
+      "id": "compounds",
+      "value": 48459,
+      "caption": "Unique food compounds linked to ingredients in the measured chemistry layer.",
+      "source": "ingredient_compound_canonical_v2.parquet"
+    },
+    {
+      "id": "genes",
+      "value": 1532,
+      "caption": "Human gene targets engaged by at least one ingredient (measured or predicted).",
+      "source": "ingredient_gene_sets_v3.parquet"
+    },
+    {
+      "id": "pathways",
+      "value": 4543,
+      "caption": "Biological pathways mapped from those genes.",
+      "source": "gene_pathway_mappings.parquet"
+    },
+    {
+      "id": "tissues",
+      "value": 68,
+      "caption": "GTEx tissue compartments used for body-region attribution.",
+      "source": "ingredient_tissue_profiles_v2.parquet"
+    },
+    {
+      "id": "nutrient_coverage",
+      "value": {
+        "species_with_composition": 436,
+        "of_463": 463,
+        "pct_of_463": 94.2,
+        "pct_of_695": 62.7
+      },
+      "caption": "94% of the original 463 species have USDA/FooDB composition; many new ING nodes are nutrition-only or name-only.",
+      "source": "species_nutrient_summary_production.json (v2.1)"
+    },
+    {
+      "id": "recipe_corpus_size",
+      "value": 113203,
+      "caption": "New recipe datasets ingested into the v2 store (plus the larger RecipeNLG corpus separately).",
+      "source": "universe_v2_live_report.json → part3_ingest"
+    },
+    {
+      "id": "mapping_coverage",
+      "value": 97.58,
+      "caption": "97.58% of ingredient mentions in the new recipe corpus resolve to the 695-node universe.",
+      "source": "universe_v2_live_report.json → part3_ingest.mapping_coverage_pct"
+    }
+  ]
+}

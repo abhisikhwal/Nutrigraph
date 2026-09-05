@@ -1,0 +1,120 @@
+# =============================================================================
+# NutriGraph / global-food-genome — public release .gitignore
+# Never commit secrets, raw datasets, or large derived artifacts.
+# =============================================================================
+
+# ----- Secrets & credentials -----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+neovis_config.local.json
+
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ----- Node / frontend (when web/ apps are added) -----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+dist/
+.vite/
+.next/
+out/
+
+# ----- OS / IDE -----
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ----- Logs -----
+logs/
+*.log
+
+# ----- Data: raw & interim never ship -----
+data/raw/
+data/interim/
+
+# ----- Data: processed is huge; allow only small product deliverables -----
+data/processed/*
+!data/processed/product/
+data/processed/product/*
+!data/processed/product/showcase/
+!data/processed/product/showcase/**
+!data/processed/product/neo4j_load/
+!data/processed/product/neo4j_load/**
+
+# Extra safety: never commit DB dumps / archives / binary blobs anywhere
+*.db
+*.sqlite
+*.sqlite3
+*.hdf5
+*.h5
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+*.parquet
+*.sdf
+*.mol2
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.gct
+*.xml
+!docs/**/*.xml
+
+# Nested notebook data copies
+notebooks/data/
+
+# Local release-prep helpers (do not ship)
+_check_gitignore.py
+_list_safe_remove.py
+
+# Model / embedding dumps (if recreated under other paths)
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# Neo4j dump files
+*.dump
+
+# Local Neo4j / Docker volumes
+neo4j_data/
+docker-compose.override.yml

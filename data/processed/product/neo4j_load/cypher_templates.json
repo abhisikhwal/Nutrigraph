@@ -1,0 +1,44 @@
+{
+  "search_by_name": {
+    "description": "Search any node by name (Gene.name == symbol).",
+    "cypher": "MATCH (n)\nWHERE toLower(coalesce(n.name, n.symbol, '')) CONTAINS toLower($q)\nRETURN n\nLIMIT 25",
+    "params": {
+      "q": "turmeric"
+    }
+  },
+  "expand_neighbors": {
+    "description": "Expand ANY clicked node (works for all labels).",
+    "cypher": "MATCH (n)-[r]-(m)\nWHERE id(n) = $nodeId\nRETURN n, r, m\nLIMIT $limit",
+    "params": {
+      "nodeId": 123,
+      "limit": 50
+    },
+    "neo4j5_note": "Prefer elementId(n) = $elementId on Neo4j 5+.",
+    "cypher_neo4j5": "MATCH (n)-[r]-(m)\nWHERE elementId(n) = $elementId\nRETURN n, r, m\nLIMIT $limit"
+  },
+  "expand_targets_by_evidence": {
+    "description": "Expand TARGETS filtered by honesty (measured|predicted).",
+    "cypher": "MATCH (n)-[r:TARGETS]-(m)\nWHERE id(n) = $nodeId AND r.evidence = $evidence\nRETURN n, r, m\nLIMIT $limit",
+    "params": {
+      "nodeId": 123,
+      "evidence": "measured",
+      "limit": 50
+    }
+  },
+  "expand_from_ingredient_id": {
+    "description": "Seed view from a known ingredient_id (search \u2192 expand).",
+    "cypher": "MATCH (i:Ingredient {ingredient_id: $ingredientId})-[r]-(m)\nRETURN i, r, m\nLIMIT $limit",
+    "params": {
+      "ingredientId": "SP_000042",
+      "limit": 50
+    }
+  },
+  "expand_from_gene_symbol": {
+    "description": "Seed view from a gene symbol.",
+    "cypher": "MATCH (g:Gene {symbol: $symbol})-[r]-(m)\nRETURN g, r, m\nLIMIT $limit",
+    "params": {
+      "symbol": "TNF",
+      "limit": 50
+    }
+  }
+}

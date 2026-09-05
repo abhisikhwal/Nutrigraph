@@ -1,0 +1,66 @@
+name: food-genome
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas>=2.0
+  - numpy>=1.24
+  - scikit-learn>=1.3
+  - scipy>=1.11
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - jupyter
+  - notebook
+  - ipykernel
+  
+  # Data formats
+  - pyarrow  # for parquet
+  - openpyxl  # for Excel
+  - h5py
+  
+  # Chemistry
+  - rdkit
+  
+  # Bio
+  - biopython
+  
+  # Graph
+  - networkx
+  - python-igraph
+  
+  # Geospatial
+  - geopandas
+  - rasterio
+  - xarray
+  - netcdf4
+  
+  # ML
+  - pytorch
+  - pytorch-lightning
+  - transformers
+  
+  # API/web
+  - requests
+  - beautifulsoup4
+  - SPARQLWrapper
+  
+  # Workflow
+  - pyyaml
+  - tqdm
+  - joblib
+  - dvc  # optional: data versioning
+  
+  # Testing
+  - pytest
+  - pytest-cov
+  
+  # Code quality
+  - black
+  - flake8
+  - mypy
+  
+  - pip
+  - pip:
+    - cmapPy  # for LINCS data
+    - bioservices  # ChEMBL, UniProt APIs

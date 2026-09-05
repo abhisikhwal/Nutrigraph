@@ -1,0 +1,79 @@
+# Phase15: Embeddings, link prediction, causal mediation, demo UI
+# Paths relative to repo root unless absolute
+
+phase14_source:
+  default_snapshot: "data/processed/milestones/phase14/v1_working_2026-02-19/phase14_20260219_204918"
+  neo4j_nodes: "neo4j/nodes.csv"
+  neo4j_edges: "neo4j/edges.csv"
+  pair_category_mediation: "pair_category_mediation.csv"
+  high_conf_mechanistic: "high_conf_mechanistic.csv"
+
+canonical:
+  ingredient_compound: "data/processed/canonical/ingredient_compound_canonical.csv"
+  compound_gene: "data/processed/canonical/compound_gene_expanded_canonical.csv"
+  compound_gene_fallback: "data/processed/canonical/compound_gene_canonical.csv"
+  pathway_bundles: "data/processed/features/pathway_bundles.json"
+
+output:
+  base_dir: "data/processed/phase15_embeddings"
+  reports_dir: "reports"
+  models_dir: "models"
+  tables_dir: "tables"
+  embeddings_dir: "embeddings"
+  predictions_dir: "predictions"
+  causal_dir: "causal"
+
+# Training graph
+training_graph:
+  train_frac: 0.85
+  val_frac: 0.075
+  test_frac: 0.075
+  seed: 42
+  min_compound_gene_edges: 100
+
+# Node2Vec
+node2vec:
+  dimensions: 128
+  walk_length: 80
+  num_walks: 10
+  p: 1.0
+  q: 1.0
+  workers: 1
+  seed: 42
+
+# PyKEEN
+pykeen:
+  embedding_dim: 128
+  epochs: 50
+  batch_size: 256
+  models: ["TransE", "RotatE"]
+  seed: 42
+  margin_loss_margin: 1.0
+
+# GNN
+gnn:
+  hidden_dim: 64
+  num_layers: 2
+  epochs: 30
+  lr: 0.01
+  batch_size: 256
+  seed: 42
+  small_debug_epochs: 2
+  small_debug_fanout: 2
+
+# Causal mediation
+causal_mediation:
+  bootstrap_n: 500
+  seed: 42
+  alpha: 0.05
+
+# Validation (external sources)
+validation:
+  chembl_targets_path: "data/external/chembl_targets.csv"  # optional: inchikey or chembl_id, gene_symbol
+  drugbank_targets_path: "data/external/drugbank_targets.csv"  # optional
+
+# Agent / UI
+agent:
+  max_shared_compounds: 10
+  max_genes: 10
+  max_pathways: 10
