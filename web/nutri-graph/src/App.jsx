@@ -44,12 +44,50 @@ async function apiSearch(q) {
   if (!r.ok) throw new Error("search");
   return (await r.json()).nodes || [];
 }
-async function apiExpand(id, evidence) {
+async function apiExpand(id, evidence, type) {
   let p = `${API_BASE}/expand?id=${encodeURIComponent(id)}`;
   if (evidence) p += `&evidence=${encodeURIComponent(evidence)}`;
+  if (type) p += `&type=${encodeURIComponent(type)}`;
   const r = await fetch(p);
   if (!r.ok) throw new Error("expand");
   return await r.json(); // {nodes, edges}
+}
+
+/** Fetch next-step neighbours, requesting each wanted type from the API. */
+async function fetchNeighbours(node, measuredOnly) {
+  const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
+  if (measuredOnly && (node.label === "Compound" || node.label === "Gene")) {
+    return apiExpand(node.id, "measured");
+  }
+  const nodes = new Map();
+  const edges = new Map();
+  for (const t of wanted) {
+    const nb = await apiExpand(node.id, null, t);
+    for (const n of nb.nodes || []) nodes.set(n.id, n);
+    for (const e of nb.edges || []) edges.set(e.id, e);
+  }
+  return { nodes: [...nodes.values()], edges: [...edges.values()] };
+}
+
+function kidsFromExpand(nb, node, wanted) {
+  const seen = new Set();
+  const kids = [];
+  for (const e of nb.edges || []) {
+    const otherId = e.from === node.id ? e.to : (e.to === node.id ? e.from : null);
+    if (!otherId || seen.has(otherId)) continue;
+    const other = (nb.nodes || []).find((n) => n.id === otherId);
+    if (!other || other.id === node.id) continue;
+    if (!wanted.includes(other.label)) continue;
+    seen.add(otherId);
+    kids.push({ node: other, edge: e });
+  }
+  kids.sort((a, b) => {
+    const ae = a.edge?.props?.evidence === "measured" ? 0 : 1;
+    const be = b.edge?.props?.evidence === "measured" ? 0 : 1;
+    if (ae !== be) return ae - be;
+    return cap(a.node).localeCompare(cap(b.node));
+  });
+  return kids.slice(0, 40);
 }
 
 // ---- small UI bits --------------------------------------------
@@ -111,53 +149,26 @@ export default function GuidedExplorer() {
   async function focus(node, reset) {
     setLoading(true); setErr(""); setResults([]); setQuery("");
     try {
-      const nb = await apiExpand(node.id, measuredOnly ? "measured" : null);
-      // build edge lookup by the "other" node id
       const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
-      const seen = new Set();
-      const kids = [];
-      for (const e of (nb.edges || [])) {
-        const otherId = e.from === node.id ? e.to : (e.to === node.id ? e.from : null);
-        if (!otherId || seen.has(otherId)) continue;
-        const other = (nb.nodes || []).find(n => n.id === otherId);
-        if (!other || other.id === node.id) continue;
-        if (!wanted.includes(other.label)) continue;
-        seen.add(otherId);
-        kids.push({ node: other, edge: e });
-      }
-      // sort: for genes, measured first
-      kids.sort((a, b) => {
-        const ae = a.edge?.props?.evidence === "measured" ? 0 : 1;
-        const be = b.edge?.props?.evidence === "measured" ? 0 : 1;
-        if (ae !== be) return ae - be;
-        return cap(a.node).localeCompare(cap(b.node));
-      });
+      const nb = await fetchNeighbours(node, measuredOnly);
+      const kids = kidsFromExpand(nb, node, wanted);
       setCurrent(node);
-      setChildren(kids.slice(0, 40));
-      setTrail(t => reset ? [node] : [...t, node]);
+      setChildren(kids);
+      setTrail((t) => (reset ? [node] : [...t, node]));
     } catch { setErr("Could not load connections."); }
     finally { setLoading(false); }
   }
 
   function goTo(idx) {
     const node = trail[idx];
-    setTrail(t => t.slice(0, idx + 1));
-    // re-focus without appending
+    setTrail((t) => t.slice(0, idx + 1));
     (async () => {
       setLoading(true);
       try {
-        const nb = await apiExpand(node.id, measuredOnly ? "measured" : null);
         const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
-        const seen = new Set(); const kids = [];
-        for (const e of (nb.edges || [])) {
-          const otherId = e.from === node.id ? e.to : (e.to === node.id ? e.from : null);
-          if (!otherId || seen.has(otherId)) continue;
-          const other = (nb.nodes || []).find(n => n.id === otherId);
-          if (!other || !wanted.includes(other.label)) continue;
-          seen.add(otherId); kids.push({ node: other, edge: e });
-        }
-        kids.sort((a, b) => (a.edge?.props?.evidence === "measured" ? 0 : 1) - (b.edge?.props?.evidence === "measured" ? 0 : 1));
-        setCurrent(node); setChildren(kids.slice(0, 40));
+        const nb = await fetchNeighbours(node, measuredOnly);
+        setCurrent(node);
+        setChildren(kidsFromExpand(nb, node, wanted));
       } finally { setLoading(false); }
     })();
   }

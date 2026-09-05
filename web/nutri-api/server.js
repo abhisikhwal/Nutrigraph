@@ -104,10 +104,12 @@ app.get("/search", async (req, res) => {
   } catch (e) { res.status(500).json({ error: "query failed" }); }
 });
 
-// expand any node by elementId
+// expand any node by elementId; optional ?type=Compound|Gene|Pathway|Tissue|Nutrient|Ingredient
 app.get("/expand", async (req, res) => {
   const elementId = String(req.query.id || "");
   const evidence = req.query.evidence ? String(req.query.evidence) : null;
+  const type = req.query.type ? String(req.query.type) : null;
+  const validTypes = ["Ingredient", "Compound", "Gene", "Pathway", "Tissue", "Nutrient"];
   if (!elementId) return res.json({ nodes: [], edges: [] });
   try {
     let recs;
@@ -116,23 +118,13 @@ app.get("/expand", async (req, res) => {
         "MATCH (n)-[r:TARGETS]-(m) WHERE elementId(n) = $elementId AND r.evidence = $evidence RETURN n, r, m LIMIT 40",
         { elementId, evidence }
       );
-    } else {
-      // Prioritise biologically interesting neighbours over generic lipids.
-      // Order: Gene, Pathway, Tissue, Nutrient, then Ingredient, then Compound.
-      // Within compounds, push the long lipid classes (TG/CL/DG/PE/PC/PS/PA/PI/SM/CE)
-      // to the back so named bioactives surface first.
+    } else if (type && validTypes.includes(type)) {
+      // Return neighbours of a specific type. For compounds, push generic
+      // lipids (TG/CL/DG/PE...) to the back so named bioactives surface first.
       recs = await read(
         `MATCH (n)-[r]-(m)
-         WHERE elementId(n) = $elementId
+         WHERE elementId(n) = $elementId AND $type IN labels(m)
          WITH n, r, m,
-           CASE labels(m)[0]
-             WHEN 'Gene' THEN 0
-             WHEN 'Pathway' THEN 1
-             WHEN 'Tissue' THEN 2
-             WHEN 'Nutrient' THEN 3
-             WHEN 'Ingredient' THEN 4
-             ELSE 5
-           END AS type_rank,
            CASE
              WHEN m.name IS NOT NULL AND (
                m.name STARTS WITH 'TG(' OR m.name STARTS WITH 'CL(' OR
@@ -143,7 +135,20 @@ app.get("/expand", async (req, res) => {
                m.name STARTS WITH 'CE(' OR m.name STARTS WITH 'MG('
              ) THEN 1 ELSE 0
            END AS lipid_rank
-         ORDER BY lipid_rank ASC, type_rank ASC
+         ORDER BY lipid_rank ASC
+         RETURN n, r, m LIMIT 40`,
+        { elementId, type }
+      );
+    } else {
+      recs = await read(
+        `MATCH (n)-[r]-(m)
+         WHERE elementId(n) = $elementId
+         WITH n, r, m,
+           CASE labels(m)[0]
+             WHEN 'Gene' THEN 0 WHEN 'Pathway' THEN 1 WHEN 'Tissue' THEN 2
+             WHEN 'Nutrient' THEN 3 WHEN 'Ingredient' THEN 4 ELSE 5
+           END AS type_rank
+         ORDER BY type_rank ASC
          RETURN n, r, m LIMIT 28`,
         { elementId }
       );
