@@ -232,13 +232,12 @@ app.get("/food/similar", async (req, res) => {
       `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)
        WHERE elementId(i) = $id
        WITH i, c, count{ (c)<-[:CONTAINS]-(:Ingredient) } AS c_freq
-       WHERE c_freq < 200                       // drop ubiquitous compounds
        MATCH (c)<-[:CONTAINS]-(other:Ingredient)
        WHERE other <> i
        WITH other,
             count(DISTINCT c) AS shared,
             sum(1.0 / c_freq) AS weighted
-       WHERE shared >= 2
+       WHERE shared >= 3
        RETURN other.name AS name, other.node_type AS node_type, shared, weighted
        ORDER BY weighted DESC
        LIMIT 12`,
@@ -250,7 +249,6 @@ app.get("/food/similar", async (req, res) => {
       shared: r.get("shared").toNumber(),
       weighted: r.get("weighted"),
     }));
-    // convert weighted to a 0-100 similarity index relative to the top match
     const top = rows.length ? rows[0].weighted : 1;
     for (const row of rows) row.similarity = top > 0 ? Math.round((row.weighted / top) * 100) : 0;
     res.json({ foods: rows });
