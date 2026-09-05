@@ -166,6 +166,129 @@ app.get("/stats", async (req, res) => {
   } catch (e) { res.status(500).json({ error: "query failed" }); }
 });
 
+// ---- LENS A: a food's genes, ranked (measured-first, then by
+//      how many of the food's compounds hit that gene) ----------
+app.get("/food/genes", async (req, res) => {
+  const id = String(req.query.id || "");
+  if (!id) return res.json({ genes: [] });
+  try {
+    const recs = await read(
+      `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)-[t:TARGETS]->(g:Gene)
+       WHERE elementId(i) = $id
+       WITH g,
+            sum(CASE WHEN t.evidence = 'measured' THEN 1 ELSE 0 END) AS measured_hits,
+            count(DISTINCT c) AS compound_hits,
+            max(CASE WHEN t.evidence = 'measured' THEN 1 ELSE 0 END) AS has_measured
+       RETURN g.symbol AS symbol, g.name AS name,
+              measured_hits, compound_hits, has_measured
+       ORDER BY has_measured DESC, measured_hits DESC, compound_hits DESC
+       LIMIT 25`,
+      { id }
+    );
+    res.json({
+      genes: recs.map(r => ({
+        symbol: r.get("symbol"),
+        name: r.get("name"),
+        measured_hits: r.get("measured_hits").toNumber(),
+        compound_hits: r.get("compound_hits").toNumber(),
+        evidence: r.get("has_measured").toNumber() > 0 ? "measured" : "predicted",
+      })),
+    });
+  } catch (e) { res.status(500).json({ error: "query failed" }); }
+});
+
+// ---- LENS B: a food's tissues, ranked by aggregate expression --
+app.get("/food/tissues", async (req, res) => {
+  const id = String(req.query.id || "");
+  if (!id) return res.json({ tissues: [] });
+  try {
+    const recs = await read(
+      `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)-[:TARGETS]->(g:Gene)-[e:EXPRESSED_IN]->(t:Tissue)
+       WHERE elementId(i) = $id
+       WITH t, sum(coalesce(e.score, 0)) AS total_expr, count(DISTINCT g) AS gene_count
+       RETURN t.name AS name, total_expr, gene_count
+       ORDER BY total_expr DESC
+       LIMIT 12`,
+      { id }
+    );
+    res.json({
+      tissues: recs.map(r => ({
+        name: r.get("name"),
+        score: r.get("total_expr"),
+        genes: r.get("gene_count").toNumber(),
+      })),
+    });
+  } catch (e) { res.status(500).json({ error: "query failed" }); }
+});
+
+// ---- LENS C: foods most similar by shared compounds -----------
+//      weighted toward distinctive compounds (a compound shared by
+//      few foods counts more than one in everything).
+app.get("/food/similar", async (req, res) => {
+  const id = String(req.query.id || "");
+  if (!id) return res.json({ foods: [] });
+  try {
+    const recs = await read(
+      `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)<-[:CONTAINS]-(other:Ingredient)
+       WHERE elementId(i) = $id AND other <> i
+       WITH other, c, count{ (c)<-[:CONTAINS]-(:Ingredient) } AS c_freq
+       WITH other,
+            count(DISTINCT c) AS shared,
+            sum(1.0 / c_freq) AS weighted_shared
+       RETURN other.name AS name, other.node_type AS node_type, shared, weighted_shared
+       ORDER BY weighted_shared DESC
+       LIMIT 12`,
+      { id }
+    );
+    res.json({
+      foods: recs.map(r => ({
+        name: r.get("name"),
+        node_type: r.get("node_type"),
+        shared: r.get("shared").toNumber(),
+        weighted: r.get("weighted_shared"),
+      })),
+    });
+  } catch (e) { res.status(500).json({ error: "query failed" }); }
+});
+
+// ---- curated compound shortlist for a food --------------------
+//      hides generic lipids / CoA / phospho junk, surfaces named
+//      bioactives. Ranked by how many genes each compound targets.
+app.get("/food/compounds", async (req, res) => {
+  const id = String(req.query.id || "");
+  if (!id) return res.json({ compounds: [] });
+  try {
+    const recs = await read(
+      `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)
+       WHERE elementId(i) = $id
+         AND c.name IS NOT NULL
+         AND NOT (
+           c.name STARTS WITH 'TG(' OR c.name STARTS WITH 'CL(' OR
+           c.name STARTS WITH 'DG(' OR c.name STARTS WITH 'PE(' OR
+           c.name STARTS WITH 'PC(' OR c.name STARTS WITH 'PS(' OR
+           c.name STARTS WITH 'PA(' OR c.name STARTS WITH 'PI(' OR
+           c.name STARTS WITH 'PG(' OR c.name STARTS WITH 'SM(' OR
+           c.name STARTS WITH 'CE(' OR c.name STARTS WITH 'MG(' OR
+           c.name ENDS WITH '-CoA' OR c.name CONTAINS 'phospho'
+         )
+       OPTIONAL MATCH (c)-[:TARGETS]->(g:Gene)
+       WITH c, count(DISTINCT g) AS gene_count
+       WHERE gene_count > 0
+       RETURN elementId(c) AS id, c.name AS name, gene_count
+       ORDER BY gene_count DESC
+       LIMIT 15`,
+      { id }
+    );
+    res.json({
+      compounds: recs.map(r => ({
+        id: r.get("id"),
+        name: r.get("name"),
+        genes: r.get("gene_count").toNumber(),
+      })),
+    });
+  } catch (e) { res.status(500).json({ error: "query failed" }); }
+});
+
 app.listen(PORT, "127.0.0.1", () => {
   console.log(`NutriGraph read-only API on http://127.0.0.1:${PORT}`);
 });
