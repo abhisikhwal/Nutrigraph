@@ -429,9 +429,14 @@ function Footer() {
         <div style={{ fontFamily: mono, fontSize: 12, color: C.faint }}>
           NutriGraph, built by Abhinav Sikhwal. Python, RDKit, Neo4j, React.
         </div>
-        <button style={{ fontFamily: mono, fontSize: 13, padding: "12px 22px", borderRadius: 4, cursor: "pointer", border: "none", background: C.ink, color: C.paper, fontWeight: 700 }}>
+        <a
+          href="https://graph.nutri.abhinavsikhwal.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ fontFamily: mono, fontSize: 13, padding: "12px 22px", borderRadius: 4, cursor: "pointer", border: "none", background: C.ink, color: C.paper, fontWeight: 700, textDecoration: "none", display: "inline-block" }}
+        >
           Explore the live graph {"->"}
-        </button>
+        </a>
       </div>
     </section>
   );
