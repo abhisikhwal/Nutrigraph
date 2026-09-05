@@ -1,210 +1,498 @@
 # NutriGraph
 
-**A knowledge graph linking 695 foods to human molecular targets — honest about what's measured vs inferred.**
+**A molecular evidence graph built from 27 heterogeneous chemical, biological, nutritional and culinary datasets, connecting food chemistry to human biology.**
+
+**Entity resolution, molecular machine learning and evidence provenance connect food → compounds → genes → pathways → tissues while keeping measured and inferred relationships explicitly separate.**
 
 **Built by Abhinav Sikhwal**  
 [LinkedIn](https://www.linkedin.com/in/abhinav-sikhwal/) · [Portfolio](https://abhinavsikhwal.com) · abhisikhwal@gmail.com
 
-| Live demo | URL |
-|-----------|-----|
-| Showcase | [nutri.abhinavsikhwal.com](https://nutri.abhinavsikhwal.com) *(placeholder — confirm after deploy)* |
-| Interactive graph | [graph.nutri.abhinavsikhwal.com](https://graph.nutri.abhinavsikhwal.com) *(placeholder — confirm after deploy)* |
+---
+
+## Explore NutriGraph
+
+| Interface | URL |
+|---|---|
+| **Food Explorer** | [nutri.abhinavsikhwal.com](https://nutri.abhinavsikhwal.com) |
+| **Knowledge Graph** | [graph.nutri.abhinavsikhwal.com](https://graph.nutri.abhinavsikhwal.com) |
 
 ---
 
-## The problem
+## From food to biology
 
-Most food chemistry is pharmacologically uncharacterized — the so-called **dark metabolome**. Public databases know which compounds sit in turmeric or cabbage, but for the majority of those molecules there is no measured binding assay against a human protein. NutriGraph bridges that gap with structural inference, then **labels every edge** so you can see what was measured in a lab and what was predicted.
+Foods contain thousands of chemical compounds, but many of those molecules have never been tested against human protein targets.
 
-## What it does
+That creates a large missing-data problem between:
 
-```
+**what is present in food** and **what those molecules may interact with biologically**.
+
+NutriGraph connects those layers.
+
+It integrates food chemistry, measured bioactivity, molecular structure, gene targets, pathways, tissue expression, nutrition and culinary data into a common graph:
+
+```text
 Food → Compound → Gene → Pathway → Tissue
-                ↘ Nutrient (USDA composition)
+  │
+  └────────────→ Nutrient
 ```
 
-- **695** culinary ingredients in the live universe  
-- **~48k** compounds in the food–chemistry layer  
-- **1,532** human gene targets in the product gene set  
-- **79.6%** of ingredient→gene edges are **inferred** (and flagged); **20.4%** are **measured**  
-- **85.8% hit@10** on a hard Murcko-scaffold validation split for k-NN target inference  
-- **27** external datasets · **18** ID namespaces reconciled  
+For compounds without measured target data, NutriGraph uses molecular similarity to infer candidate human targets.
 
-Honesty is a first-class property: `evidence = measured | predicted` travels with the graph (including the public Neo4j demo).
+Crucially, those predictions are not presented as experimental facts.
 
-## Headline numbers
+Every biological relationship carries its evidence type:
+
+```text
+evidence = measured | predicted
+```
+
+This makes it possible to ask not only:
+
+> What biological targets are associated with this food?
+
+but also:
+
+> Which relationships are experimentally measured, and which are computationally inferred?
+
+---
+
+## At a glance
 
 | Metric | Value |
-|--------|------:|
-| Ingredients (live universe) | 695 |
-| Compounds (ICC chemistry layer) | ~48,459 |
-| Genes (product set) | 1,532 |
-| Inferred vs measured (ingredient→gene) | 79.6% / 20.4% |
-| Scaffold-split hit@10 | 85.8% |
-| Recipe mapping coverage | 97.6% |
-| Trimmed Neo4j demo graph | ~7.5k nodes / ~79k edges |
-| Datasets integrated | 27 |
+|---|---:|
+| Culinary ingredients | **695** |
+| Food-associated compounds | **~48,459** |
+| Human gene targets | **1,532** |
+| Measured ingredient→gene relationships | **20.4%** |
+| Inferred ingredient→gene relationships | **79.6%** |
+| Scaffold-split target inference Hit@10 | **85.8%** |
+| Recipe mapping coverage | **97.6%** |
+| Integrated datasets | **27** |
+| Reconciled identifier namespaces | **18** |
+| Trimmed Neo4j graph | **~7.5k nodes / ~79k edges** |
 
-## Data-integration story
+---
 
-This is less a single model and more an **identity and evidence stack**:
+## The core idea
 
-| Layer | What gets unified |
-|-------|-------------------|
-| Chemistry | FooDB + COCONUT (+ supporting HMDB) → **InChIKey** compound master |
-| Bioactivity | ChEMBL + BindingDB assays → UniProt → **HGNC** symbols |
-| Genetics / expression | Ensembl (GTEx) → HGNC; tissue attribution |
-| Pathways | GO + Reactome gene→pathway maps |
-| Nutrition | USDA FDC food IDs → locked species composition |
-| Culinary | Recipe corpora → fuzzy string → species / ingredient IDs |
+NutriGraph combines two different kinds of biological evidence.
 
-The engineering work is the crosswalks (InChIKey, UniProt↔HGNC, Ensembl↔HGNC, FDC, GO/Reactome) plus keeping **measured** and **predicted** edges separable end-to-end.
+### Measured biology
 
-## Architecture
+Experimentally observed compound→target relationships are integrated from bioactivity resources including **ChEMBL** and **BindingDB**.
 
+Food chemistry data from sources including **FooDB**, **COCONUT** and supporting metabolite datasets connects those compounds back to foods and ingredients.
+
+These relationships form the experimentally supported portion of the graph.
+
+### Inferred biology
+
+Many food-associated compounds do not have measured human target data.
+
+For these compounds, NutriGraph uses molecular fingerprints and k-nearest-neighbour inference to identify structurally related compounds with known biological activity and infer candidate targets.
+
+To reduce overly optimistic validation caused by structurally similar molecules appearing across train and test sets, the inference pipeline is evaluated using a **Murcko-scaffold split**.
+
+The resulting model achieved:
+
+**85.8% Hit@10**
+
+on the scaffold-held-out evaluation.
+
+This is a retrieval-style measure of whether a known target appears within the top ten inferred targets. It does not mean that 85.8% of individual biological predictions are experimentally correct.
+
+Predicted relationships remain explicitly labelled as predictions throughout the downstream graph.
+
+---
+
+## Evidence, not just edges
+
+A predicted molecular interaction and an experimentally measured interaction should not look identical in a biological knowledge graph.
+
+NutriGraph therefore propagates provenance through the graph rather than collapsing every relationship into a generic edge.
+
+Where available, relationships retain information such as:
+
+- whether the underlying evidence is **measured** or **predicted**
+- the source of the evidence
+- prediction confidence
+- the compound through which an ingredient→gene relationship was established
+
+That distinction is preserved as relationships are rolled up into ingredient-level biological profiles and exposed through the graph.
+
+```text
+measured evidence ≠ inferred evidence
 ```
-┌─────────────┐   ┌──────────────────┐   ┌─────────────────┐
-│ Raw corpora │ → │ Canonical edges  │ → │ Product layer   │
-│ FooDB/ChEMBL│   │ ICC, compound→   │   │ profiles, indexes│
-│ BindingDB…  │   │ gene, gene sets  │   │ showcase JSON   │
-└─────────────┘   └────────┬─────────┘   └────────┬────────┘
-                           │                      │
-              ┌────────────▼──────────┐           │
-              │ Structural inference  │           │
-              │ (k-NN / scaffolds)    │           │
-              └────────────┬──────────┘           │
-                           │                      │
-              ┌────────────▼──────────┐   ┌───────▼────────┐
-              │ Enrichment + tissues  │ → │ Neo4j trimmed  │
-              │ + nutrition + recipes │   │ public demo    │
-              └───────────────────────┘   └────────────────┘
+
+NutriGraph does not treat structural similarity as experimental proof.
+
+---
+
+## Data integration
+
+**NutriGraph is fundamentally a heterogeneous data-integration and entity-resolution problem.** Its 27 source datasets use different schemas, identifiers and naming conventions for compounds, proteins, genes, foods, tissues and pathways.
+
+The pipeline reconciles **18 identifier namespaces** through canonical IDs and crosswalks, including InChIKey, UniProt, HGNC, Ensembl and USDA FoodData Central identifiers.
+
+This allows otherwise disconnected chemical, biological, nutritional and culinary datasets to be joined into one provenance-aware graph.
+
+| Domain | Sources | Canonical identity / mapping |
+|---|---|---|
+| Food chemistry | FooDB, COCONUT, supporting HMDB | **InChIKey** |
+| Bioactivity | ChEMBL, BindingDB | compound → **UniProt** |
+| Genes | UniProt, HGNC, Ensembl | **HGNC symbol** |
+| Tissue expression | GTEx | gene → tissue |
+| Pathways | Gene Ontology, Reactome | gene → pathway |
+| Nutrition | USDA FoodData Central | food / species |
+| Culinary data | Recipe corpora | ingredient / species |
+
+These mappings allow evidence from otherwise disconnected databases to converge on the same food, compound and gene entities while retaining source provenance.
+
+---
+
+## From raw data to graph
+
+```text
+                 Raw datasets
+                      │
+                      ▼
+              Identity resolution
+           Food · Compound · Gene
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+          ▼                       ▼
+  Food chemistry          Measured bioactivity
+                                  │
+                                  ▼
+                       Structural inference
+                         for missing targets
+                                  │
+                                  ▼
+                     Evidence-aware food→gene
+                              profiles
+                                  │
+             ┌────────────────────┼────────────────────┐
+             │                    │                    │
+             ▼                    ▼                    ▼
+          Pathways             Tissues             Nutrition
+                                                      │
+                                                      ▼
+                                                   Recipes
+                                  │
+                                  ▼
+                              NutriGraph
+                                  │
+                    ┌─────────────┴─────────────┐
+                    ▼                           ▼
+              Food Explorer              Neo4j Graph
 ```
 
-**Pipeline stages (ordered):**
+The complete methodology is documented in [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
 
-1. **Corpus** — food→compound (FooDB) and measured compound→gene (ChEMBL/BindingDB)  
-2. **Structural inference** — expand dark compounds via fingerprint k-NN; scaffold-validated confidence  
-3. **Ingredient gene sets** — roll up to foods with `evidence` + confidence  
-4. **Enrichment** — pathway enrichment with weight-permutation FDR calibration  
-5. **Universe expansion** — 463 species → 695 culinary nodes from recipe corpora  
-6. **Nutrition + dose** — USDA FDC composition and relative contribution helpers  
-7. **Recipe layer** — mapping, landscape, demo recipes  
-8. **Neo4j** — trimmed visualizable graph + read-only user for open exploration  
+---
 
-Details: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
+## Pipeline
+
+The project is built as a sequence of data-integration and inference stages.
+
+### 1. Food chemistry corpus
+
+Build canonical food→compound relationships from sources including FooDB and supporting natural-product chemistry datasets.
+
+### 2. Measured bioactivity
+
+Integrate experimentally measured compound→target relationships from ChEMBL and BindingDB and reconcile protein identifiers to human gene symbols.
+
+### 3. Structural target inference
+
+Expand coverage for compounds without measured target data using molecular fingerprints and k-nearest-neighbour structural inference.
+
+Validation is performed using Murcko-scaffold separation to reduce structural leakage.
+
+### 4. Ingredient gene profiles
+
+Roll compound-level evidence up to ingredient→gene relationships while preserving:
+
+- evidence type
+- confidence
+- source provenance
+
+### 5. Biological enrichment
+
+Connect ingredient-associated genes to biological pathways and downstream enrichment profiles.
+
+### 6. Culinary universe expansion
+
+Expand the core species universe using recipe corpora, producing a final live universe of **695 culinary ingredients**.
+
+### 7. Nutrition
+
+Integrate USDA FoodData Central composition data and relative nutrient contribution helpers.
+
+### 8. Recipe layer
+
+Map recipe ingredients into the canonical food universe and generate recipe-level analysis and demonstration data.
+
+### 9. Knowledge graph
+
+Generate a trimmed Neo4j representation for interactive exploration.
+
+The public graph contains approximately:
+
+**7.5k nodes / ~79k edges**
+
+while the larger upstream datasets remain outside the repository.
+
+---
+
+## Engineering scope
+
+NutriGraph combines several engineering problems in one end-to-end system:
+
+- **Heterogeneous data integration** across 27 scientific and culinary datasets
+- **Entity resolution and identifier normalization** across 18 namespaces
+- **ETL and data pipelines** for large biological, chemical, nutritional and recipe datasets
+- **Molecular machine learning** using RDKit fingerprints and structural similarity
+- **Leakage-aware evaluation** using Murcko-scaffold splits
+- **Knowledge graph construction** and graph data modelling in Neo4j
+- **Evidence provenance**, separating measured observations from ML inference
+- **Biological enrichment** across genes, pathways and tissue expression
+- **Product data layers** supporting React-based exploration interfaces
+
+---
 
 ## Tech stack
 
-- **Python** — pandas, pyarrow, scikit-learn, NetworkX  
-- **Chemistry** — RDKit (fingerprints, Murcko scaffolds)  
-- **Graph** — Neo4j (trimmed demo) + Cypher templates for Neovis.js  
-- **Web** — React/Vite showcase & graph UIs *(deployed separately; see live links)*  
-- **Legacy demo** — Streamlit (`streamlit_app/`)
+### Data and machine learning
 
-## Repository layout (intended)
+- Python
+- pandas
+- pyarrow
+- scikit-learn
+- NetworkX
 
+### Cheminformatics
+
+- RDKit
+- molecular fingerprints
+- Murcko scaffolds
+- structural similarity search
+
+### Knowledge graph
+
+- Neo4j
+- Cypher
+- Neovis.js
+
+### Web interfaces
+
+- React
+- Vite
+
+### Local interface
+
+- Streamlit
+
+---
+
+## Repository structure
+
+```text
+scripts/product/          # product builds, profiles, showcase and Neo4j load
+scripts/thread2/          # structural target inference
+scripts/tier1/            # enrichment and tissue profiles
+
+data/processed/product/   # small committed product deliverables
+docs/                     # methodology, architecture and deployment docs
+licenses/                 # dataset licensing registry
+src/                      # shared Python library code
+
+web/nutri-showcase/       # React/Vite Food Explorer
+web/nutri-graph/          # React/Vite knowledge-graph explorer
+
+streamlit_app/            # optional local Streamlit interface
 ```
-scripts/product/          # product builds (profiles, showcase, Neo4j load)
-scripts/thread2/          # structural inference
-scripts/tier1/            # enrichment / tissue profiles
-data/processed/product/   # small deliverables committed (showcase, neo4j_load)
-docs/                     # methodology & architecture
-licenses/                 # dataset registry
-src/                      # shared library code
-web/nutri-showcase/       # React/Vite showcase site
-web/nutri-graph/          # React/Vite live graph explorer
-streamlit_app/            # optional local demo
-```
 
-Raw dumps live under `data/raw/` (gitignored, ~60GB+). Rebuild from sources below.
+Raw source databases live under `data/raw/` and are gitignored. The full raw-data footprint is **60GB+**.
 
-## How to run
+---
 
-### 1. Environment
+## Running locally
+
+### 1. Create the environment
+
+Using Conda:
 
 ```bash
 conda env create -f environment.yml
 conda activate food-genome
-# or: pip install -r requirements.txt
-pip install -e .
-cp .env.example .env   # add keys locally; never commit .env
 ```
 
-### 2. Obtain raw data
-
-Do **not** expect raw databases in git. Download into `data/raw/` per [`docs/dataset_sources.md`](docs/dataset_sources.md) and the table below (FooDB, ChEMBL, BindingDB, USDA FDC, GTEx, GO, Reactome, recipe corpora, etc.). Respect each license — especially **non-commercial** sources.
-
-### 3. Pipeline (high level)
-
-Full rebuild is multi-stage and disk-heavy. Typical product path after canonical edges exist:
+Or using the supplied Python requirements:
 
 ```bash
-# Structural inference / integration (see scripts/thread2/)
-# Enrichment / tissues (see scripts/tier1/)
+pip install -r requirements.txt
+pip install -e .
+```
+
+Create a local environment file:
+
+```bash
+cp .env.example .env
+```
+
+Add required credentials locally.
+
+**Never commit `.env` or real database credentials.**
+
+### 2. Obtain the source data
+
+Raw databases are intentionally not committed to Git.
+
+Download the required sources into `data/raw/` using the instructions in:
+
+[`docs/dataset_sources.md`](docs/dataset_sources.md)
+
+The full pipeline depends on external datasets including:
+
+- FooDB
+- COCONUT
+- ChEMBL
+- BindingDB
+- USDA FoodData Central
+- GTEx
+- Gene Ontology
+- Reactome
+- recipe corpora
+- supporting identity and metabolite sources
+
+The complete rebuild is multi-stage, disk-heavy and subject to the licences of the upstream datasets.
+
+### 3. Build the product layer
+
+Once canonical upstream edges have been generated, the main product build includes:
+
+```bash
 python scripts/product/live_universe_v2.py
 python scripts/product/build_showcase_bundle.py
 python scripts/product/build_neo4j_trimmed_graph.py
 ```
 
-Neo4j load (admin machine only):
+Structural inference code is under:
+
+```text
+scripts/thread2/
+```
+
+Enrichment and tissue processing are under:
+
+```text
+scripts/tier1/
+```
+
+### 4. Neo4j
+
+For an administrative local Neo4j instance:
 
 ```bash
 export NEO4J_URI=bolt://127.0.0.1:7687
 export NEO4J_USER=neo4j
-export NEO4J_PASSWORD='…'   # from your .env — not committed
+export NEO4J_PASSWORD='…'
+
 python scripts/product/build_neo4j_trimmed_graph.py --load
 ```
 
-Read-only user + Neovis wiring: `data/processed/product/neo4j_load/NEO4J_SETUP.md`.
+Read-only graph configuration and Neovis wiring are documented in:
 
-### 4. Web apps
+[`data/processed/product/neo4j_load/NEO4J_SETUP.md`](data/processed/product/neo4j_load/NEO4J_SETUP.md)
 
-- Showcase: `web/nutri-showcase/` · Graph: `web/nutri-graph/`  
-- Deploy notes: [`docs/DEPLOY_GUIDE.md`](docs/DEPLOY_GUIDE.md)  
-- Local Streamlit (optional): `streamlit run streamlit_app/app.py`
+Real Neo4j credentials must never be committed.
 
-Read-only Neo4j credentials used by the graph demo are **deploy-time placeholders** (`CHANGE_ME_READONLY_PASSWORD` in `data/processed/product/neo4j_load/`). Replace them on the server; never commit a real password.
+### 5. Web interfaces
 
-## Data sources & licenses
+The repository contains two React/Vite interfaces:
 
-Code is MIT. **Data is not.** Always check the upstream license before redistributing dumps.
+```text
+web/nutri-showcase/
+web/nutri-graph/
+```
 
-| Dataset | Role | License (registry) | Link |
-|---------|------|--------------------|------|
+Deployment documentation:
+
+[`docs/DEPLOY_GUIDE.md`](docs/DEPLOY_GUIDE.md)
+
+An optional Streamlit interface can also be run locally:
+
+```bash
+streamlit run streamlit_app/app.py
+```
+
+---
+
+## Data sources and licences
+
+**The code in this repository is MIT licensed. The underlying datasets are not necessarily MIT licensed.**
+
+Always consult the original dataset licence before downloading, using or redistributing source data.
+
+| Dataset | Role | Licence / terms | Source |
+|---|---|---|---|
 | FooDB | Food→compound | CC BY-NC 4.0 | https://foodb.ca/ |
 | COCONUT | Natural-product compounds | See COCONUT terms | https://coconut.naturalproducts.net/ |
 | ChEMBL | Measured bioactivity | CC BY-SA 3.0 | https://www.ebi.ac.uk/chembl/ |
 | BindingDB | Measured binding | Verify upstream | https://www.bindingdb.org/ |
-| USDA FoodData Central | Nutrition | Public domain (US gov) | https://fdc.nal.usda.gov/ |
+| USDA FoodData Central | Nutrition | Public domain, US government | https://fdc.nal.usda.gov/ |
 | GTEx | Gene–tissue expression | GTEx / dbGaP terms | https://gtexportal.org/ |
-| Gene Ontology | Pathways | CC BY 4.0 | http://geneontology.org/ |
+| Gene Ontology | Biological annotations | CC BY 4.0 | http://geneontology.org/ |
 | Reactome | Pathways | CC BY 4.0 | https://reactome.org/ |
 | HGNC | Gene symbols | HGNC terms | https://www.genenames.org/ |
-| UniProt | Protein↔gene | CC BY 4.0 | https://www.uniprot.org/ |
-| PharmGKB / ClinPGx | PGx crosswalks | PharmGKB terms | https://www.pharmgkb.org/ |
+| UniProt | Protein↔gene mapping | CC BY 4.0 | https://www.uniprot.org/ |
+| PharmGKB / ClinPGx | Pharmacogenomic crosswalks | PharmGKB terms | https://www.pharmgkb.org/ |
 | RecipeNLG | Recipes | MIT | https://recipenlg.cs.put.poznan.pl/ |
-| Food.com / other recipes | Culinary corpora | Respective Kaggle/source terms | — |
-| HMDB | Metabolites (supporting) | HMDB terms | https://hmdb.ca/ |
+| Food.com / other recipes | Culinary corpora | Respective source terms | — |
+| HMDB | Supporting metabolite data | HMDB terms | https://hmdb.ca/ |
 | PubChem | Compound identity | Public domain | https://pubchem.ncbi.nlm.nih.gov/ |
 | Wikidata | Food labels | CC0 | https://www.wikidata.org/ |
 
-Full registry: [`licenses/datasets_registry.csv`](licenses/datasets_registry.csv) · roster: `data/processed/product/showcase/dataset_roster.json`.
+Full dataset registry:
 
-## Honest limitations
+[`licenses/datasets_registry.csv`](licenses/datasets_registry.csv)
 
-- **No pharmacokinetics** — no absorption, distribution, metabolism, or excretion modeling.  
-- **Receptor pharmacology + nutrition**, not clinical efficacy.  
-- **Relative**, not absolute, dose/contribution framing.  
-- Inference is validated statistically; individual predicted edges can still be wrong.  
-- **Not medical advice.** Do not use this graph to diagnose, treat, or prescribe.
+Product dataset roster:
 
-## License
-
-MIT © 2026 Abhinav Sikhwal — see [`LICENSE`](LICENSE).
+[`data/processed/product/showcase/dataset_roster.json`](data/processed/product/showcase/dataset_roster.json)
 
 ---
 
-**Built by Abhinav Sikhwal**  
-[LinkedIn](https://www.linkedin.com/in/abhinav-sikhwal/) · [Portfolio](https://abhinavsikhwal.com) · abhisikhwal@gmail.com
+## Limitations
 
-*Portfolio project: end-to-end food chemistry → molecular targets, with measured/predicted honesty baked into the product graph.*
+NutriGraph represents **molecular evidence and computational inference**, not clinical outcomes.
+
+- Structural similarity can suggest candidate molecular targets, but it does not establish that an interaction occurs in a human after eating a food.
+- The system does not model absorption, distribution, metabolism or excretion (**ADME**).
+- It does not model clinical efficacy.
+- Nutrient and contribution analyses are relative rather than estimates of therapeutic dose.
+- Individual predicted compound→target relationships may be incorrect despite aggregate validation performance.
+- Pathway and tissue associations can inherit uncertainty from upstream relationships.
+- Coverage is constrained by the underlying public and licensed datasets.
+- A molecular association should not be interpreted as evidence that a food prevents, diagnoses or treats disease.
+
+**NutriGraph is a research and exploration system, not medical advice or a clinical decision-support tool.**
+
+---
+
+## License
+
+Code released under the **MIT License**.
+
+Dataset usage remains subject to the licences and terms of the respective upstream sources.
+
+MIT © 2026 Abhinav Sikhwal
+
+See [`LICENSE`](LICENSE).
+
+---
+
+**Abhinav Sikhwal**  
+[LinkedIn](https://www.linkedin.com/in/abhinav-sikhwal/) · [Portfolio](https://abhinavsikhwal.com) · abhisikhwal@gmail.com
