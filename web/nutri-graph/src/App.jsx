@@ -264,7 +264,7 @@ function BodyLens({ tissues, loading }) {
 
 // ---- LENS C: similar foods -----------------------------------
 function SimilarLens({ foods, loading, onPick }) {
-  const max = Math.max(1, ...foods.map(f => f.weighted));
+  const max = 100;
   return (
     <div>
       <SectionLabel>{loading ? "loading..." : `foods that share the most biology (${foods.length})`}</SectionLabel>
@@ -272,15 +272,15 @@ function SimilarLens({ foods, loading, onPick }) {
         {foods.map(f => (
           <button key={f.name} onClick={() => onPick(f.name)} style={{ background: C.card, border: `1px solid ${C.line}`, borderLeft: `4px solid ${C.chili}`, borderRadius: 8, padding: "13px 15px", cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ fontSize: 15, fontWeight: 600, width: 150, color: C.ink }}>{f.name}</span>
-            <Bar value={f.weighted} max={max} color={C.chili} />
-            <span style={{ fontFamily: mono, fontSize: 11, color: C.faint, width: 120, textAlign: "right" }}>{f.shared} shared compounds</span>
+            <Bar value={f.similarity} max={max} color={C.chili} />
+            <span style={{ fontFamily: mono, fontSize: 11, color: C.faint, width: 120, textAlign: "right" }}>{f.similarity}% match</span>
             <span style={{ fontFamily: mono, fontSize: 16, color: C.chili }}>{"\u203A"}</span>
           </button>
         ))}
         {!loading && foods.length === 0 && <Empty>No close matches found for this food.</Empty>}
       </div>
       <div style={{ fontFamily: mono, fontSize: 11, color: C.faint, marginTop: 12 }}>
-        Ranked by shared bioactive compounds, weighted so distinctive shared molecules count more than common ones. Tap a food to explore it.
+        Ranked by shared distinctive bioactive compounds; common metabolites are excluded. Tap a food to explore it.
       </div>
     </div>
   );

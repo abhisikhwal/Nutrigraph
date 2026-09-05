@@ -229,25 +229,31 @@ app.get("/food/similar", async (req, res) => {
   if (!id) return res.json({ foods: [] });
   try {
     const recs = await read(
-      `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)<-[:CONTAINS]-(other:Ingredient)
-       WHERE elementId(i) = $id AND other <> i
-       WITH other, c, count{ (c)<-[:CONTAINS]-(:Ingredient) } AS c_freq
+      `MATCH (i:Ingredient)-[:CONTAINS]->(c:Compound)
+       WHERE elementId(i) = $id
+       WITH i, c, count{ (c)<-[:CONTAINS]-(:Ingredient) } AS c_freq
+       WHERE c_freq < 200                       // drop ubiquitous compounds
+       MATCH (c)<-[:CONTAINS]-(other:Ingredient)
+       WHERE other <> i
        WITH other,
             count(DISTINCT c) AS shared,
-            sum(1.0 / c_freq) AS weighted_shared
-       RETURN other.name AS name, other.node_type AS node_type, shared, weighted_shared
-       ORDER BY weighted_shared DESC
+            sum(1.0 / c_freq) AS weighted
+       WHERE shared >= 2
+       RETURN other.name AS name, other.node_type AS node_type, shared, weighted
+       ORDER BY weighted DESC
        LIMIT 12`,
       { id }
     );
-    res.json({
-      foods: recs.map(r => ({
-        name: r.get("name"),
-        node_type: r.get("node_type"),
-        shared: r.get("shared").toNumber(),
-        weighted: r.get("weighted_shared"),
-      })),
-    });
+    const rows = recs.map(r => ({
+      name: r.get("name"),
+      node_type: r.get("node_type"),
+      shared: r.get("shared").toNumber(),
+      weighted: r.get("weighted"),
+    }));
+    // convert weighted to a 0-100 similarity index relative to the top match
+    const top = rows.length ? rows[0].weighted : 1;
+    for (const row of rows) row.similarity = top > 0 ? Math.round((row.weighted / top) * 100) : 0;
+    res.json({ foods: rows });
   } catch (e) { res.status(500).json({ error: "query failed" }); }
 });
 
