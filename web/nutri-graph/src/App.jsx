@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 // ==============================================================
-// NutriGraph, Live Graph Explorer (API-backed)
-// Talks to the thin read-only API (which talks to Neo4j).
-// Set API_BASE to your deployed API. Open click-to-expand
-// traversal, measured edges green, predicted amber.
+// NutriGraph, Guided Explorer
+// Reveals the chain one layer at a time:
+//   food -> compounds -> receptors/genes -> pathways & tissues
+// Mobile-first, readable, live from Neo4j via the read-only API.
+// A "raw graph" toggle keeps the force-graph for the technical crowd.
 // ==============================================================
 
-// ---- point this at your deployed read-only API ----------------
-// e.g. "https://graph.nutri.abhinavsikhwal.com/api"
 const API_BASE = "/api";
 
 const C = {
@@ -19,108 +18,86 @@ const C = {
 const mono = "ui-monospace, 'SF Mono', 'IBM Plex Mono', Menlo, monospace";
 const sans = "'Inter', system-ui, -apple-system, sans-serif";
 
-const LABEL_STYLE = {
-  Ingredient: { color: C.gold, caption: "name" },
-  Compound: { color: C.chili, caption: "name" },
-  Gene: { color: C.blue, caption: "symbol" },
-  Pathway: { color: C.plum, caption: "name" },
-  Tissue: { color: C.herb, caption: "name" },
-  Nutrient: { color: C.nutrient, caption: "name" },
+const LABEL = {
+  Ingredient: { color: C.gold, cap: "name", human: "food" },
+  Compound: { color: C.chili, cap: "name", human: "compound" },
+  Gene: { color: C.blue, cap: "symbol", human: "receptor / gene" },
+  Pathway: { color: C.plum, cap: "name", human: "pathway" },
+  Tissue: { color: C.herb, cap: "name", human: "tissue" },
+  Nutrient: { color: C.nutrient, cap: "name", human: "nutrient" },
 };
-const nodeCaption = (n) => {
-  const cap = LABEL_STYLE[n.label]?.caption || "name";
-  return n.props?.[cap] || n.props?.name || n.props?.symbol || n.label;
+const cap = (n) => n?.props?.[LABEL[n.label]?.cap] || n?.props?.name || n?.props?.symbol || n?.label || "";
+
+// which node types to offer at each step, in priority order
+const NEXT_FILTER = {
+  Ingredient: ["Compound", "Nutrient"],      // a food, show its compounds (and nutrients)
+  Compound: ["Gene"],                          // a compound, show the genes it targets
+  Gene: ["Pathway", "Tissue"],                 // a gene, show pathways + tissues
+  Pathway: ["Gene"],
+  Tissue: ["Gene"],
+  Nutrient: ["Ingredient"],
 };
 
-// ---- API calls ------------------------------------------------
+// ---- API ------------------------------------------------------
 async function apiSearch(q) {
   const r = await fetch(`${API_BASE}/search?q=${encodeURIComponent(q)}`);
-  if (!r.ok) throw new Error("search failed");
-  const d = await r.json();
-  return d.nodes || [];
+  if (!r.ok) throw new Error("search");
+  return (await r.json()).nodes || [];
 }
-async function apiExpand(elementId, evidence) {
-  let path = `${API_BASE}/expand?id=${encodeURIComponent(elementId)}`;
-  if (evidence) path += `&evidence=${encodeURIComponent(evidence)}`;
-  const r = await fetch(path);
-  if (!r.ok) throw new Error("expand failed");
+async function apiExpand(id, evidence) {
+  let p = `${API_BASE}/expand?id=${encodeURIComponent(id)}`;
+  if (evidence) p += `&evidence=${encodeURIComponent(evidence)}`;
+  const r = await fetch(p);
+  if (!r.ok) throw new Error("expand");
   return await r.json(); // {nodes, edges}
 }
 
-// ---- force layout (no deps) -----------------------------------
-function useForce(graph, width, height) {
-  const [pos, setPos] = useState({});
-  const posRef = useRef({});
-  useEffect(() => {
-    const p = {};
-    graph.nodes.forEach((n, i) => {
-      const prev = posRef.current[n.id];
-      p[n.id] = prev || { x: width / 2 + Math.cos(i) * 130 + (Math.random() - 0.5) * 40, y: height / 2 + Math.sin(i) * 130 + (Math.random() - 0.5) * 40, vx: 0, vy: 0 };
-    });
-    let frame, ticks = 0;
-    const step = () => {
-      const nodes = graph.nodes;
-      for (let a = 0; a < nodes.length; a++) {
-        for (let b = a + 1; b < nodes.length; b++) {
-          const pa = p[nodes[a].id], pb = p[nodes[b].id];
-          let dx = pa.x - pb.x, dy = pa.y - pb.y;
-          let d2 = dx * dx + dy * dy || 1;
-          const d = Math.sqrt(d2), f = 6000 / d2;
-          pa.vx += (dx / d) * f; pa.vy += (dy / d) * f;
-          pb.vx -= (dx / d) * f; pb.vy -= (dy / d) * f;
-        }
-      }
-      graph.edges.forEach(e => {
-        const pa = p[e.from], pb = p[e.to]; if (!pa || !pb) return;
-        let dx = pb.x - pa.x, dy = pb.y - pa.y;
-        const d = Math.sqrt(dx * dx + dy * dy) || 1, f = (d - 120) * 0.015;
-        pa.vx += (dx / d) * f; pa.vy += (dy / d) * f;
-        pb.vx -= (dx / d) * f; pb.vy -= (dy / d) * f;
-      });
-      Object.keys(p).forEach(id => {
-        const n = p[id];
-        n.vx += (width / 2 - n.x) * 0.0015; n.vy += (height / 2 - n.y) * 0.0015;
-        n.vx *= 0.84; n.vy *= 0.84; n.x += n.vx; n.y += n.vy;
-        n.x = Math.max(40, Math.min(width - 40, n.x));
-        n.y = Math.max(40, Math.min(height - 40, n.y));
-      });
-      posRef.current = p; setPos({ ...p });
-      if (++ticks < 180) frame = requestAnimationFrame(step);
-    };
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-    // eslint-disable-next-line
-  }, [graph, width, height]);
-  return pos;
+// ---- small UI bits --------------------------------------------
+function Chip({ node, edge, onClick, dimmed }) {
+  const st = LABEL[node.label] || { color: C.faint };
+  const isTarget = edge && edge.type === "TARGETS";
+  const ev = edge?.props?.evidence;
+  return (
+    <button onClick={onClick} style={{
+      display: "flex", alignItems: "center", gap: 10, width: "100%", textAlign: "left",
+      background: C.card, border: `1px solid ${C.line}`, borderLeft: `4px solid ${st.color}`,
+      borderRadius: 8, padding: "12px 14px", cursor: "pointer", opacity: dimmed ? 0.5 : 1,
+      transition: "all .12s", boxShadow: "0 1px 2px rgba(42,32,24,.04)",
+    }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 3px 10px rgba(42,32,24,.1)"; e.currentTarget.style.transform = "translateX(2px)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 1px 2px rgba(42,32,24,.04)"; e.currentTarget.style.transform = "none"; }}>
+      <span style={{ width: 11, height: 11, borderRadius: "50%", border: `2px solid ${st.color}`, background: `${st.color}22`, flexShrink: 0 }} />
+      <span style={{ flex: 1 }}>
+        <span style={{ fontSize: 15, fontWeight: 600, color: C.ink }}>{cap(node)}</span>
+        {node.props?.note && <span style={{ fontSize: 12.5, color: C.faint, marginLeft: 8 }}>{node.props.note}</span>}
+      </span>
+      {isTarget && (
+        <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: 0.5, padding: "3px 8px", borderRadius: 3,
+          background: ev === "measured" ? "rgba(46,125,50,.12)" : "rgba(249,168,37,.15)",
+          color: ev === "measured" ? C.measured : "#B8860B" }}>
+          {ev === "measured" ? "MEASURED" : "PREDICTED"}
+        </span>
+      )}
+      <span style={{ fontFamily: mono, fontSize: 16, color: st.color, flexShrink: 0 }}>{"\u203A"}</span>
+    </button>
+  );
 }
 
-function mergeGraph(prev, add) {
-  const nodeMap = {}; prev.nodes.forEach(n => nodeMap[n.id] = n); add.nodes.forEach(n => nodeMap[n.id] = n);
-  const edgeMap = {}; prev.edges.forEach(e => edgeMap[e.id] = e); (add.edges || []).forEach(e => edgeMap[e.id] = e);
-  return { nodes: Object.values(nodeMap), edges: Object.values(edgeMap) };
-}
-
-export default function GraphExplorer() {
-  const W = 780, H = 600;
-  const [graph, setGraph] = useState({ nodes: [], edges: [] });
+export default function GuidedExplorer() {
+  const [trail, setTrail] = useState([]);        // breadcrumb of visited nodes
+  const [current, setCurrent] = useState(null);  // node in focus
+  const [children, setChildren] = useState([]);  // {node, edge} to reveal next
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [hover, setHover] = useState(null);
-  const [measuredOnly, setMeasuredOnly] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [measuredOnly, setMeasuredOnly] = useState(false);
   const [err, setErr] = useState("");
-  const [showWelcome, setShowWelcome] = useState(true);
-  const [showAbout, setShowAbout] = useState(false);
-  const pos = useForce(graph, W, H);
 
-  // seed with turmeric on first load
+  // seed with turmeric
   useEffect(() => {
     (async () => {
-      try {
-        const found = await apiSearch("turmeric");
-        if (found[0]) { await seed(found[0]); }
-      } catch (e) { setErr("Could not reach the graph API. Is the API service running?"); }
+      try { const f = await apiSearch("turmeric"); if (f[0]) focus(f[0], true); }
+      catch { setErr("Could not reach the graph. Is the service running?"); }
     })();
     // eslint-disable-next-line
   }, []);
@@ -128,210 +105,170 @@ export default function GraphExplorer() {
   const search = useCallback(async (q) => {
     setQuery(q);
     if (!q.trim()) { setResults([]); return; }
-    try { setResults(await apiSearch(q)); setErr(""); }
-    catch (e) { setErr("Search failed."); }
+    try { setResults(await apiSearch(q)); setErr(""); } catch { setErr("Search failed."); }
   }, []);
 
-  async function seed(node) {
-    setResults([]); setQuery(""); setLoading(true); setErr("");
+  async function focus(node, reset) {
+    setLoading(true); setErr(""); setResults([]); setQuery("");
     try {
       const nb = await apiExpand(node.id, measuredOnly ? "measured" : null);
-      const withSeed = { nodes: [node, ...(nb.nodes || [])], edges: nb.edges || [] };
-      setGraph(withSeed); setSelected(node);
-    } catch (e) { setErr("Could not load node."); }
+      // build edge lookup by the "other" node id
+      const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
+      const seen = new Set();
+      const kids = [];
+      for (const e of (nb.edges || [])) {
+        const otherId = e.from === node.id ? e.to : (e.to === node.id ? e.from : null);
+        if (!otherId || seen.has(otherId)) continue;
+        const other = (nb.nodes || []).find(n => n.id === otherId);
+        if (!other || other.id === node.id) continue;
+        if (!wanted.includes(other.label)) continue;
+        seen.add(otherId);
+        kids.push({ node: other, edge: e });
+      }
+      // sort: for genes, measured first
+      kids.sort((a, b) => {
+        const ae = a.edge?.props?.evidence === "measured" ? 0 : 1;
+        const be = b.edge?.props?.evidence === "measured" ? 0 : 1;
+        if (ae !== be) return ae - be;
+        return cap(a.node).localeCompare(cap(b.node));
+      });
+      setCurrent(node);
+      setChildren(kids.slice(0, 40));
+      setTrail(t => reset ? [node] : [...t, node]);
+    } catch { setErr("Could not load connections."); }
     finally { setLoading(false); }
   }
 
-  async function expand(node) {
-    setLoading(true); setErr("");
-    try {
-      const nb = await apiExpand(node.id, measuredOnly ? "measured" : null);
-      setGraph(g => mergeGraph(g, nb)); setSelected(node);
-    } catch (e) { setErr("Expand failed."); }
-    finally { setLoading(false); }
+  function goTo(idx) {
+    const node = trail[idx];
+    setTrail(t => t.slice(0, idx + 1));
+    // re-focus without appending
+    (async () => {
+      setLoading(true);
+      try {
+        const nb = await apiExpand(node.id, measuredOnly ? "measured" : null);
+        const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
+        const seen = new Set(); const kids = [];
+        for (const e of (nb.edges || [])) {
+          const otherId = e.from === node.id ? e.to : (e.to === node.id ? e.from : null);
+          if (!otherId || seen.has(otherId)) continue;
+          const other = (nb.nodes || []).find(n => n.id === otherId);
+          if (!other || !wanted.includes(other.label)) continue;
+          seen.add(otherId); kids.push({ node: other, edge: e });
+        }
+        kids.sort((a, b) => (a.edge?.props?.evidence === "measured" ? 0 : 1) - (b.edge?.props?.evidence === "measured" ? 0 : 1));
+        setCurrent(node); setChildren(kids.slice(0, 40));
+      } finally { setLoading(false); }
+    })();
   }
+
+  const curStyle = current ? (LABEL[current.label] || { color: C.faint }) : { color: C.faint };
+  const nextLabel = current ? (NEXT_FILTER[current.label] || []).map(l => LABEL[l]?.human).filter(Boolean).join(" and ") : "";
+  const stepHint = {
+    Ingredient: "the compounds and nutrients it carries",
+    Compound: "the human genes and receptors it targets",
+    Gene: "the pathways it drives and tissues it acts in",
+    Pathway: "the genes in this pathway",
+    Tissue: "the genes expressed here",
+    Nutrient: "the foods that provide it",
+  };
 
   return (
-    <div style={{ background: C.paper, color: C.ink, fontFamily: sans, minHeight: "100vh", padding: "28px" }}>
-      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-
-        {/* Welcome card, first-load onboarding */}
-        {showWelcome && (
-          <div style={{ background: C.card, border: `1px solid ${C.line}`, borderLeft: `4px solid ${C.gold}`, borderRadius: 8, padding: "18px 22px", marginBottom: 20, boxShadow: "0 2px 8px rgba(42,32,24,.06)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: C.gold, fontWeight: 600, marginBottom: 8 }}>How to explore</div>
-              <div style={{ fontSize: 14.5, lineHeight: 1.6, color: C.ink }}>
-                This is a live <b>knowledge graph</b>: foods, their molecules, the human genes and tissues they touch, and the pathways involved.
-                <div style={{ display: "flex", gap: 20, marginTop: 12, flexWrap: "wrap" }}>
-                  <span><b style={{ color: C.gold }}>1.</b> Search a food, gene or compound above</span>
-                  <span><b style={{ color: C.gold }}>2.</b> Click any circle to grow its connections</span>
-                  <span><b style={{ color: C.gold }}>3.</b> <span style={{ color: C.measured }}>Green</span> = measured, <span style={{ color: C.predicted }}>amber</span> = predicted</span>
-                </div>
-                <div style={{ fontSize: 13, color: C.faint, marginTop: 10 }}>Try searching <button onClick={() => { setShowWelcome(false); search("turmeric"); }} style={{ background: "none", border: "none", color: C.blue, cursor: "pointer", padding: 0, fontFamily: mono, fontSize: 13, textDecoration: "underline" }}>turmeric</button>, <button onClick={() => { setShowWelcome(false); search("CNR1"); }} style={{ background: "none", border: "none", color: C.blue, cursor: "pointer", padding: 0, fontFamily: mono, fontSize: 13, textDecoration: "underline" }}>CNR1</button>, or <button onClick={() => { setShowWelcome(false); search("curcumin"); }} style={{ background: "none", border: "none", color: C.blue, cursor: "pointer", padding: 0, fontFamily: mono, fontSize: 13, textDecoration: "underline" }}>curcumin</button>.</div>
-              </div>
-            </div>
-            <button onClick={() => setShowWelcome(false)} style={{ fontFamily: mono, fontSize: 12, padding: "8px 14px", borderRadius: 4, cursor: "pointer", border: `1px solid ${C.line}`, background: C.paper, color: C.ink, whiteSpace: "nowrap" }}>got it</button>
-          </div>
-        )}
-
-        {/* About modal */}
-        {showAbout && (
-          <div onClick={() => setShowAbout(false)} style={{ position: "fixed", inset: 0, background: "rgba(42,32,24,.4)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 60, padding: 20 }}>
-            <div onClick={e => e.stopPropagation()} style={{ background: C.card, borderRadius: 10, maxWidth: 560, padding: 28, boxShadow: "0 20px 60px rgba(42,32,24,.25)" }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: C.gold, fontWeight: 600, marginBottom: 10 }}>What am I looking at?</div>
-              <h2 style={{ fontSize: 24, fontWeight: 800, margin: "0 0 14px" }}>A living map of food and biology</h2>
-              <div style={{ fontSize: 14.5, lineHeight: 1.65, color: C.ink, display: "grid", gap: 12 }}>
-                <p style={{ margin: 0 }}>Each <b>circle is an entity</b>, a food, a molecule inside it, a human gene, a biological pathway, a tissue, or a nutrient. Each <b>line is a real relationship</b> between them, drawn live from a Neo4j graph database.</p>
-                <p style={{ margin: 0 }}>The chain runs: <b>food → contains → compound → targets → gene → in pathway / expressed in tissue.</b> Following it shows how something you eat reaches your biology.</p>
-                <p style={{ margin: 0 }}>Colour carries the honesty. On the <b>targets</b> links, <span style={{ color: C.measured, fontWeight: 600 }}>green</span> means the food-to-protein interaction was experimentally measured; <span style={{ color: C.predicted, fontWeight: 600 }}>amber</span> means it was predicted from molecular structure. Most of biology here is predicted, and the graph never hides which is which.</p>
-                <p style={{ margin: 0, color: C.faint, fontSize: 13 }}>You are exploring over a read-only connection, nothing you do can change the data.</p>
-              </div>
-              <button onClick={() => setShowAbout(false)} style={{ marginTop: 20, fontFamily: mono, fontSize: 12, padding: "9px 16px", borderRadius: 4, cursor: "pointer", border: "none", background: C.ink, color: C.paper, fontWeight: 600 }}>start exploring</button>
-            </div>
-          </div>
-        )}
-
-        <div style={{ borderBottom: `1px solid ${C.line}`, paddingBottom: 16, marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12 }}>
-          <div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: C.gold, fontWeight: 600, marginBottom: 8 }}>NutriGraph, live graph</div>
-            <h1 style={{ fontSize: 34, fontWeight: 800, letterSpacing: -1, margin: 0 }}>Explore the graph</h1>
-            <p style={{ fontSize: 15, color: C.faint, margin: "8px 0 0", maxWidth: 640 }}>
-              Search a food, gene, compound or pathway, then click any node to expand its connections and
-              travel anywhere in the graph. Edge colour shows the evidence.
-            </p>
-          </div>
-          <div style={{ fontFamily: mono, fontSize: 11, color: C.faint, textAlign: "right" }}>
-            <button onClick={() => setShowAbout(true)} style={{ fontFamily: mono, fontSize: 11, color: C.blue, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", marginBottom: 6 }}>
-              what am I looking at?
-            </button>
-            <br />live, backed by Neo4j<br />7,467 nodes · 79,301 edges
-          </div>
+    <div style={{ background: C.paper, color: C.ink, fontFamily: sans, minHeight: "100vh", padding: "24px 18px 60px" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto" }}>
+        {/* header */}
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: C.gold, fontWeight: 600, marginBottom: 8 }}>NutriGraph, guided explorer</div>
+          <h1 style={{ fontSize: 30, fontWeight: 800, letterSpacing: -1, margin: 0 }}>Follow food into the body</h1>
+          <p style={{ fontSize: 15, color: C.faint, margin: "8px 0 0", lineHeight: 1.5 }}>
+            Start with a food and follow the chain, one step at a time: its molecules, the receptors they reach,
+            and where in the body they act. <span style={{ color: C.measured, fontWeight: 600 }}>Green</span> is
+            experimentally measured, <span style={{ color: "#B8860B", fontWeight: 600 }}>amber</span> is predicted.
+          </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 20 }} className="g-grid">
-          <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 8, position: "relative", overflow: "hidden", boxShadow: "0 1px 3px rgba(42,32,24,.05)" }}>
-            <div style={{ position: "absolute", top: 12, left: 12, right: 12, zIndex: 5, display: "flex", gap: 8, alignItems: "flex-start" }}>
-              <div style={{ flex: 1, position: "relative" }}>
-                <input value={query} onChange={e => search(e.target.value)} placeholder="search turmeric, CNR1, curcumin..."
-                  style={{ width: "100%", fontFamily: mono, fontSize: 13, padding: "10px 12px", borderRadius: 5, border: `1px solid ${C.line}`, background: C.paper, color: C.ink, outline: "none", boxSizing: "border-box" }} />
-                {results.length > 0 && (
-                  <div style={{ position: "absolute", top: 42, left: 0, right: 0, background: C.card, border: `1px solid ${C.line}`, borderRadius: 5, boxShadow: "0 6px 20px rgba(42,32,24,.12)", maxHeight: 240, overflowY: "auto", zIndex: 10 }}>
-                    {results.map(r => (
-                      <button key={r.id} onClick={() => seed(r)} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "9px 12px", background: "none", border: "none", borderBottom: `1px solid ${C.line}`, cursor: "pointer", textAlign: "left" }}>
-                        <span style={{ width: 8, height: 8, borderRadius: "50%", background: LABEL_STYLE[r.label]?.color || C.faint }} />
-                        <span style={{ fontFamily: mono, fontSize: 13, color: C.ink }}>{nodeCaption(r)}</span>
-                        <span style={{ fontFamily: mono, fontSize: 10, color: C.faint, marginLeft: "auto", textTransform: "uppercase" }}>{r.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <button onClick={() => setMeasuredOnly(v => !v)} title="filter TARGETS edges by evidence"
-                style={{ fontFamily: mono, fontSize: 11, padding: "10px 12px", borderRadius: 5, cursor: "pointer", whiteSpace: "nowrap",
-                  border: `1.5px solid ${measuredOnly ? C.measured : C.line}`, background: measuredOnly ? C.measured : C.card, color: measuredOnly ? "#fff" : C.ink }}>
-                {measuredOnly ? "measured only" : "all evidence"}
-              </button>
-            </div>
-
-            <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display: "block", height: H }}>
-              {graph.edges.map((e) => {
-                const a = pos[e.from], b = pos[e.to]; if (!a || !b) return null;
-                if (measuredOnly && e.type === "TARGETS" && e.props?.evidence !== "measured") return null;
-                const isTarget = e.type === "TARGETS";
-                const col = isTarget ? (e.props?.evidence === "measured" ? C.measured : C.predicted) : C.line;
-                return <line key={e.id} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-                  stroke={col} strokeWidth={isTarget ? 2 : 1.3}
-                  strokeDasharray={isTarget && e.props?.evidence === "predicted" ? "5,4" : "none"}
-                  opacity={isTarget ? 0.85 : 0.4} />;
-              })}
-              {graph.nodes.map(n => {
-                const p = pos[n.id]; if (!p) return null;
-                const st = LABEL_STYLE[n.label] || { color: C.faint };
-                const isSel = selected && selected.id === n.id;
-                const isHover = hover === n.id;
-                const r = n.label === "Ingredient" ? 20 : 12;
-                const cap = nodeCaption(n);
-                // Show a label if: it's an ingredient, gene, pathway, tissue, nutrient
-                // (the interesting nodes), OR it's selected/hovered. Compounds only
-                // label on select/hover to avoid the wall-of-text overlap.
-                const alwaysLabel = n.label !== "Compound";
-                const showLabel = alwaysLabel || isSel || isHover;
-                const short = cap.length > 14 ? cap.slice(0, 13) + "\u2026" : cap;
-                return (
-                  <g key={n.id} transform={`translate(${p.x},${p.y})`} style={{ cursor: "pointer" }}
-                    onClick={() => expand(n)}
-                    onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(h => h === n.id ? null : h)}>
-                    <circle r={r} fill={C.card} stroke={st.color} strokeWidth={isSel ? 3.5 : (isHover ? 2.5 : 1.8)} />
-                    <circle r={r} fill={st.color} opacity={isHover || isSel ? 0.28 : 0.14} />
-                    {showLabel && (
-                      <text textAnchor="middle" dy={r + 12} fontFamily={mono}
-                        fontSize={n.label === "Ingredient" ? 11.5 : 10}
-                        fontWeight={n.label === "Ingredient" ? 700 : (isSel || isHover ? 700 : 400)}
-                        fill={isSel || isHover ? C.ink : C.faint}
-                        style={{ pointerEvents: "none" }}>
-                        {short}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-
-            {loading && <div style={{ position: "absolute", top: 60, right: 16, fontFamily: mono, fontSize: 11, color: C.faint }}>loading...</div>}
-            {err && <div style={{ position: "absolute", top: 60, left: 16, right: 16, fontFamily: mono, fontSize: 12, color: C.chili, background: "rgba(255,255,255,.9)", padding: "8px 10px", borderRadius: 5 }}>{err}</div>}
-
-            <div style={{ position: "absolute", bottom: 12, left: 12, right: 12, display: "flex", gap: 16, fontFamily: mono, fontSize: 10.5, color: C.faint, flexWrap: "wrap", alignItems: "center", background: "rgba(255,255,255,.9)", padding: "7px 12px", borderRadius: 5, border: `1px solid ${C.line}` }}>
-              <span style={{ fontWeight: 600, color: C.ink }}>click a node to grow it</span>
-              <span style={{ color: C.line }}>|</span>
-              <span><span style={{ display: "inline-block", width: 14, height: 2, background: C.measured, verticalAlign: "middle", marginRight: 4 }} />measured</span>
-              <span><span style={{ display: "inline-block", width: 14, height: 0, borderTop: `2px dashed ${C.predicted}`, verticalAlign: "middle", marginRight: 4 }} />predicted</span>
-              <span style={{ color: C.line }}>|</span>
-              <span>hover a molecule to name it</span>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 8, padding: 18, boxShadow: "0 1px 3px rgba(42,32,24,.05)" }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: C.faint, marginBottom: 14, fontWeight: 600 }}>Selected node</div>
-              {selected ? (
-                <>
-                  <div style={{ display: "inline-block", fontFamily: mono, fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: "#fff", background: LABEL_STYLE[selected.label]?.color || C.faint, padding: "3px 8px", borderRadius: 3, marginBottom: 10 }}>{selected.label}</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 10 }}>{nodeCaption(selected)}</div>
-                  <div style={{ fontFamily: mono, fontSize: 12, lineHeight: 1.9, color: C.faint }}>
-                    {Object.entries(selected.props || {}).map(([k, v]) => (
-                      <div key={k} style={{ display: "flex", gap: 10 }}>
-                        <span style={{ width: 100, color: C.faint }}>{k}</span>
-                        <span style={{ color: C.ink, wordBreak: "break-word" }}>{String(v)}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <button onClick={() => expand(selected)} style={{ marginTop: 16, width: "100%", fontFamily: mono, fontSize: 12, padding: "9px", borderRadius: 5, cursor: "pointer", border: "none", background: LABEL_STYLE[selected.label]?.color || C.faint, color: "#fff", fontWeight: 600 }}>
-                    expand connections
-                  </button>
-                </>
-              ) : (
-                <div style={{ fontSize: 14, color: C.faint, lineHeight: 1.5 }}>Click any node in the graph to inspect its properties and expand its neighbours.</div>
-              )}
-            </div>
-
-            <div style={{ background: C.card, border: `1px solid ${C.line}`, borderRadius: 8, padding: 18, boxShadow: "0 1px 3px rgba(42,32,24,.05)" }}>
-              <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: C.faint, marginBottom: 12, fontWeight: 600 }}>Node types</div>
-              {Object.entries(LABEL_STYLE).map(([label, st]) => (
-                <div key={label} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, padding: "4px 0" }}>
-                  <span style={{ width: 12, height: 12, borderRadius: "50%", border: `2px solid ${st.color}`, background: `${st.color}22` }} />
-                  <span>{label}</span>
-                </div>
+        {/* search */}
+        <div style={{ position: "relative", marginBottom: 16 }}>
+          <input value={query} onChange={e => search(e.target.value)} placeholder="search a food, gene or compound (try turmeric, CNR1, curcumin)"
+            style={{ width: "100%", fontFamily: mono, fontSize: 14, padding: "13px 15px", borderRadius: 8, border: `1px solid ${C.line}`, background: C.card, color: C.ink, outline: "none", boxSizing: "border-box" }} />
+          {results.length > 0 && (
+            <div style={{ position: "absolute", top: 50, left: 0, right: 0, background: C.card, border: `1px solid ${C.line}`, borderRadius: 8, boxShadow: "0 8px 24px rgba(42,32,24,.14)", maxHeight: 280, overflowY: "auto", zIndex: 20 }}>
+              {results.map(r => (
+                <button key={r.id} onClick={() => focus(r, true)} style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "11px 14px", background: "none", border: "none", borderBottom: `1px solid ${C.line}`, cursor: "pointer", textAlign: "left" }}>
+                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: LABEL[r.label]?.color || C.faint }} />
+                  <span style={{ fontSize: 14, color: C.ink, fontWeight: 500 }}>{cap(r)}</span>
+                  <span style={{ fontFamily: mono, fontSize: 10, color: C.faint, marginLeft: "auto", textTransform: "uppercase" }}>{LABEL[r.label]?.human || r.label}</span>
+                </button>
               ))}
             </div>
+          )}
+        </div>
 
-            <div style={{ fontFamily: mono, fontSize: 11, color: C.faint, lineHeight: 1.6, padding: "0 4px" }}>
-              Open exploration over a read-only API. Every TARGETS edge is coloured by whether the
-              food-to-protein link was experimentally measured or structurally inferred.
+        {/* breadcrumb */}
+        {trail.length > 0 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 18, fontFamily: mono, fontSize: 12.5 }}>
+            {trail.map((n, i) => (
+              <React.Fragment key={n.id + i}>
+                {i > 0 && <span style={{ color: C.faint }}>{"\u2192"}</span>}
+                <button onClick={() => goTo(i)} style={{
+                  background: i === trail.length - 1 ? (LABEL[n.label]?.color || C.faint) : "transparent",
+                  color: i === trail.length - 1 ? "#fff" : C.ink,
+                  border: `1px solid ${LABEL[n.label]?.color || C.line}`, borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontWeight: 600, fontSize: 12.5,
+                }}>
+                  {cap(n).length > 22 ? cap(n).slice(0, 21) + "\u2026" : cap(n)}
+                </button>
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+
+        {/* current focus card */}
+        {current && (
+          <div style={{ background: C.card, border: `1px solid ${C.line}`, borderTop: `4px solid ${curStyle.color}`, borderRadius: 10, padding: "20px 22px", marginBottom: 20, boxShadow: "0 2px 8px rgba(42,32,24,.06)" }}>
+            <div style={{ fontFamily: mono, fontSize: 10.5, letterSpacing: 1.5, textTransform: "uppercase", color: curStyle.color, fontWeight: 700, marginBottom: 6 }}>{LABEL[current.label]?.human || current.label}</div>
+            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: -0.5, marginBottom: 4 }}>{cap(current)}</div>
+            {current.props?.latin && <div style={{ fontFamily: mono, fontStyle: "italic", color: C.faint, fontSize: 13 }}>{current.props.latin}</div>}
+            {current.props?.note && <div style={{ fontSize: 14, color: C.faint, marginTop: 6 }}>{current.props.note}</div>}
+            <div style={{ display: "flex", gap: 18, marginTop: 12, fontFamily: mono, fontSize: 11.5, color: C.faint, flexWrap: "wrap" }}>
+              {current.props?.measured_fraction != null && <span>{Math.round(current.props.measured_fraction * 100)}% measured evidence</span>}
+              {current.props?.data_status && <span>{current.props.data_status}</span>}
             </div>
           </div>
+        )}
+
+        {/* next-step reveal */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
+          <div style={{ fontFamily: mono, fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: C.faint, fontWeight: 600 }}>
+            {loading ? "loading..." : current ? `${stepHint[current.label] || "connections"} (${children.length})` : ""}
+          </div>
+          {current && current.label === "Compound" && (
+            <button onClick={() => { setMeasuredOnly(v => !v); if (current) focus({ ...current }, false); }}
+              style={{ fontFamily: mono, fontSize: 11, padding: "6px 12px", borderRadius: 5, cursor: "pointer", border: `1.5px solid ${measuredOnly ? C.measured : C.line}`, background: measuredOnly ? C.measured : C.card, color: measuredOnly ? "#fff" : C.ink }}>
+              {measuredOnly ? "measured only" : "all evidence"}
+            </button>
+          )}
+        </div>
+
+        {err && <div style={{ fontFamily: mono, fontSize: 13, color: C.chili, background: "rgba(194,59,34,.08)", padding: "12px 14px", borderRadius: 8, marginBottom: 14 }}>{err}</div>}
+
+        <div style={{ display: "grid", gap: 8 }}>
+          {children.map(({ node, edge }) => (
+            <Chip key={node.id} node={node} edge={edge} onClick={() => focus(node, false)} />
+          ))}
+          {!loading && current && children.length === 0 && (
+            <div style={{ fontSize: 14, color: C.faint, padding: "20px 4px", textAlign: "center", background: C.card, border: `1px dashed ${C.line}`, borderRadius: 8 }}>
+              This is a leaf of the graph, nothing further to follow from here. Use the breadcrumb to step back,
+              or search for something new.
+            </div>
+          )}
+        </div>
+
+        {/* footer note */}
+        <div style={{ marginTop: 30, paddingTop: 18, borderTop: `1px solid ${C.line}`, fontFamily: mono, fontSize: 11.5, color: C.faint, lineHeight: 1.6 }}>
+          Live from a Neo4j knowledge graph over a read-only connection. 7,467 nodes, 79,301 relationships.
+          Tissue links show where a gene is expressed, not proof a compound is delivered there.
         </div>
       </div>
-      <style>{`@media (max-width: 860px){ .g-grid{ grid-template-columns: 1fr !important; } }`}</style>
     </div>
   );
 }
