@@ -113,12 +113,38 @@ app.get("/expand", async (req, res) => {
     let recs;
     if (evidence === "measured" || evidence === "predicted") {
       recs = await read(
-        "MATCH (n)-[r:TARGETS]-(m) WHERE elementId(n) = $elementId AND r.evidence = $evidence RETURN n, r, m LIMIT 60",
+        "MATCH (n)-[r:TARGETS]-(m) WHERE elementId(n) = $elementId AND r.evidence = $evidence RETURN n, r, m LIMIT 40",
         { elementId, evidence }
       );
     } else {
+      // Prioritise biologically interesting neighbours over generic lipids.
+      // Order: Gene, Pathway, Tissue, Nutrient, then Ingredient, then Compound.
+      // Within compounds, push the long lipid classes (TG/CL/DG/PE/PC/PS/PA/PI/SM/CE)
+      // to the back so named bioactives surface first.
       recs = await read(
-        "MATCH (n)-[r]-(m) WHERE elementId(n) = $elementId RETURN n, r, m LIMIT 60",
+        `MATCH (n)-[r]-(m)
+         WHERE elementId(n) = $elementId
+         WITH n, r, m,
+           CASE labels(m)[0]
+             WHEN 'Gene' THEN 0
+             WHEN 'Pathway' THEN 1
+             WHEN 'Tissue' THEN 2
+             WHEN 'Nutrient' THEN 3
+             WHEN 'Ingredient' THEN 4
+             ELSE 5
+           END AS type_rank,
+           CASE
+             WHEN m.name IS NOT NULL AND (
+               m.name STARTS WITH 'TG(' OR m.name STARTS WITH 'CL(' OR
+               m.name STARTS WITH 'DG(' OR m.name STARTS WITH 'PE(' OR
+               m.name STARTS WITH 'PC(' OR m.name STARTS WITH 'PS(' OR
+               m.name STARTS WITH 'PA(' OR m.name STARTS WITH 'PI(' OR
+               m.name STARTS WITH 'PG(' OR m.name STARTS WITH 'SM(' OR
+               m.name STARTS WITH 'CE(' OR m.name STARTS WITH 'MG('
+             ) THEN 1 ELSE 0
+           END AS lipid_rank
+         ORDER BY lipid_rank ASC, type_rank ASC
+         RETURN n, r, m LIMIT 28`,
         { elementId }
       );
     }

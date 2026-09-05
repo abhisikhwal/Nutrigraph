@@ -65,7 +65,7 @@ function useForce(graph, width, height) {
           const pa = p[nodes[a].id], pb = p[nodes[b].id];
           let dx = pa.x - pb.x, dy = pa.y - pb.y;
           let d2 = dx * dx + dy * dy || 1;
-          const d = Math.sqrt(d2), f = 2800 / d2;
+          const d = Math.sqrt(d2), f = 6000 / d2;
           pa.vx += (dx / d) * f; pa.vy += (dy / d) * f;
           pb.vx -= (dx / d) * f; pb.vy -= (dy / d) * f;
         }
@@ -73,19 +73,19 @@ function useForce(graph, width, height) {
       graph.edges.forEach(e => {
         const pa = p[e.from], pb = p[e.to]; if (!pa || !pb) return;
         let dx = pb.x - pa.x, dy = pb.y - pa.y;
-        const d = Math.sqrt(dx * dx + dy * dy) || 1, f = (d - 95) * 0.02;
+        const d = Math.sqrt(dx * dx + dy * dy) || 1, f = (d - 120) * 0.015;
         pa.vx += (dx / d) * f; pa.vy += (dy / d) * f;
         pb.vx -= (dx / d) * f; pb.vy -= (dy / d) * f;
       });
       Object.keys(p).forEach(id => {
         const n = p[id];
-        n.vx += (width / 2 - n.x) * 0.002; n.vy += (height / 2 - n.y) * 0.002;
-        n.vx *= 0.82; n.vy *= 0.82; n.x += n.vx; n.y += n.vy;
-        n.x = Math.max(34, Math.min(width - 34, n.x));
-        n.y = Math.max(34, Math.min(height - 34, n.y));
+        n.vx += (width / 2 - n.x) * 0.0015; n.vy += (height / 2 - n.y) * 0.0015;
+        n.vx *= 0.84; n.vy *= 0.84; n.x += n.vx; n.y += n.vy;
+        n.x = Math.max(40, Math.min(width - 40, n.x));
+        n.y = Math.max(40, Math.min(height - 40, n.y));
       });
       posRef.current = p; setPos({ ...p });
-      if (++ticks < 150) frame = requestAnimationFrame(step);
+      if (++ticks < 180) frame = requestAnimationFrame(step);
     };
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
@@ -101,11 +101,12 @@ function mergeGraph(prev, add) {
 }
 
 export default function GraphExplorer() {
-  const W = 720, H = 520;
+  const W = 780, H = 600;
   const [graph, setGraph] = useState({ nodes: [], edges: [] });
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [hover, setHover] = useState(null);
   const [measuredOnly, setMeasuredOnly] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -205,18 +206,30 @@ export default function GraphExplorer() {
                 const p = pos[n.id]; if (!p) return null;
                 const st = LABEL_STYLE[n.label] || { color: C.faint };
                 const isSel = selected && selected.id === n.id;
-                const r = n.label === "Ingredient" ? 22 : 15;
+                const isHover = hover === n.id;
+                const r = n.label === "Ingredient" ? 20 : 12;
                 const cap = nodeCaption(n);
+                // Show a label if: it's an ingredient, gene, pathway, tissue, nutrient
+                // (the interesting nodes), OR it's selected/hovered. Compounds only
+                // label on select/hover to avoid the wall-of-text overlap.
+                const alwaysLabel = n.label !== "Compound";
+                const showLabel = alwaysLabel || isSel || isHover;
+                const short = cap.length > 14 ? cap.slice(0, 13) + "\u2026" : cap;
                 return (
-                  <g key={n.id} transform={`translate(${p.x},${p.y})`} style={{ cursor: "pointer" }} onClick={() => expand(n)}>
-                    <circle r={r} fill={st.color} opacity={0.12} />
-                    <circle r={r} fill={C.card} stroke={st.color} strokeWidth={isSel ? 3.5 : 2} fillOpacity={0} />
-                    <circle r={r} fill={C.card} stroke={st.color} strokeWidth={isSel ? 3.5 : 2} />
-                    <circle r={r} fill={st.color} opacity={0.14} />
-                    <text textAnchor="middle" dy={r + 13} fontFamily={mono} fontSize={n.label === "Ingredient" ? 12 : 10.5}
-                      fontWeight={n.label === "Ingredient" ? 700 : 500} fill={C.ink}>
-                      {cap.length > 16 ? cap.slice(0, 15) + "\u2026" : cap}
-                    </text>
+                  <g key={n.id} transform={`translate(${p.x},${p.y})`} style={{ cursor: "pointer" }}
+                    onClick={() => expand(n)}
+                    onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(h => h === n.id ? null : h)}>
+                    <circle r={r} fill={C.card} stroke={st.color} strokeWidth={isSel ? 3.5 : (isHover ? 2.5 : 1.8)} />
+                    <circle r={r} fill={st.color} opacity={isHover || isSel ? 0.28 : 0.14} />
+                    {showLabel && (
+                      <text textAnchor="middle" dy={r + 12} fontFamily={mono}
+                        fontSize={n.label === "Ingredient" ? 11.5 : 10}
+                        fontWeight={n.label === "Ingredient" ? 700 : (isSel || isHover ? 700 : 400)}
+                        fill={isSel || isHover ? C.ink : C.faint}
+                        style={{ pointerEvents: "none" }}>
+                        {short}
+                      </text>
+                    )}
                   </g>
                 );
               })}
@@ -228,7 +241,7 @@ export default function GraphExplorer() {
             <div style={{ position: "absolute", bottom: 12, left: 12, display: "flex", gap: 14, fontFamily: mono, fontSize: 10.5, color: C.faint, flexWrap: "wrap", background: "rgba(255,255,255,.85)", padding: "6px 10px", borderRadius: 5 }}>
               <span><span style={{ display: "inline-block", width: 14, height: 2, background: C.measured, verticalAlign: "middle", marginRight: 4 }} />measured</span>
               <span><span style={{ display: "inline-block", width: 14, height: 0, borderTop: `2px dashed ${C.predicted}`, verticalAlign: "middle", marginRight: 4 }} />predicted</span>
-              <span>click a node to expand</span>
+              <span>click a node to expand · hover to label</span>
             </div>
           </div>
 
