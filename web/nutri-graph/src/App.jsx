@@ -28,6 +28,9 @@ const LABEL = {
 };
 const cap = (n) => n?.props?.[LABEL[n.label]?.cap] || n?.props?.name || n?.props?.symbol || n?.label || "";
 
+// starter foods so visitors have somewhere to begin
+const STARTERS = ["Turmeric", "Ginger", "Garlic", "Coffee", "Chili", "Green tea", "Cinnamon", "Black pepper"];
+
 // which node types to offer at each step, in priority order
 const NEXT_FILTER = {
   Ingredient: ["Compound", "Nutrient"],      // a food, show its compounds (and nutrients)
@@ -51,43 +54,6 @@ async function apiExpand(id, evidence, type) {
   const r = await fetch(p);
   if (!r.ok) throw new Error("expand");
   return await r.json(); // {nodes, edges}
-}
-
-/** Fetch next-step neighbours, requesting each wanted type from the API. */
-async function fetchNeighbours(node, measuredOnly) {
-  const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
-  if (measuredOnly && (node.label === "Compound" || node.label === "Gene")) {
-    return apiExpand(node.id, "measured");
-  }
-  const nodes = new Map();
-  const edges = new Map();
-  for (const t of wanted) {
-    const nb = await apiExpand(node.id, null, t);
-    for (const n of nb.nodes || []) nodes.set(n.id, n);
-    for (const e of nb.edges || []) edges.set(e.id, e);
-  }
-  return { nodes: [...nodes.values()], edges: [...edges.values()] };
-}
-
-function kidsFromExpand(nb, node, wanted) {
-  const seen = new Set();
-  const kids = [];
-  for (const e of nb.edges || []) {
-    const otherId = e.from === node.id ? e.to : (e.to === node.id ? e.from : null);
-    if (!otherId || seen.has(otherId)) continue;
-    const other = (nb.nodes || []).find((n) => n.id === otherId);
-    if (!other || other.id === node.id) continue;
-    if (!wanted.includes(other.label)) continue;
-    seen.add(otherId);
-    kids.push({ node: other, edge: e });
-  }
-  kids.sort((a, b) => {
-    const ae = a.edge?.props?.evidence === "measured" ? 0 : 1;
-    const be = b.edge?.props?.evidence === "measured" ? 0 : 1;
-    if (ae !== be) return ae - be;
-    return cap(a.node).localeCompare(cap(b.node));
-  });
-  return kids.slice(0, 40);
 }
 
 // ---- small UI bits --------------------------------------------
@@ -146,31 +112,54 @@ export default function GuidedExplorer() {
     try { setResults(await apiSearch(q)); setErr(""); } catch { setErr("Search failed."); }
   }, []);
 
+  const jumpTo = useCallback(async (name) => {
+    setErr("");
+    try {
+      const f = await apiSearch(name);
+      const exact = f.find(n => cap(n).toLowerCase() === name.toLowerCase()) || f[0];
+      if (exact) focus(exact, true);
+    } catch { setErr("Could not load that food."); }
+    // eslint-disable-next-line
+  }, [measuredOnly]);
+
   async function focus(node, reset) {
     setLoading(true); setErr(""); setResults([]); setQuery("");
     try {
       const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
-      const nb = await fetchNeighbours(node, measuredOnly);
-      const kids = kidsFromExpand(nb, node, wanted);
+      const primaryType = wanted[0]; // ask API to prioritise this neighbour type
+      const nb = await apiExpand(node.id, measuredOnly ? "measured" : null, primaryType);
+      const allNodes = nb.nodes || [];
+      const allEdges = nb.edges || [];
+      // Map each neighbour node to the edge that connects it to the focus.
+      const edgeFor = {};
+      for (const e of allEdges) {
+        if (e.from === node.id && e.to !== node.id) edgeFor[e.to] = e;
+        else if (e.to === node.id && e.from !== node.id) edgeFor[e.from] = e;
+      }
+      let kids = allNodes
+        .filter(n => n.id !== node.id && wanted.includes(n.label))
+        .map(n => ({ node: n, edge: edgeFor[n.id] || null }));
+      // fallback: if the wanted-type filter yielded nothing, show whatever neighbours exist
+      if (kids.length === 0) {
+        kids = allNodes.filter(n => n.id !== node.id).map(n => ({ node: n, edge: edgeFor[n.id] || null }));
+      }
+      kids.sort((a, b) => {
+        const ae = a.edge?.props?.evidence === "measured" ? 0 : 1;
+        const be = b.edge?.props?.evidence === "measured" ? 0 : 1;
+        if (ae !== be) return ae - be;
+        return cap(a.node).localeCompare(cap(b.node));
+      });
       setCurrent(node);
-      setChildren(kids);
-      setTrail((t) => (reset ? [node] : [...t, node]));
+      setChildren(kids.slice(0, 40));
+      setTrail(t => reset ? [node] : [...t, node]);
     } catch { setErr("Could not load connections."); }
     finally { setLoading(false); }
   }
 
   function goTo(idx) {
     const node = trail[idx];
-    setTrail((t) => t.slice(0, idx + 1));
-    (async () => {
-      setLoading(true);
-      try {
-        const wanted = NEXT_FILTER[node.label] || Object.keys(LABEL);
-        const nb = await fetchNeighbours(node, measuredOnly);
-        setCurrent(node);
-        setChildren(kidsFromExpand(nb, node, wanted));
-      } finally { setLoading(false); }
-    })();
+    setTrail(t => t.slice(0, idx)); // focus will append this node back
+    focus(node, idx === 0);
   }
 
   const curStyle = current ? (LABEL[current.label] || { color: C.faint }) : { color: C.faint };
@@ -213,6 +202,21 @@ export default function GuidedExplorer() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* starter foods */}
+        <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: 20, alignItems: "center" }}>
+          <span style={{ fontFamily: mono, fontSize: 11, color: C.faint, marginRight: 4 }}>start with</span>
+          {STARTERS.map(name => (
+            <button key={name} onClick={() => jumpTo(name)} style={{
+              fontFamily: mono, fontSize: 12.5, padding: "6px 12px", borderRadius: 20, cursor: "pointer",
+              border: `1px solid ${C.line}`, background: C.card, color: C.ink, transition: "all .12s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = C.line; e.currentTarget.style.color = C.ink; }}>
+              {name}
+            </button>
+          ))}
         </div>
 
         {/* breadcrumb */}
